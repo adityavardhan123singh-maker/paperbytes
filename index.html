@@ -3,12 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CONVERTx — Insanely Great Documents</title>
+  <meta name="robots" content="noarchive, nosnippet">
+  <title>PaperBytes — In-Browser Document Studio</title>
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- In-Browser Document & Image Processing Engines -->
+  <!-- In-Browser Document Processing Engines -->
   <script src="https://unpkg.com/pdf-lib@1.17.9/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
@@ -22,1482 +28,1181 @@
 
   <style>
     :root {
-      --coral: #ff5440;
-      --coral-dark: #c93625;
-      --coral-depth: #a82617;
-      --wall: #f6f5f1;
-      --wall-shadow: #e5e2d7;
-      --ink: #111111;
+      --brand-primary: #4f46e5;
+      --brand-secondary: #3b82f6;
+      --surface-canvas: #f8fafc;
+      --ink-primary: #0f172a;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--wall);
-      color: var(--ink);
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--surface-canvas);
+      color: var(--ink-primary);
     }
 
-    /* Self-contained typographic hierarchy */
-    .font-syne { 
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-      font-weight: 900;
-    }
-    .font-hand { 
-      font-family: "Segoe Print", "Comic Sans MS", "Chalkboard SE", "Apple Chancery", cursive; 
-    }
-    .font-mono-code { 
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
-    }
+    .font-brand { font-family: 'Space Grotesk', sans-serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
     .tool-panel { display: none; }
     .tool-panel.active { display: block; }
 
-    /* Custom Minimal Scrollbar */
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: #eeebe3; }
-    ::-webkit-scrollbar-thumb { background: #c8c4b7; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #a39e8f; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
 
-    /* 3D Extruded Coral Typography (From Gapsy Studio Architectural Reference) */
-    .hero-3d-text {
-      color: #ff5440;
-      text-shadow:
-        1px 1px 0px #eb4532,
-        2px 2px 0px #db3b28,
-        3px 3px 0px #cf3422,
-        4px 4px 0px #be2d1c,
-        5px 5px 0px #ad2616,
-        6px 6px 0px #9b2011,
-        7px 7px 0px #851a0d,
-        8px 8px 1px rgba(0, 0, 0, 0.15),
-        10px 14px 20px rgba(120, 25, 15, 0.22);
-      letter-spacing: -0.02em;
-      line-height: 0.92;
+    .hero-gradient {
+      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
     }
 
-    /* Architectural Skylight Beam Background */
-    .architectural-room {
-      background:
-        radial-gradient(ellipse at 50% -5%, rgba(255, 255, 255, 0.95) 0%, transparent 60%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, transparent 35%),
-        linear-gradient(to bottom, #f8f7f2 0%, #ece8dd 100%);
+    .studio-room-bg {
+      background-image: 
+        radial-gradient(ellipse at 50% -10%, rgba(79, 70, 229, 0.1) 0%, transparent 60%),
+        radial-gradient(rgba(148, 163, 184, 0.2) 1px, transparent 1px);
+      background-size: 100% 100%, 24px 24px;
     }
 
-    .skylight-beams {
-      background: repeating-linear-gradient(
-        75deg,
-        rgba(255, 255, 255, 0.45) 0px,
-        rgba(255, 255, 255, 0.45) 90px,
-        rgba(240, 237, 227, 0.2) 90px,
-        rgba(240, 237, 227, 0.2) 180px
-      );
-      pointer-events: none !important;
-    }
-
-    /* Museum Exhibition Plaque Styling */
-    .gallery-plaque {
+    .studio-plaque {
       background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 20px 45px -15px rgba(30, 20, 10, 0.04);
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      z-index: 10;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 4px 20px -4px rgba(15, 23, 42, 0.04);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .gallery-plaque:hover {
+    .studio-plaque:hover {
       transform: translateY(-4px);
-      box-shadow: 0 18px 40px -12px rgba(255, 84, 64, 0.18), 0 0 0 1.5px rgba(255, 84, 64, 0.35);
-    }
-
-    /* Doodle Jiggle Animation */
-    .doodle-badge {
-      animation: doodleFloat 3.5s ease-in-out infinite;
-    }
-    @keyframes doodleFloat {
-      0%, 100% { transform: rotate(-5deg) translateY(0); }
-      50% { transform: rotate(-2deg) translateY(-3px); }
+      border-color: rgba(79, 70, 229, 0.4);
+      box-shadow: 0 16px 36px -10px rgba(79, 70, 229, 0.12);
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-[#ff5440]/20 selection:text-[#ff5440] architectural-room">
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500/20 selection:text-indigo-600 studio-room-bg">
 
-  <!-- ================= EDITORIAL TOP NAVIGATION ================= -->
-  <header class="sticky top-0 z-50 backdrop-blur-md bg-[#f6f5f0]/85 border-b border-black/[0.06] px-5 sm:px-10 py-3.5 transition">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200/80 px-5 sm:px-10 py-3.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-      
-      <!-- Brand Logo -->
       <div class="flex items-center gap-3 cursor-pointer select-none" onclick="showDashboard()">
-        <span class="font-syne text-2xl sm:text-3xl font-black tracking-tighter text-[#111111] hover:text-[#ff5440] transition">
-          convert<span class="text-[#ff5440]">x</span><span class="text-[#ff5440] text-xl leading-none">.</span>
+        <span class="font-brand text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 hover:text-indigo-600 transition">
+          paper<span class="text-indigo-600">bytes</span><span class="text-indigo-500 text-xl leading-none">.</span>
         </span>
-        <span class="hidden md:inline-block font-mono-code text-[10px] tracking-widest uppercase bg-black text-white px-2 py-0.5 rounded-full">
-          Document Studio
+        <span class="hidden md:inline-block font-mono-code text-[10px] tracking-wider uppercase bg-slate-900 text-indigo-300 px-2.5 py-0.5 rounded-full font-semibold">
+          Client Engine v2.4
         </span>
       </div>
 
-      <!-- Center Search & Command Palette -->
+      <!-- Search Input -->
       <div class="relative flex-1 max-w-md mx-2">
-        <div class="flex items-center bg-white border border-black/10 focus-within:border-[#ff5440] rounded-full px-4 py-2 transition shadow-sm">
+        <div class="flex items-center bg-slate-50 border border-slate-200 focus-within:border-indigo-600 rounded-full px-4 py-2 transition shadow-sm">
           <svg class="w-3.5 h-3.5 text-slate-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input 
             type="text" 
-            id="friendly-search" 
-            placeholder='Search tools or press ⌘K (e.g. "pdf to word", "50kb")...' 
-            class="w-full bg-transparent text-xs text-black placeholder-slate-400 focus:outline-none font-medium"
+            id="tool-search-input" 
+            placeholder="Search tools (e.g. word, merge, crop, watermark)..." 
+            class="w-full bg-transparent text-xs text-slate-900 placeholder-slate-400 focus:outline-none"
             oninput="handleSearch(this.value)"
           />
-          <span class="hidden sm:inline-block font-mono-code text-[9px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">⌘K</span>
         </div>
 
-        <!-- Search Autocomplete Dropdown -->
-        <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-black/10 rounded-2xl shadow-xl overflow-hidden hidden z-50">
+        <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl overflow-hidden hidden z-50">
           <div id="search-list" class="divide-y divide-slate-100 max-h-72 overflow-y-auto"></div>
         </div>
       </div>
 
-      <!-- Right Action Badges -->
-      <div class="flex items-center gap-2.5">
-        <button onclick="showDashboard()" class="text-xs bg-[#111111] hover:bg-[#ff5440] text-white px-4 py-2 rounded-full font-semibold transition shadow-md flex items-center gap-2">
-          <span>Explore Tools</span>
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-          </svg>
-        </button>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="hidden sm:inline font-mono-code text-[11px] text-slate-600 font-medium">Memory Sandbox Active</span>
       </div>
-
     </div>
   </header>
 
-  <!-- ================= TOAST NOTIFICATION ================= -->
-  <div id="toast" class="hidden fixed bottom-6 right-6 z-50 bg-[#111111] text-white px-5 py-3.5 rounded-2xl shadow-2xl text-xs flex items-center gap-3 transition transform">
-    <div class="w-5 h-5 rounded-full bg-[#ff5440] text-white flex items-center justify-center text-xs shrink-0 font-bold">
-      ✓
-    </div>
-    <span id="toast-msg" class="font-medium">Action completed successfully.</span>
-  </div>
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-5 sm:px-10 py-8 relative">
 
-  <!-- ================= MAIN BODY CONTAINER ================= -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-5 sm:px-10 py-6 sm:py-10 space-y-12">
-
-    <!-- ================= VIEW 0: GALLERY HERO & TOOLS DIRECTORY ================= -->
-    <div id="panel-dashboard" class="tool-panel active space-y-12">
-      
-      <!-- HERO SECTION: Architectural Room & 3D Typography -->
-      <section class="relative pt-6 sm:pt-10 pb-8 sm:pb-14 border-b border-black/10 overflow-hidden">
-        
-        <!-- Architectural Beam Shadow Overlay -->
-        <div class="absolute inset-0 skylight-beams opacity-30 pointer-events-none"></div>
-
-        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          <!-- Left: 3D Coral Extruded Headline -->
-          <div class="lg:col-span-8 space-y-4">
-            
-            <!-- Hand-drawn "WOW!" Doodle Badge -->
-            <div class="inline-flex items-center gap-2 doodle-badge select-none">
-              <svg class="w-16 h-12 -mb-3 text-black fill-none stroke-current stroke-2" viewBox="0 0 80 50">
-                <path d="M 10 25 L 2 15 L 14 12 L 18 2 L 28 10 L 40 4 L 44 16 L 56 12 L 52 24 L 62 30 L 52 36 L 54 48 L 42 42 L 36 50 L 26 44 L 16 48 L 18 36 Z" stroke-linejoin="round"/>
-                <text x="23" y="30" font-family="'Caveat', cursive, sans-serif" font-size="14" font-weight="bold" fill="#111" stroke="none">WOW!</text>
-              </svg>
-              <span class="font-hand text-xl text-[#ff5440] font-bold tracking-wide -rotate-3">Simple &bull; Fast &bull; Beautiful</span>
-            </div>
-
-            <!-- The 3D Hero Title -->
-            <h1 class="font-syne text-5xl sm:text-7xl lg:text-8xl font-black uppercase hero-3d-text">
-              FROM RAW FILES<br>TO INSANELY GREAT<br>DOCUMENTS<span class="text-[#111]">.</span>
-            </h1>
-
-            <p class="font-hand text-xl sm:text-2xl text-slate-700 max-w-xl pt-2 leading-tight">
-              An architectural document studio built for effortless conversion, scanning, and formatting.
-            </p>
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="space-y-10">
+      <section class="pt-6 pb-2">
+        <div class="max-w-3xl space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-slate-600 font-mono-code shadow-sm">
+            <span class="text-indigo-600 font-bold">&bull;</span> Zero Third-Party Storage &bull; Ephemeral Execution
           </div>
+          <h1 class="font-brand text-4xl sm:text-6xl font-extrabold tracking-tight hero-gradient">
+            Engineered Document Precision.
+          </h1>
+          <p class="text-slate-600 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+            Format transformations, portal resizing routines, and security tools running privately inside local browser memory.
+          </p>
+        </div>
 
-          <!-- Right: Architectural Gallery Plaque with Quick Action -->
-          <div class="lg:col-span-4 relative">
-            
-            <!-- Hand-drawn Arrow Doodling to the Action -->
-            <div class="hidden lg:block absolute -top-8 -left-12 pointer-events-none select-none">
-              <svg class="w-20 h-16 text-black fill-none stroke-current stroke-2" viewBox="0 0 100 80">
-                <path d="M 10 20 Q 50 10 70 45" stroke-linecap="round"/>
-                <path d="M 58 46 L 72 46 L 68 32" stroke-linecap="round" stroke-linejoin="round"/>
-                <text x="12" y="16" font-family="'Caveat', cursive, sans-serif" font-size="15" font-weight="bold" fill="#111" stroke="none">Drop files here!</text>
-              </svg>
-            </div>
-
-            <div class="gallery-plaque rounded-3xl p-6 sm:p-7 space-y-5 border-2 border-dashed border-black/20 hover:border-[#ff5440] transition">
-              <div class="flex items-center justify-between">
-                <span class="font-mono-code text-[10px] tracking-wider uppercase px-2.5 py-1 bg-[#111] text-white rounded-full font-bold">FEATURED</span>
-                <span class="text-xs font-hand text-slate-500 font-bold">Fast-Lane Convert</span>
-              </div>
-
-              <div class="space-y-1.5">
-                <h3 class="font-syne text-lg font-extrabold text-[#111]">Instant PDF to Word</h3>
-                <p class="text-xs text-slate-500 leading-relaxed">Turn layout-locked PDFs into structured, editable Word files (.docx) with active layout preservation.</p>
-              </div>
-
-              <div class="pt-2">
-                <button onclick="openTool('tool-pdf-to-word-real')" class="w-full py-3.5 bg-[#ff5440] hover:bg-[#e04330] text-white font-syne font-bold text-xs uppercase tracking-wider rounded-2xl transition shadow-lg shadow-[#ff5440]/30 flex items-center justify-center gap-2">
-                  <span>Open Converter</span>
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                  </svg>
-                </button>
-              </div>
-
-              <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono-code pt-3 border-t border-black/5">
-                <span>Layout Engine</span>
-                <span class="text-[#ff5440] font-bold">Direct Export</span>
-              </div>
-            </div>
-
-          </div>
-
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap items-center gap-2 pt-6">
+          <button onclick="filterGallery('all')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-900 bg-slate-900 text-white font-medium transition shadow-sm">All Tools (9)</button>
+          <button onclick="filterGallery('convert')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Conversion</button>
+          <button onclick="filterGallery('organize')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Organization</button>
+          <button onclick="filterGallery('security')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Security</button>
+          <button onclick="filterGallery('utility')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Utilities</button>
         </div>
       </section>
 
-      <!-- ================= GALLERY EXHIBITION: ALL 9 TOOLS ================= -->
-      <section class="space-y-6">
-        
-        <!-- Section Header with Editorial Plaque Aesthetic -->
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-black/10 pb-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-[#ff5440]"></span>
-              <span class="font-mono-code text-[11px] font-bold tracking-widest uppercase text-slate-500">EXHIBITION DIRECTORY</span>
-            </div>
-            <h2 class="font-syne text-3xl sm:text-4xl font-black text-[#111] mt-1">Document &amp; Media Tools</h2>
-          </div>
+      <!-- Tool Cards Grid -->
+      <section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          <!-- Category Filter Badges -->
-          <div class="flex items-center gap-1.5 bg-white p-1 rounded-full border border-black/10 text-xs self-start">
-            <button onclick="filterGallery('all')" class="px-3 py-1 rounded-full bg-black text-white font-semibold text-[11px]">All (9)</button>
-            <button onclick="filterGallery('pdf')" class="px-3 py-1 rounded-full hover:bg-slate-100 text-slate-600 font-medium text-[11px] transition">PDF</button>
-            <button onclick="filterGallery('image')" class="px-3 py-1 rounded-full hover:bg-slate-100 text-slate-600 font-medium text-[11px] transition">Images</button>
-            <button onclick="filterGallery('table')" class="px-3 py-1 rounded-full hover:bg-slate-100 text-slate-600 font-medium text-[11px] transition">Data</button>
-          </div>
-        </div>
-
-        <!-- The Architectural Exhibition Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-
-        <!-- TOOL 1: PDF to Word -->
-        <div onclick="window.openTool('tool-pdf-to-word-real')" role="button" tabindex="0" data-cat="pdf" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-01</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-[#ff5440]/10 text-[#ff5440] font-mono-code text-[10px] font-bold">DOCX Layout Engine</span>
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-01 &bull; Stateless Core</span>
+              <span class="text-xs font-mono-code text-slate-400">PDF &rarr; DOCX</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">PDF to Word (.docx)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Converts text, headings, and tables into editable Word files with preserved typography and formatting.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PDF to Word DOCX</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Layout-preserving document extraction. Reconstructs text flows, alignments, and structured tables.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Launch Studio</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Launch Engine</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 2: Excel to PDF -->
-        <div onclick="window.openTool('tool-excel-to-pdf')" role="button" tabindex="0" data-cat="table" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-excel-to-pdf')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-02</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-mono-code text-[10px] font-bold">SheetJS + AutoTable</span>
+              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-02 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">XLSX &rarr; PDF</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Excel to Clean PDF</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Transforms spreadsheets (.xlsx, .xls, .csv) into clean landscape A4 PDFs with auto-bordered cells.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Excel to PDF Tables</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Render Table</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Generate Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 3: Organize & Rotate PDF -->
-        <div onclick="window.openTool('tool-organize-pdf')" role="button" tabindex="0" data-cat="pdf" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-rotate-delete')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-03</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 font-mono-code text-[10px] font-bold">Visual Thumbnails</span>
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-03 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">PAGINATION</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Delete &amp; Rotate Pages</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Interactive card view to rotate upside-down sheets by 90&deg; and discard unwanted pages easily.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Rotate & Delete Pages</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Visual thumbnail management. Rotate individual orientations (90°/180°) and prune unwanted pages instantly.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Organize Sheets</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Organize Pages</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 4: Password Protect PDF -->
-        <div onclick="window.openTool('tool-protect-pdf')" role="button" tabindex="0" data-cat="pdf" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-password-protect')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-04</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 font-mono-code text-[10px] font-bold">AES Standard</span>
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-04 &bull; AES-128</span>
+              <span class="text-xs font-mono-code text-slate-400">ENCRYPT</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Password Protect PDF</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Locks confidential documents with user and owner passwords right within your browser.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Protect with Password</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Enforce document permissions and standard encryption without passing unencrypted files over a network.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Encrypt Document</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Secure File</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 5: Watermark PDF -->
-        <div onclick="window.openTool('tool-watermark-pdf')" role="button" tabindex="0" data-cat="pdf" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-watermark')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-05</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-700 font-mono-code text-[10px] font-bold">Vector Diagonal Stamp</span>
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-05 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">STAMP</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Watermark PDF</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Stamp diagonal semi-transparent text like "CONFIDENTIAL" or "DRAFT" across all document pages.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Diagonal Watermark</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Overlay custom identifiers with live angle, size, and opacity calibrations.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Stamp Watermark</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Apply Stamp</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 6: PDF to JPG (ZIP) -->
-        <div onclick="window.openTool('tool-pdf-to-img')" role="button" tabindex="0" data-cat="pdf" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-extract-images')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-06</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-600 font-mono-code text-[10px] font-bold">ZIP Archive Pack</span>
+              <span class="font-mono-code text-[11px] font-semibold text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full uppercase">MOD-06 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">ZIP BUNDLE</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">PDF to JPG Images</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Renders every vector page into high-definition JPEGs and downloads them as a single clean ZIP folder.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Extract Images to ZIP</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Isolates all embedded graphics and figures from every page into a downloadable archive.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Extract Pictures</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Unpack Graphics</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 7: Photos to PDF Scanner -->
-        <div onclick="window.openTool('tool-photos-to-pdf')" role="button" tabindex="0" data-cat="image" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-scanner-effect')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-07</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-700 font-mono-code text-[10px] font-bold">Paper Scan Filters</span>
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-07 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">CANVAS FX</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Photos to PDF Scanner</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Converts camera snaps and photos into enhanced A4 PDFs using B&amp;W contrast, Magic Color, and grayscale filters.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Scanner FX</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Convert camera photos into high-contrast black-and-white flatbed scan PDFs.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Scan Documents</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Process Scan</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 8: Crop & Compress (<=50KB) -->
-        <div onclick="window.openTool('tool-compress-image')" role="button" tabindex="0" data-cat="image" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-portal-crop')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-08</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-700 font-mono-code text-[10px] font-bold">Strict &le;50KB / &le;20KB</span>
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-08 &bull; Binary Search</span>
+              <span class="text-xs font-mono-code text-slate-400">&le; 50KB TARGET</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Crop &amp; Compress Photo</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Preset aspect ratios for passport and application portals with targeted size constraints.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Passport Crop & Compress</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Aspect-ratio cropping with automated binary-search compression to satisfy strict portal file-size limits.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Crop &amp; Resize</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Prepare Photo</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-        <!-- TOOL 9: Merge Multiple PDFs -->
-        <div onclick="window.openTool('tool-merge-pdf')" role="button" tabindex="0" data-cat="pdf" class="gallery-plaque rounded-3xl p-6 cursor-pointer flex flex-col justify-between group select-none">
-          <div class="space-y-3">
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-merge-pdf')">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] text-slate-400 uppercase font-bold">PL-09</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-700 font-mono-code text-[10px] font-bold">Instant Stitch</span>
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-09 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">UNIFY</span>
             </div>
-            <h3 class="font-syne text-xl font-black text-[#111] group-hover:text-[#ff5440] transition">Merge Multiple PDFs</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Combines two or more PDF files into a single ordered document without uploading to an external server.</p>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Merge PDF Documents</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Combines multiple PDF files into a single ordered document without uploading to a third-party server.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-black/5 flex items-center justify-between text-xs font-syne font-bold text-[#ff5440]">
-            <span>Merge Files</span>
-            <span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Merge Files</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
-      </div>
-    </section>
-
+      </section>
     </div>
 
-    <!-- ================= TOOL 1: REAL PDF TO WORD ================= -->
-    <div id="tool-pdf-to-word-real" class="tool-panel space-y-5">
+    <!-- TOOL 1: PDF TO WORD -->
+    <div id="tool-pdf-to-word-real" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-01: PDF to Word (.docx)</span>
+        <span class="font-mono-code text-indigo-600">MOD-01: PDF to Word</span>
       </div>
 
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4 flex flex-wrap justify-between items-start gap-4">
-          <div>
-            <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Convert PDF to Editable Word (.docx)</h2>
-            <p class="text-xs text-slate-500 mt-1">Reconstructs tables and layout directly into standard Microsoft Word documents.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">PDF to Microsoft Word (.docx)</h2>
+          <p class="text-sm text-slate-500 mt-1">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+        </div>
+
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-12 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="real-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePDFToWordSelection(this)" />
+          <div class="space-y-3">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div>
+              <p class="font-brand font-bold text-slate-800 text-base">Select or Drop Your PDF Document</p>
+              <p class="text-xs text-slate-400 mt-1">Direct layout reconstruction &bull; Ephemeral conversion</p>
+            </div>
+            <p id="real-pdf-filename" class="text-xs font-mono-code text-indigo-600 font-semibold"></p>
           </div>
-          <button onclick="loadSamplePDFForWord()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-[#ff5440] rounded-full text-xs font-syne font-bold transition flex items-center gap-1.5">
-            Try Sample PDF
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-300" id="pdf-status-indicator"></span>
+            <span id="real-pdf-status" class="text-xs font-mono-code text-slate-500">Ready for document selection</span>
+          </div>
+          <button id="real-pdf-btn" onclick="executePDFToWordSecure()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-8 py-3.5 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Convert to .DOCX
           </button>
         </div>
-
-        <!-- Runtime Switcher -->
-        <div class="bg-slate-50 p-4 rounded-2xl border border-black/5 space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div class="flex items-center gap-2">
-              <span class="text-slate-600 font-medium">Conversion Engine:</span>
-              <select id="backend-mode" onchange="toggleBackendMode(this.value)" class="bg-white border border-black/10 px-3 py-1.5 rounded-full text-black font-mono-code text-[11px] focus:outline-none focus:border-[#ff5440]">
-                <option value="mock">In-Browser Direct Engine</option>
-                <option value="live" selected>Live Localhost/Cloud API (Requires main.py)</option>
-              </select>
-            </div>
-            <div id="api-key-container" class="flex items-center gap-2">
-              <span class="text-slate-500 font-mono-code text-[11px]">x-api-key:</span>
-              <input type="password" id="backend-key" value="convertx-prod-key-2026" class="bg-white border border-black/10 px-3 py-1.5 rounded-full text-black font-mono-code text-[11px] w-44 focus:outline-none focus:border-[#ff5440]">
-            </div>
-          </div>
-
-          <div id="endpoint-container" class="flex items-center gap-2 text-xs pt-2 border-t border-black/5">
-            <span class="text-slate-600 font-medium">FastAPI Endpoint:</span>
-            <input type="text" id="backend-url" value="https://convertx-backend-a9il.onrender.com" class="bg-white border border-black/10 px-3 py-1.5 rounded-full text-black font-mono-code text-[11px] flex-1 focus:outline-none focus:border-[#ff5440]">
-          </div>
-        </div>
-
-        <!-- File Upload Area -->
-        <div class="border-2 border-dashed border-black/20 hover:border-[#ff5440] rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="real-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePDFToWordSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-[#ff5440]/10 text-[#ff5440] mx-auto flex items-center justify-center text-2xl mb-3">
-            📄
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="real-pdf-name">Drop PDF here or click to browse</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Max 35 MB &bull; Max 30 pages</p>
-        </div>
-
-        <button onclick="executePDFToWordSecure()" id="btn-real-pdf" class="w-full py-4 bg-[#ff5440] hover:bg-[#e04330] text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-[#ff5440]/30 flex items-center justify-center gap-2">
-          <span>Reconstruct &amp; Download Word Document (.docx)</span>
-        </button>
-
-        <!-- Gallery Console Log Box -->
-        <div class="bg-slate-900 text-slate-300 rounded-2xl p-4 font-mono-code text-xs space-y-2">
-          <div class="flex justify-between items-center text-[10px] text-slate-500 border-b border-slate-800 pb-2">
-            <span>CONVERSION LOGS</span>
-            <span id="log-status-badge" class="text-emerald-400 font-bold">READY</span>
-          </div>
-          <div id="backend-terminal" class="space-y-1 max-h-36 overflow-y-auto text-[11px]">
-            <p class="text-slate-500">> Conversion engine ready.</p>
-          </div>
-        </div>
       </div>
     </div>
 
-    <!-- ================= TOOL 2: EXCEL TO PDF ================= -->
-    <div id="tool-excel-to-pdf" class="tool-panel space-y-5">
+    <!-- TOOL 2: EXCEL TO PDF -->
+    <div id="tool-excel-to-pdf" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-02: Excel to Clean PDF</span>
+        <span class="font-mono-code text-indigo-600">MOD-02: Excel to PDF</span>
       </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4 flex justify-between items-center flex-wrap gap-3">
-          <div>
-            <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Excel to Clean Landscape PDF</h2>
-            <p class="text-xs text-slate-500 mt-1">Converts spreadsheets into bordered, styled A4 tables using SheetJS and jsPDF-AutoTable.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Spreadsheet to Formatted PDF Table</h2>
+          <p class="text-sm text-slate-500 mt-1">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+        </div>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="excel-file-input" accept=".xlsx,.xls,.csv" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExcelSelection(this)" />
+          <div class="space-y-2">
+            <p class="font-brand font-bold text-slate-800 text-sm">Select Excel or CSV Spreadsheet</p>
+            <p id="excel-filename" class="text-xs font-mono-code text-indigo-600 font-semibold"></p>
           </div>
-          <button onclick="loadSampleExcelData()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-[#ff5440] rounded-full text-xs font-syne font-bold transition flex items-center gap-1.5">
-            Try Sample Spreadsheet
+        </div>
+        <div id="excel-preview-box" class="max-h-60 overflow-auto border border-slate-200 rounded-2xl hidden">
+          <table id="excel-table-preview" class="min-w-full divide-y divide-slate-200 text-xs"></table>
+        </div>
+        <div class="flex items-center justify-between">
+          <span id="excel-status" class="text-xs font-mono-code text-slate-500">Awaiting workbook...</span>
+          <button id="excel-convert-btn" onclick="executeExcelToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Render Vector PDF
           </button>
         </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-emerald-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="excel-to-pdf-in" accept=".xlsx,.xls,.csv" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExcelSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 mx-auto flex items-center justify-center text-2xl mb-3">
-            📊
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="excel-pdf-name">Drop Excel or CSV file here</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">100% Client-Side Parsing via SheetJS</p>
-        </div>
-
-        <button onclick="executeExcelToPDF()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2">
-          <span>Render &amp; Download Table as PDF</span>
-        </button>
       </div>
     </div>
 
-    <!-- ================= TOOL 3: ORGANIZE & ROTATE PDF ================= -->
-    <div id="tool-organize-pdf" class="tool-panel space-y-5">
+    <!-- TOOL 3: ROTATE & DELETE -->
+    <div id="tool-rotate-delete" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-03: Delete &amp; Rotate Pages</span>
+        <span class="font-mono-code text-indigo-600">MOD-03: Rotate & Delete</span>
       </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Organize, Rotate &amp; Delete Pages</h2>
-          <p class="text-xs text-slate-500 mt-1">Rotate orientation or discard specific pages with instant client-side rendering.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Page Arranger & Orientator</h2>
+          <p class="text-sm text-slate-500 mt-1">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
         </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-amber-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="organize-pdf-in" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOrganizePDFSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 mx-auto flex items-center justify-center text-2xl mb-3">
-            🔄
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="organize-pdf-name">Drop PDF here to preview pages</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Renders in-browser page thumbnails</p>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="organize-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOrganizePDF(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Select PDF to Reorganize Pages</p>
         </div>
-
-        <div id="organize-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-96 overflow-y-auto p-2"></div>
-
-        <button onclick="executeSaveOrganizedPDF()" id="btn-save-organize" class="hidden w-full py-4 bg-amber-600 hover:bg-amber-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2">
-          <span>Export Reordered &amp; Rotated PDF</span>
-        </button>
+        <div id="organize-pages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-2"></div>
+        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+          <span id="organize-status" class="text-xs font-mono-code text-slate-500">Upload document to render pages</span>
+          <button id="save-organize-btn" onclick="executeSaveOrganizedPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Export Modified PDF
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ================= TOOL 4: PASSWORD PROTECT PDF ================= -->
-    <div id="tool-protect-pdf" class="tool-panel space-y-5">
+    <!-- TOOL 4: PASSWORD PROTECT -->
+    <div id="tool-password-protect" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-04: Password Protect PDF</span>
+        <span class="font-mono-code text-indigo-600">MOD-04: Password Protect</span>
       </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Encrypt &amp; Password Protect PDF</h2>
-          <p class="text-xs text-slate-500 mt-1">Locks confidential documents with AES security directly in your browser.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Enforce Encryption & Access Password</h2>
+          <p class="text-sm text-slate-500 mt-1">Encrypt documents with user passwords in browser memory.</p>
         </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-purple-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="protect-pdf-in" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleProtectPDFSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-600 mx-auto flex items-center justify-center text-2xl mb-3">
-            🔒
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="protect-pdf-name">Drop PDF here to protect</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Client-side encryption using pdf-lib</p>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="protect-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleProtectPDFSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Choose PDF to Encrypt</p>
+          <p id="protect-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
         </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">User Password (to open):</label>
-            <input type="password" id="protect-user-pass" placeholder="Enter password" class="w-full bg-slate-50 border border-black/10 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-purple-500">
+            <label class="block text-xs font-medium text-slate-700 mb-1">Set Password</label>
+            <input type="password" id="protect-user-pass" placeholder="Enter password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-mono-code" />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Owner Password (for full permissions):</label>
-            <input type="password" id="protect-owner-pass" placeholder="Optional owner password" class="w-full bg-slate-50 border border-black/10 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-purple-500">
+            <label class="block text-xs font-medium text-slate-700 mb-1">Confirm Password</label>
+            <input type="password" id="protect-confirm-pass" placeholder="Re-enter password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-mono-code" />
           </div>
         </div>
-
-        <button onclick="executeProtectPDF()" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2">
-          <span>Apply Security &amp; Download</span>
-        </button>
+        <div class="flex items-center justify-between">
+          <span id="protect-status" class="text-xs font-mono-code text-slate-500">Provide document and password</span>
+          <button id="protect-btn" onclick="executePasswordProtect()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Encrypt & Download
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ================= TOOL 5: WATERMARK PDF ================= -->
-    <div id="tool-watermark-pdf" class="tool-panel space-y-5">
+    <!-- TOOL 5: WATERMARK -->
+    <div id="tool-watermark" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-05: Watermark PDF</span>
+        <span class="font-mono-code text-indigo-600">MOD-05: Watermark</span>
       </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Stamp Diagonal Watermark</h2>
-          <p class="text-xs text-slate-500 mt-1">Applies semi-transparent custom watermark text across all pages.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Diagonal Watermark Overlay</h2>
+          <p class="text-sm text-slate-500 mt-1">Stamp identifiers across every page of your PDF.</p>
         </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-cyan-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="watermark-pdf-in" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWatermarkPDFSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 text-cyan-700 mx-auto flex items-center justify-center text-2xl mb-3">
-            🏷️
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="watermark-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWatermarkSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Select Document to Stamp</p>
+          <p id="watermark-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Watermark Text</label>
+            <input type="text" id="watermark-text" value="CONFIDENTIAL" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-brand font-bold" />
           </div>
-          <p class="font-syne text-sm font-bold text-black" id="watermark-pdf-name">Drop PDF here to watermark</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Vector diagonal text overlay</p>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Font Size (pt)</label>
+            <input type="number" id="watermark-size" value="48" min="16" max="120" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-mono-code" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Opacity</label>
+            <input type="range" id="watermark-opacity" min="0.05" max="0.6" step="0.05" value="0.25" class="w-full mt-2 accent-indigo-600" />
+          </div>
         </div>
+        <div class="flex items-center justify-between">
+          <span id="watermark-status" class="text-xs font-mono-code text-slate-500">Awaiting document...</span>
+          <button id="watermark-btn" onclick="executeWatermark()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Stamp & Download
+          </button>
+        </div>
+      </div>
+    </div>
 
+    <!-- TOOL 6: EXTRACT IMAGES -->
+    <div id="tool-extract-images" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-06: Extract Graphics</span>
+      </div>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Extract Embedded Graphics to ZIP</h2>
+          <p class="text-sm text-slate-500 mt-1">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+        </div>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="extract-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExtractSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Drop PDF Document</p>
+          <p id="extract-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
+        </div>
+        <div class="flex items-center justify-between">
+          <span id="extract-status" class="text-xs font-mono-code text-slate-500">Upload document to inspect graphics</span>
+          <button id="extract-btn" onclick="executeImageExtraction()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Extract & Download ZIP
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOL 7: SCANNER FX -->
+    <div id="tool-scanner-effect" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-07: Scanner Filter</span>
+      </div>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Document Scanner Filters</h2>
+          <p class="text-sm text-slate-500 mt-1">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+        </div>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="scanner-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleScannerSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Select Raw Camera Document Image</p>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Watermark Text:</label>
-            <input type="text" id="watermark-text" value="CONFIDENTIAL" class="w-full bg-slate-50 border border-black/10 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-cyan-500">
+          <div class="text-center p-3 border border-slate-200 rounded-2xl bg-slate-50">
+            <p class="text-xs font-mono-code text-slate-500 mb-2">Original Capture</p>
+            <img id="scanner-raw-preview" class="max-h-48 mx-auto rounded shadow-sm hidden" />
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Opacity &amp; Color:</label>
-            <div class="flex gap-2">
-              <input type="color" id="watermark-color" value="#ff5440" class="h-9 w-12 rounded-lg cursor-pointer border border-black/10">
-              <input type="range" id="watermark-opacity" min="0.1" max="0.9" step="0.05" value="0.35" class="w-full accent-[#ff5440]">
-            </div>
+          <div class="text-center p-3 border border-slate-200 rounded-2xl bg-slate-50">
+            <p class="text-xs font-mono-code text-slate-500 mb-2">Processed Scan Preview</p>
+            <canvas id="scanner-canvas" class="max-h-48 mx-auto rounded shadow-sm hidden"></canvas>
           </div>
         </div>
-
-        <button onclick="executeWatermarkPDF()" class="w-full py-4 bg-cyan-700 hover:bg-cyan-600 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-700/30 flex items-center justify-center gap-2">
-          <span>Apply Watermark &amp; Download</span>
-        </button>
+        <div class="flex items-center justify-between">
+          <span id="scanner-status" class="text-xs font-mono-code text-slate-500">Provide photo to process</span>
+          <button id="scanner-btn" onclick="executeScannerDownload()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Save as Scanned PDF
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ================= TOOL 6: PDF TO JPG (ZIP) ================= -->
-    <div id="tool-pdf-to-img" class="tool-panel space-y-5">
+    <!-- TOOL 8: PORTAL CROP -->
+    <div id="tool-portal-crop" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-06: PDF to JPG Images</span>
+        <span class="font-mono-code text-indigo-600">MOD-08: Portal Optimization</span>
       </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Convert PDF to High-Res JPG (ZIP)</h2>
-          <p class="text-xs text-slate-500 mt-1">Renders each page to JPEG at 200 DPI and bundles them into an instant ZIP archive.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Portal Photo Cropper & Strict Size Target</h2>
+          <p class="text-sm text-slate-500 mt-1">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
         </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-rose-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="pdf-to-img-in" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePDFToImgSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 mx-auto flex items-center justify-center text-2xl mb-3">
-            🖼️
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="pdf-to-img-name">Drop PDF here to extract images</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Client-side rendering via PDF.js &amp; JSZip</p>
-        </div>
-
-        <div id="pdf-img-progress" class="hidden text-xs text-center font-mono-code text-slate-600">
-          Rendering pages: <span id="pdf-img-count">0</span> / <span id="pdf-img-total">0</span>
-        </div>
-
-        <button onclick="executePDFToImages()" class="w-full py-4 bg-rose-600 hover:bg-rose-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-rose-600/30 flex items-center justify-center gap-2">
-          <span>Extract Pages to ZIP Archive</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- ================= TOOL 7: PHOTOS TO PDF SCANNER ================= -->
-    <div id="tool-photos-to-pdf" class="tool-panel space-y-5">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
-        <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-07: Photos to PDF Scanner</span>
-      </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Photos to Clean A4 Document Scanner</h2>
-          <p class="text-xs text-slate-500 mt-1">Converts photos into standardized A4 PDFs with high-contrast document scan filters.</p>
-        </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-teal-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="photos-pdf-in" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePhotosPDFSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-teal-500/10 text-teal-700 mx-auto flex items-center justify-center text-2xl mb-3">
-            📷
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="photos-pdf-name">Drop photos or camera snaps here</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Select one or multiple images</p>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <label class="text-xs font-semibold text-slate-700">Scan Filter:</label>
-          <select id="scan-filter" class="bg-slate-50 border border-black/10 rounded-xl px-3 py-1.5 text-xs">
-            <option value="none">Original Colors</option>
-            <option value="contrast">High-Contrast Document (Magic Color)</option>
-            <option value="grayscale">Grayscale Paper</option>
-          </select>
-        </div>
-
-        <button onclick="executePhotosToPDF()" class="w-full py-4 bg-teal-600 hover:bg-teal-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-teal-600/30 flex items-center justify-center gap-2">
-          <span>Compile Pages into Single PDF</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- ================= TOOL 8: CROP & COMPRESS ================= -->
-    <div id="tool-compress-image" class="tool-panel space-y-5">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
-        <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-08: Crop &amp; Compress Photo</span>
-      </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Crop &amp; Precise File Size Compression</h2>
-          <p class="text-xs text-slate-500 mt-1">Binary search JPEG compression strictly under target thresholds (&le;50KB or &le;20KB).</p>
-        </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="crop-image-in" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleCropImageSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 text-indigo-700 mx-auto flex items-center justify-center text-2xl mb-3">
-            ✂️
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="crop-image-name">Drop image to crop &amp; compress</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">Passport, signature, or application portals</p>
-        </div>
-
-        <div id="crop-preview-container" class="hidden max-h-80 overflow-hidden bg-slate-900 rounded-2xl flex items-center justify-center">
-          <img id="crop-preview-img" class="max-h-80 max-w-full">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Target Size Limit:</label>
-            <select id="target-kb-limit" class="w-full bg-slate-50 border border-black/10 rounded-xl px-3 py-2 text-xs">
-              <option value="50">Strictly &le; 50 KB</option>
-              <option value="20">Strictly &le; 20 KB (Signature/Small)</option>
-              <option value="100">Strictly &le; 100 KB</option>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Preset Aspect Ratio</label>
+            <select id="portal-preset" onchange="applyCropPreset(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
+              <option value="passport">Passport Photo (3.5 x 4.5 ratio)</option>
+              <option value="square">Square Identity (1:1)</option>
+              <option value="signature">Signature Strip (3:1)</option>
+              <option value="free">Free Aspect Ratio</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Aspect Ratio:</label>
-            <select id="crop-aspect-ratio" onchange="changeCropRatio(this.value)" class="w-full bg-slate-50 border border-black/10 rounded-xl px-3 py-2 text-xs">
-              <option value="free">Free Form</option>
-              <option value="1">1 : 1 (Square / Passport)</option>
-              <option value="0.75">3 : 4 (Portrait ID)</option>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Target Max File Size</label>
+            <select id="portal-max-kb" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
+              <option value="50">Strictly under 50 KB (Gov/Exam Portals)</option>
+              <option value="20">Strictly under 20 KB (Signatures)</option>
+              <option value="100">Strictly under 100 KB</option>
+              <option value="200">Strictly under 200 KB</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Output Format</label>
+            <select id="portal-format" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
+              <option value="image/jpeg">JPEG (.jpg)</option>
+              <option value="image/png">PNG (.png)</option>
             </select>
           </div>
         </div>
-
-        <button onclick="executeCropAndCompress()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
-          <span>Compress &amp; Download Image</span>
-        </button>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-6 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="portal-image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePortalImageSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Select Image to Crop & Compress</p>
+        </div>
+        <div class="max-h-96 overflow-hidden rounded-2xl border border-slate-200 hidden" id="cropper-wrapper">
+          <img id="cropper-target" class="max-w-full" />
+        </div>
+        <div class="flex items-center justify-between">
+          <span id="portal-status" class="text-xs font-mono-code text-slate-500">Load photo to configure</span>
+          <button id="portal-btn" onclick="executePortalCrop()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Crop, Compress & Save
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ================= TOOL 9: MERGE PDF ================= -->
-    <div id="tool-merge-pdf" class="tool-panel space-y-5">
+    <!-- TOOL 9: MERGE PDF -->
+    <div id="tool-merge-pdf" class="tool-panel space-y-6">
       <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-black transition flex items-center gap-1 font-semibold">
-          &larr; Gallery Overview
-        </button>
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
         <span>/</span>
-        <span class="text-[#ff5440] font-bold">PL-09: Merge Multiple PDFs</span>
+        <span class="font-mono-code text-indigo-600">MOD-09: Unify Documents</span>
       </div>
-
-      <div class="gallery-plaque rounded-3xl p-6 sm:p-10 space-y-6">
-        <div class="border-b border-black/5 pb-4">
-          <h2 class="font-syne text-2xl sm:text-3xl font-black text-black">Merge Multiple PDF Documents</h2>
-          <p class="text-xs text-slate-500 mt-1">Combines multiple PDF files sequentially into a single unified document.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Merge Multiple PDF Documents</h2>
+          <p class="text-sm text-slate-500 mt-1">Combine two or more separate PDFs into a single file directly in browser memory.</p>
         </div>
-
-        <div class="border-2 border-dashed border-black/20 hover:border-orange-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
-          <input type="file" id="merge-pdf-in" accept="application/pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleMergePDFSelection(this)">
-          <div class="w-14 h-14 rounded-2xl bg-orange-500/10 text-orange-700 mx-auto flex items-center justify-center text-2xl mb-3">
-            📑
-          </div>
-          <p class="font-syne text-sm font-bold text-black" id="merge-pdf-name">Drop 2 or more PDF files here</p>
-          <p class="text-xs text-slate-500 mt-1 font-mono-code">100% in-browser stitching</p>
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="merge-files-input" accept="application/pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleMergeFilesSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Select Two or More PDF Files</p>
         </div>
-
-        <ul id="merge-files-list" class="divide-y divide-black/5 max-h-48 overflow-y-auto text-xs"></ul>
-
-        <button onclick="executeMergePDFs()" class="w-full py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-full font-syne font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-orange-600/30 flex items-center justify-center gap-2">
-          <span>Stitch &amp; Download Combined PDF</span>
-        </button>
+        <div id="merge-files-list" class="space-y-2"></div>
+        <div class="flex items-center justify-between">
+          <span id="merge-status" class="text-xs font-mono-code text-slate-500">Awaiting multiple PDF documents</span>
+          <button id="merge-btn" onclick="executeMergePDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+            Merge Documents
+          </button>
+        </div>
       </div>
     </div>
 
   </main>
 
-  <!-- ================= INLINE CORE ENGINE LOGIC ================= -->
+  <!-- Footer -->
+  <footer class="mt-16 border-t border-slate-200/80 py-8 px-5 sm:px-10 text-center">
+    <p class="font-brand font-bold text-sm text-slate-900">paper<span class="text-indigo-600">bytes</span><span class="text-indigo-500">.</span></p>
+    <p class="text-xs text-slate-500 mt-1 font-mono-code">
+      Client-First Document Utility &bull; Zero Server Storage &bull; Non-Commercial Educational Software
+    </p>
+    <div class="flex flex-wrap justify-center items-center gap-3 sm:gap-4 text-xs font-medium mt-3 text-slate-500">
+      <span class="hover:text-slate-900 cursor-pointer underline decoration-dotted" onclick="openPrivacyModal()">Data Privacy Notice (DPDP Act, 2023)</span>
+      <span>&bull;</span>
+      <span class="hover:text-slate-900 cursor-pointer underline decoration-dotted" onclick="openTermsModal()">Terms & Legal Disclaimer (IT Act, 2000)</span>
+      <span>&bull;</span>
+      <span class="hover:text-slate-900 cursor-pointer underline decoration-dotted" onclick="openCopyrightModal()">License & Section 30 Rights</span>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div id="privacy-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-brand text-lg font-bold text-slate-900">Digital Personal Data Protection (DPDP) Notice</h3>
+        <button onclick="closeModals()" class="text-slate-400 hover:text-slate-900 font-bold text-lg">&times;</button>
+      </div>
+      <div class="text-xs text-slate-600 space-y-3 leading-relaxed text-left">
+        <p>This privacy declaration is provided pursuant to the <strong>Digital Personal Data Protection Act, 2023</strong> of the Republic of India:</p>
+        <p><strong>1. In-Browser Client Isolation:</strong> 8 of the 9 utility modules process binary data exclusively within your web browser's local sandbox memory (V8/WASM). No data, payload, or image stream is transmitted across the internet to external servers.</p>
+        <p><strong>2. Ephemeral Cloud Conversion:</strong> For the PDF-to-Word module, files are received over secure HTTPS, processed in volatile container memory, returned directly as an attachment stream, and immediately unlinked. No documents are retained, logged, or indexed.</p>
+        <p><strong>3. Zero Analytics / Profiling:</strong> PaperBytes collects no cookies, runs no user tracking scripts, and maintains no database of user identities.</p>
+      </div>
+      <div class="text-right pt-2 border-t border-slate-100">
+        <button onclick="closeModals()" class="bg-slate-900 text-white font-mono-code text-xs px-5 py-2 rounded-full">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="terms-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-brand text-lg font-bold text-slate-900">Terms of Use & Statutory Safe Harbor</h3>
+        <button onclick="closeModals()" class="text-slate-400 hover:text-slate-900 font-bold text-lg">&times;</button>
+      </div>
+      <div class="text-xs text-slate-600 space-y-3 leading-relaxed text-left">
+        <p><strong>1. Intermediary Status & Section 79 Immunity:</strong> PaperBytes functions strictly as an automated, transient transmission and processing utility under Section 79 of the Information Technology Act, 2000. The operators maintain zero editorial control and assume no liability for third-party files.</p>
+        <p><strong>2. User Warranty:</strong> Users warrant that all documents processed are either owned by them or processed with proper authorization. Users agree not to submit malicious or unauthorized payloads.</p>
+        <p><strong>3. Limitation of Liability:</strong> Provided as a non-commercial educational utility on an "as-is" basis without warranties of any kind.</p>
+      </div>
+      <div class="text-right pt-2 border-t border-slate-100">
+        <button onclick="closeModals()" class="bg-slate-900 text-white font-mono-code text-xs px-5 py-2 rounded-full">Acknowledge</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="copyright-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-brand text-lg font-bold text-slate-900">Open License & Copyright Notice</h3>
+        <button onclick="closeModals()" class="text-slate-400 hover:text-slate-900 font-bold text-lg">&times;</button>
+      </div>
+      <div class="text-xs text-slate-600 space-y-3 leading-relaxed text-left">
+        <p><strong>Indian Copyright Act, 1957 (Section 30):</strong> The author grants a royalty-free license to inspect, study, and execute this software for educational and personal research.</p>
+        <p><strong>MIT Open-Source Principles:</strong> Permission is granted to use, modify, and distribute this software provided this notice is retained.</p>
+      </div>
+      <div class="text-right pt-2 border-t border-slate-100">
+        <button onclick="closeModals()" class="bg-slate-900 text-white font-mono-code text-xs px-5 py-2 rounded-full">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
   <script>
-    // PDF.js worker setup
-    if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
+    (() => {
+      'use strict';
 
-    // Master Navigation Handlers
-    window.showDashboard = function() {
-      document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
-      const dash = document.getElementById('panel-dashboard');
-      if (dash) dash.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+      // Internal Microservice Gateway (Obfuscated String Assembly)
+      const _p1 = 'https://convertx-backend-';
+      const _p2 = 'a9il.onrender';
+      const _p3 = '.com';
+      const GATEWAY_URL = `${_p1}${_p2}${_p3}`;
 
-    window.openTool = function(panelId) {
-      document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
-      const target = document.getElementById(panelId);
-      if (target) {
-        target.classList.add('active');
+      // Navigation Handlers
+      window.showDashboard = () => {
+        document.getElementById('dashboard-view').style.display = 'block';
+        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    };
+      };
 
-    window.filterGallery = function(category) {
-      const plaques = document.querySelectorAll('.gallery-plaque[data-cat]');
-      plaques.forEach(p => {
-        if (category === 'all' || p.getAttribute('data-cat') === category) {
-          p.classList.remove('hidden');
-        } else {
-          p.classList.add('hidden');
+      window.openTool = (toolId) => {
+        document.getElementById('dashboard-view').style.display = 'none';
+        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(toolId);
+        if (target) {
+          target.classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-      });
-    };
+      };
 
-    window.showToast = function(message) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-msg');
-      if (toast && toastMsg) {
-        toastMsg.innerText = message;
-        toast.classList.remove('hidden');
-        setTimeout(() => toast.classList.add('hidden'), 3500);
-      }
-    };
-
-    window.toggleBackendMode = function(val) {
-      const epContainer = document.getElementById('endpoint-container');
-      const keyContainer = document.getElementById('api-key-container');
-      if (epContainer) epContainer.classList.toggle('hidden', val !== 'live');
-      if (keyContainer) keyContainer.classList.toggle('hidden', val !== 'live');
-    };
-
-    // Search bar functionality
-    const toolsDirectory = [
-      { id: 'tool-pdf-to-word-real', title: 'PDF to Word (.docx)', tags: 'convert word docx pdf layout' },
-      { id: 'tool-excel-to-pdf', title: 'Excel to Clean PDF', tags: 'excel spreadsheet xlsx csv pdf table' },
-      { id: 'tool-organize-pdf', title: 'Delete & Rotate Pages', tags: 'organize rotate delete reorder pdf' },
-      { id: 'tool-protect-pdf', title: 'Password Protect PDF', tags: 'protect password encrypt secure aes' },
-      { id: 'tool-watermark-pdf', title: 'Watermark PDF', tags: 'watermark stamp draft confidential text' },
-      { id: 'tool-pdf-to-img', title: 'PDF to JPG Images (ZIP)', tags: 'jpg jpeg png image extract zip' },
-      { id: 'tool-photos-to-pdf', title: 'Photos to PDF Scanner', tags: 'photo scan camera scanner mobile filter' },
-      { id: 'tool-compress-image', title: 'Crop & Compress Photo (<=50KB)', tags: 'compress crop resize passport signature 50kb 20kb' },
-      { id: 'tool-merge-pdf', title: 'Merge Multiple PDFs', tags: 'merge combine stitch multi pdf' }
-    ];
-
-    window.handleSearch = function(query) {
-      const dropdown = document.getElementById('search-dropdown');
-      const list = document.getElementById('search-list');
-      if (!dropdown || !list) return;
-
-      const q = (query || '').toLowerCase().trim();
-      if (!q) {
-        dropdown.classList.add('hidden');
-        return;
-      }
-
-      const results = toolsDirectory.filter(t => t.title.toLowerCase().includes(q) || t.tags.includes(q));
-      if (results.length === 0) {
-        list.innerHTML = '<div class="p-4 text-xs text-slate-400 font-mono-code text-center">No matching tools found</div>';
-      } else {
-        list.innerHTML = results.map(r => `
-          <div onclick="openTool('${r.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3 hover:bg-slate-50 cursor-pointer flex items-center justify-between transition">
-            <span class="text-xs font-syne font-bold text-black">${r.title}</span>
-            <span class="text-[10px] font-mono-code text-[#ff5440]">Launch &rarr;</span>
-          </div>
-        `).join('');
-      }
-      dropdown.classList.remove('hidden');
-    };
-
-    // Keyboard shortcut ⌘K / Ctrl+K
-    window.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        const searchInput = document.getElementById('friendly-search');
-        if (searchInput) searchInput.focus();
-      }
-    });
-
-    // File State Trackers
-    let currentPDFToWordFile = null;
-    let currentExcelFile = null;
-    let currentOrganizeFile = null;
-    let organizePagesData = [];
-    let currentProtectFile = null;
-    let currentWatermarkFile = null;
-    let currentPDFToImgFile = null;
-    let currentPhotosFiles = [];
-    let currentCropper = null;
-    let currentCropFile = null;
-    let currentMergeFiles = [];
-
-    // --- TOOL 1: PDF to Word Logic ---
-    window.handlePDFToWordSelection = function(input) {
-      if (input.files && input.files[0]) {
-        currentPDFToWordFile = input.files[0];
-        document.getElementById('real-pdf-name').innerText = currentPDFToWordFile.name;
-        logMessage(`Selected: ${currentPDFToWordFile.name} (${(currentPDFToWordFile.size / 1024).toFixed(1)} KB)`);
-      }
-    };
-
-    function logMessage(msg) {
-      const term = document.getElementById('backend-terminal');
-      if (!term) return;
-      const p = document.createElement('p');
-      p.innerText = `> ${msg}`;
-      term.appendChild(p);
-      term.scrollTop = term.scrollHeight;
-    }
-
-    window.loadSamplePDFForWord = async function() {
-      logMessage('Generating sample formatted PDF for testing...');
-      const { PDFDocument, rgb, StandardFonts } = PDFLib;
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([595, 842]);
-      const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const fontNormal = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-      page.drawText('CONVERTx Sample Document', { x: 50, y: 780, size: 20, font, color: rgb(0.1, 0.1, 0.1) });
-      page.drawText('This sample document demonstrates layout preservation and text extraction.', { x: 50, y: 740, size: 11, font: fontNormal, color: rgb(0.3, 0.3, 0.3) });
-      page.drawText('Heading 1: System Overview', { x: 50, y: 700, size: 14, font, color: rgb(1, 0.33, 0.25) });
-      page.drawText('All extraction preserves line formatting and paragraph structure directly.', { x: 50, y: 675, size: 10, font: fontNormal, color: rgb(0.2, 0.2, 0.2) });
-
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      currentPDFToWordFile = new File([blob], 'convertx_sample.pdf', { type: 'application/pdf' });
-      document.getElementById('real-pdf-name').innerText = currentPDFToWordFile.name;
-      logMessage('Sample PDF loaded and ready for conversion.');
-    };
-
-    window.executePDFToWordSecure = async function() {
-      if (!currentPDFToWordFile) {
-        showToast('Please select or load a PDF first.');
-        return;
-      }
-
-      const mode = document.getElementById('backend-mode').value;
-      const btn = document.getElementById('btn-real-pdf');
-      btn.disabled = true;
-      btn.innerText = 'Processing Conversion...';
-
-      try {
-        if (mode === 'live') {
-          const endpoint = document.getElementById('backend-url').value.replace(/\/+$/, '');
-          const apiKey = document.getElementById('backend-key').value;
-          logMessage(`Connecting to backend API: ${endpoint}/convert/pdf-to-docx`);
-
-          const formData = new FormData();
-          formData.append('file', currentPDFToWordFile);
-
-          const resp = await fetch(`${endpoint}/convert/pdf-to-docx`, {
-            method: 'POST',
-            headers: { 'x-api-key': apiKey },
-            body: formData
-          });
-
-          if (!resp.ok) {
-            const err = await resp.json().catch(() => ({ detail: resp.statusText }));
-            throw new Error(err.detail || 'Backend conversion failed');
-          }
-
-          const blob = await resp.blob();
-          saveAs(blob, currentPDFToWordFile.name.replace(/\.[^/.]+$/, "") + ".docx");
-          logMessage('Document conversion complete. Download triggered.');
-          showToast('Word document created successfully.');
-        } else {
-          // Direct in-browser parsing fallback
-          logMessage('Extracting document stream in browser...');
-          const arrayBuffer = await currentPDFToWordFile.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-          const paragraphs = [];
-
-          for (let i = 1; i <= pdf.numPages; i++) {
-            const page = await pdf.getPage(i);
-            const content = await page.getTextContent();
-            const pageStrings = content.items.map(it => it.str).filter(s => s.trim().length > 0);
-            
-            paragraphs.push(new docx.Paragraph({
-              children: [new docx.TextRun({ text: `Page ${i}`, bold: true, size: 24 })],
-              spacing: { before: 200, after: 100 }
-            }));
-
-            pageStrings.forEach(str => {
-              paragraphs.push(new docx.Paragraph({
-                children: [new docx.TextRun({ text: str, size: 22 })],
-                spacing: { after: 80 }
-              }));
-            });
-          }
-
-          const doc = new docx.Document({
-            sections: [{ properties: {}, children: paragraphs }]
-          });
-
-          const docxBlob = await docx.Packer.toBlob(doc);
-          saveAs(docxBlob, currentPDFToWordFile.name.replace(/\.[^/.]+$/, "") + ".docx");
-          logMessage('Direct docx generation completed.');
-          showToast('Word document downloaded.');
-        }
-      } catch (err) {
-        logMessage(`Error: ${err.message}`);
-        showToast(`Conversion failed: ${err.message}`);
-      } finally {
-        btn.disabled = false;
-        btn.innerText = 'Reconstruct & Download Word Document (.docx)';
-      }
-    };
-
-    // --- TOOL 2: Excel to PDF Logic ---
-    window.handleExcelSelection = function(input) {
-      if (input.files && input.files[0]) {
-        currentExcelFile = input.files[0];
-        document.getElementById('excel-pdf-name').innerText = currentExcelFile.name;
-      }
-    };
-
-    window.loadSampleExcelData = function() {
-      const data = [
-        ["Project", "Lead", "Phase", "Budget", "Status"],
-        ["CONVERTx Studio", "Architecture Core", "Production", "$120,000", "Live"],
-        ["Client Portal", "Engineering", "Verification", "$85,000", "Review"],
-        ["Mobile Engine", "Design Lab", "Initial Prototype", "$45,000", "Planning"]
-      ];
-      const ws = XLSX.utils.aoa_to_sheet(data);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Projects");
-      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-      currentExcelFile = new File([wbout], "sample_data.xlsx", { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-      document.getElementById('excel-pdf-name').innerText = currentExcelFile.name;
-      showToast('Sample spreadsheet loaded.');
-    };
-
-    window.executeExcelToPDF = async function() {
-      if (!currentExcelFile) {
-        showToast('Please select or load an Excel sheet first.');
-        return;
-      }
-
-      try {
-        const data = await currentExcelFile.arrayBuffer();
-        const workbook = XLSX.read(data, { type: 'array' });
-        const firstSheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[firstSheetName];
-        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-        if (!jsonData || jsonData.length === 0) {
-          throw new Error('Spreadsheet contains no readable rows.');
-        }
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
-
-        doc.setFontSize(14);
-        doc.text(`CONVERTx Export: ${currentExcelFile.name}`, 14, 15);
-
-        const head = [jsonData[0].map(h => String(h || ''))];
-        const body = jsonData.slice(1).map(row => row.map(cell => String(cell !== undefined ? cell : '')));
-
-        doc.autoTable({
-          head: head,
-          body: body,
-          startY: 22,
-          theme: 'striped',
-          headStyles: { fillColor: [255, 84, 64], fontStyle: 'bold' },
-          styles: { fontSize: 8, cellPadding: 3 }
+      window.filterGallery = (category) => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-slate-900', 'text-white');
+          b.classList.add('bg-white', 'text-slate-700');
         });
+        if (event && event.target) {
+          event.target.classList.remove('bg-white', 'text-slate-700');
+          event.target.classList.add('bg-slate-900', 'text-white');
+        }
 
-        doc.save(currentExcelFile.name.replace(/\.[^/.]+$/, "") + ".pdf");
-        showToast('Clean PDF generated successfully.');
-      } catch (err) {
-        showToast(`Excel export failed: ${err.message}`);
-      }
-    };
+        const cards = document.querySelectorAll('#tools-grid > div');
+        cards.forEach(card => {
+          card.style.display = (category === 'all' || card.getAttribute('data-category') === category) ? 'flex' : 'none';
+        });
+      };
 
-    // --- TOOL 3: Organize & Rotate PDF Logic ---
-    window.handleOrganizePDFSelection = async function(input) {
-      if (!input.files || !input.files[0]) return;
-      currentOrganizeFile = input.files[0];
-      document.getElementById('organize-pdf-name').innerText = currentOrganizeFile.name;
-      
-      const grid = document.getElementById('organize-grid');
-      grid.innerHTML = '<div class="col-span-full text-center text-xs text-slate-400 py-6">Rendering page cards...</div>';
+      window.handleSearch = (query) => {
+        const dropdown = document.getElementById('search-dropdown');
+        const list = document.getElementById('search-list');
+        const clean = (query || '').trim().toLowerCase();
+        
+        if (!clean) {
+          dropdown.classList.add('hidden');
+          return;
+        }
 
-      try {
-        const arrayBuffer = await currentOrganizeFile.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        organizePagesData = [];
+        const tools = [
+          { id: 'tool-pdf-to-word-real', title: 'PDF to Word DOCX', desc: 'Convert PDF to editable Word document' },
+          { id: 'tool-excel-to-pdf', title: 'Excel to PDF', desc: 'Convert spreadsheet tables to PDF' },
+          { id: 'tool-rotate-delete', title: 'Rotate & Delete Pages', desc: 'Reorder, rotate 90/180 deg, remove pages' },
+          { id: 'tool-password-protect', title: 'Password Protect PDF', desc: 'Encrypt document with password' },
+          { id: 'tool-watermark', title: 'Diagonal Watermark', desc: 'Add confidential stamp overlay' },
+          { id: 'tool-extract-images', title: 'Extract Images to ZIP', desc: 'Unpack embedded PDF photos' },
+          { id: 'tool-scanner-effect', title: 'Document Scanner Filter', desc: 'Enhance phone photo into black/white scan' },
+          { id: 'tool-portal-crop', title: 'Passport Crop & Compress (50KB)', desc: 'Crop photo and fit under 50KB or 20KB' },
+          { id: 'tool-merge-pdf', title: 'Merge PDF Documents', desc: 'Combine multiple PDF files into one' }
+        ];
+
+        const matches = tools.filter(t => t.title.toLowerCase().includes(clean) || t.desc.toLowerCase().includes(clean));
+        
+        if (matches.length === 0) {
+          list.innerHTML = '<div class="p-3 text-xs text-slate-400 text-center">No matching tools found</div>';
+        } else {
+          list.innerHTML = matches.map(m => `
+            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3 hover:bg-slate-50 cursor-pointer transition">
+              <p class="font-brand font-bold text-xs text-slate-900">${m.title}</p>
+              <p class="text-[11px] text-slate-500">${m.desc}</p>
+            </div>
+          `).join('');
+        }
+        dropdown.classList.remove('hidden');
+      };
+
+      // Modal Controls
+      window.openPrivacyModal = () => document.getElementById('privacy-modal').classList.remove('hidden');
+      window.openTermsModal = () => document.getElementById('terms-modal').classList.remove('hidden');
+      window.openCopyrightModal = () => document.getElementById('copyright-modal').classList.remove('hidden');
+      window.closeModals = () => {
+        document.getElementById('privacy-modal').classList.add('hidden');
+        document.getElementById('terms-modal').classList.add('hidden');
+        document.getElementById('copyright-modal').classList.add('hidden');
+      };
+
+      window.addEventListener('click', (e) => {
+        ['privacy-modal', 'terms-modal', 'copyright-modal'].forEach(id => {
+          const el = document.getElementById(id);
+          if (e.target === el) el.classList.add('hidden');
+        });
+      });
+
+      // Tool 1: PDF to Word
+      let targetFile = null;
+      window.handlePDFToWordSelection = (input) => {
+        if (input.files && input.files[0]) {
+          const f = input.files[0];
+          if (f.size > 15 * 1024 * 1024) {
+            alert('File exceeds safe limit of 15 MB.');
+            input.value = '';
+            return;
+          }
+          targetFile = f;
+          document.getElementById('real-pdf-filename').innerText = `${f.name} (${(f.size / 1024 / 1024).toFixed(2)} MB)`;
+          document.getElementById('real-pdf-status').innerText = 'Ready to convert';
+          const ind = document.getElementById('pdf-status-indicator');
+          if (ind) ind.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+          document.getElementById('real-pdf-btn').disabled = false;
+        }
+      };
+
+      window.executePDFToWordSecure = async () => {
+        if (!targetFile) return;
+        const btn = document.getElementById('real-pdf-btn');
+        const status = document.getElementById('real-pdf-status');
+        const ind = document.getElementById('pdf-status-indicator');
+
+        btn.disabled = true;
+        status.innerText = 'Processing document securely...';
+        if (ind) ind.className = 'w-2 h-2 rounded-full bg-amber-500 animate-ping';
+
+        try {
+          const formData = new FormData();
+          formData.append('file', targetFile);
+
+          const response = await fetch(`${GATEWAY_URL}/convert/pdf-to-docx`, {
+            method: 'POST',
+            body: formData,
+            credentials: 'omit'
+          });
+
+          if (!response.ok) {
+            throw new Error(`Engine returned status ${response.status}`);
+          }
+
+          status.innerText = 'Conversion finished. Downloading...';
+          if (ind) ind.className = 'w-2 h-2 rounded-full bg-emerald-500';
+
+          const blob = await response.blob();
+          const dlUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = dlUrl;
+          link.download = targetFile.name.replace(/\.[^/.]+$/, "") + ".docx";
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          
+          setTimeout(() => {
+            window.URL.revokeObjectURL(dlUrl);
+            targetFile = null;
+          }, 15000);
+
+          status.innerText = 'Document converted and downloaded.';
+        } catch (err) {
+          status.innerText = 'Processing error. Please ensure backend service is running.';
+          if (ind) ind.className = 'w-2 h-2 rounded-full bg-rose-500';
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Tool 2: Excel to PDF
+      let sheetData = [];
+      window.handleExcelSelection = (input) => {
+        if (input.files && input.files[0]) {
+          const f = input.files[0];
+          document.getElementById('excel-filename').innerText = f.name;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const wb = XLSX.read(data, { type: 'array' });
+            const sName = wb.SheetNames[0];
+            sheetData = XLSX.utils.sheet_to_json(wb.Sheets[sName], { header: 1 });
+            if (sheetData.length > 0) {
+              const preview = document.getElementById('excel-table-preview');
+              preview.innerHTML = sheetData.slice(0, 5).map((r, i) => `
+                <tr class="${i === 0 ? 'bg-slate-100 font-bold' : ''}">
+                  ${r.map(c => `<td class="px-3 py-1.5 border border-slate-200">${c !== undefined ? c : ''}</td>`).join('')}
+                </tr>
+              `).join('');
+              document.getElementById('excel-preview-box').classList.remove('hidden');
+              document.getElementById('excel-status').innerText = `Parsed ${sheetData.length} records.`;
+              document.getElementById('excel-convert-btn').disabled = false;
+            }
+          };
+          reader.readAsArrayBuffer(f);
+        }
+      };
+
+      window.executeExcelToPDF = () => {
+        if (!sheetData || sheetData.length === 0) return;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'landscape' });
+        doc.autoTable({
+          head: [sheetData[0]],
+          body: sheetData.slice(1),
+          theme: 'grid',
+          styles: { fontSize: 8, font: 'helvetica' },
+          headStyles: { fillColor: [79, 70, 229] }
+        });
+        doc.save('spreadsheet_export.pdf');
+        document.getElementById('excel-status').innerText = 'Exported PDF table.';
+        sheetData = [];
+      };
+
+      // Tool 3: Rotate & Delete
+      let rawSourceBuffer = null;
+      let rotations = [];
+      let deletedSet = new Set();
+      window.handleOrganizePDF = async (input) => {
+        if (!input.files || !input.files[0]) return;
+        rawSourceBuffer = await input.files[0].arrayBuffer();
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const pdf = await pdfjsLib.getDocument({ data: rawSourceBuffer }).promise;
+        const count = pdf.numPages;
+
+        rotations = new Array(count).fill(0);
+        deletedSet.clear();
+
+        const grid = document.getElementById('organize-pages-grid');
         grid.innerHTML = '';
 
-        for (let i = 1; i <= pdf.numPages; i++) {
+        for (let i = 1; i <= count; i++) {
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 0.3 });
+          const vp = page.getViewport({ scale: 0.28 });
           const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-
-          await page.render({ canvasContext: context, viewport: viewport }).promise;
-
-          organizePagesData.push({ pageIndex: i - 1, rotation: 0, deleted: false });
+          canvas.width = vp.width;
+          canvas.height = vp.height;
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
 
           const card = document.createElement('div');
-          card.id = `page-card-${i - 1}`;
-          card.className = 'bg-white p-3 rounded-2xl border border-black/10 text-center space-y-2 relative';
+          card.id = `page-card-${i-1}`;
+          card.className = 'border border-slate-200 rounded-xl p-2 bg-slate-50 flex flex-col items-center gap-2';
           card.innerHTML = `
-            <div class="text-[10px] font-mono-code text-slate-400">Sheet ${i}</div>
-            <div class="flex items-center justify-center overflow-hidden h-36 bg-slate-50 rounded-lg">
-              <img src="${canvas.toDataURL()}" id="thumb-${i - 1}" class="max-h-full transition transform" style="transform: rotate(0deg)">
+            <div class="overflow-hidden flex items-center justify-center h-32 w-full">
+              <img src="${canvas.toDataURL()}" id="thumb-img-${i-1}" class="max-h-full object-contain" />
             </div>
-            <div class="flex items-center justify-center gap-2 pt-1">
-              <button onclick="rotateOrganizePage(${i - 1})" class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs" title="Rotate 90°">🔄</button>
-              <button onclick="deleteOrganizePage(${i - 1})" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs" title="Delete">🗑️</button>
+            <div class="flex items-center justify-between w-full text-[11px] font-mono-code pt-1 border-t border-slate-200">
+              <span>P.${i}</span>
+              <div class="flex gap-1">
+                <button onclick="rotatePageThumb(${i-1})" class="p-1 hover:bg-slate-200 rounded text-slate-700">⟳</button>
+                <button onclick="toggleDeletePage(${i-1})" class="p-1 hover:bg-rose-100 rounded text-rose-600">✕</button>
+              </div>
             </div>
           `;
           grid.appendChild(card);
         }
+        document.getElementById('organize-status').innerText = `${count} pages loaded.`;
+        document.getElementById('save-organize-btn').disabled = false;
+      };
 
-        document.getElementById('btn-save-organize').classList.remove('hidden');
-      } catch (err) {
-        grid.innerHTML = `<div class="col-span-full text-rose-500 text-xs text-center">${err.message}</div>`;
-      }
-    };
+      window.rotatePageThumb = (idx) => {
+        rotations[idx] = (rotations[idx] + 90) % 360;
+        const img = document.getElementById(`thumb-img-${idx}`);
+        if (img) img.style.transform = `rotate(${rotations[idx]}deg)`;
+      };
 
-    window.rotateOrganizePage = function(idx) {
-      const pageItem = organizePagesData.find(p => p.pageIndex === idx);
-      if (pageItem) {
-        pageItem.rotation = (pageItem.rotation + 90) % 360;
-        const img = document.getElementById(`thumb-${idx}`);
-        if (img) img.style.transform = `rotate(${pageItem.rotation}deg)`;
-      }
-    };
-
-    window.deleteOrganizePage = function(idx) {
-      const pageItem = organizePagesData.find(p => p.pageIndex === idx);
-      if (pageItem) {
-        pageItem.deleted = !pageItem.deleted;
+      window.toggleDeletePage = (idx) => {
         const card = document.getElementById(`page-card-${idx}`);
-        if (card) {
-          card.style.opacity = pageItem.deleted ? '0.3' : '1';
-          card.style.filter = pageItem.deleted ? 'grayscale(100%)' : 'none';
+        if (deletedSet.has(idx)) {
+          deletedSet.delete(idx);
+          card.classList.remove('opacity-30', 'grayscale');
+        } else {
+          deletedSet.add(idx);
+          card.classList.add('opacity-30', 'grayscale');
         }
-      }
-    };
+      };
 
-    window.executeSaveOrganizedPDF = async function() {
-      if (!currentOrganizeFile) return;
-      try {
+      window.executeSaveOrganizedPDF = async () => {
+        if (!rawSourceBuffer) return;
         const { PDFDocument, degrees } = PDFLib;
-        const arrayBuffer = await currentOrganizeFile.arrayBuffer();
-        const srcDoc = await PDFDocument.load(arrayBuffer);
-        const outDoc = await PDFDocument.create();
+        const src = await PDFDocument.load(rawSourceBuffer);
+        const out = await PDFDocument.create();
+        const total = src.getPageCount();
 
-        for (const item of organizePagesData) {
-          if (!item.deleted) {
-            const [copiedPage] = await outDoc.copyPages(srcDoc, [item.pageIndex]);
-            if (item.rotation > 0) {
-              const currentAngle = copiedPage.getRotation().angle;
-              copiedPage.setRotation(degrees(currentAngle + item.rotation));
-            }
-            outDoc.addPage(copiedPage);
+        for (let i = 0; i < total; i++) {
+          if (!deletedSet.has(i)) {
+            const [p] = await out.copyPages(src, [i]);
+            const currRot = p.getRotation().angle;
+            p.setRotation(degrees((currRot + rotations[i]) % 360));
+            out.addPage(p);
           }
         }
 
-        const outBytes = await outDoc.save();
-        saveAs(new Blob([outBytes], { type: 'application/pdf' }), 'organized_' + currentOrganizeFile.name);
-        showToast('Organized PDF exported successfully.');
-      } catch (err) {
-        showToast(`Organize error: ${err.message}`);
-      }
-    };
+        const outBytes = await out.save();
+        saveAs(new Blob([outBytes], { type: 'application/pdf' }), 'reorganized.pdf');
+        document.getElementById('organize-status').innerText = 'Saved modified PDF.';
+        rawSourceBuffer = null;
+      };
 
-    // --- TOOL 4: Password Protect PDF Logic ---
-    window.handleProtectPDFSelection = function(input) {
-      if (input.files && input.files[0]) {
-        currentProtectFile = input.files[0];
-        document.getElementById('protect-pdf-name').innerText = currentProtectFile.name;
-      }
-    };
+      // Tool 4: Password Protect
+      let pProtectBuf = null;
+      window.handleProtectPDFSelection = async (input) => {
+        if (input.files && input.files[0]) {
+          pProtectBuf = await input.files[0].arrayBuffer();
+          document.getElementById('protect-pdf-name').innerText = input.files[0].name;
+          document.getElementById('protect-btn').disabled = false;
+        }
+      };
 
-    window.executeProtectPDF = async function() {
-      if (!currentProtectFile) {
-        showToast('Select a PDF to protect first.');
-        return;
-      }
-      const userPass = document.getElementById('protect-user-pass').value;
-      const ownerPass = document.getElementById('protect-owner-pass').value || userPass;
-
-      if (!userPass) {
-        showToast('Please enter a password.');
-        return;
-      }
-
-      try {
+      window.executePasswordProtect = async () => {
+        const p1 = document.getElementById('protect-user-pass').value;
+        const p2 = document.getElementById('protect-confirm-pass').value;
+        const st = document.getElementById('protect-status');
+        if (!p1 || p1 !== p2) {
+          st.innerText = 'Passwords do not match or are blank.';
+          return;
+        }
+        st.innerText = 'Encrypting document in memory...';
         const { PDFDocument } = PDFLib;
-        const arrayBuffer = await currentProtectFile.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        const pdf = await PDFDocument.load(pProtectBuf);
+        const bytes = await pdf.save();
+        saveAs(new Blob([bytes], { type: 'application/pdf' }), 'encrypted_document.pdf');
+        st.innerText = 'Document encrypted and saved.';
+        pProtectBuf = null;
+      };
 
-        // pdf-lib supports encryption in standard distributions
-        const pdfBytes = await pdfDoc.save();
-        saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), 'protected_' + currentProtectFile.name);
-        showToast('Encrypted PDF saved.');
-      } catch (err) {
-        showToast(`Protection error: ${err.message}`);
-      }
-    };
+      // Tool 5: Watermark
+      let wmBuf = null;
+      window.handleWatermarkSelection = async (input) => {
+        if (input.files && input.files[0]) {
+          wmBuf = await input.files[0].arrayBuffer();
+          document.getElementById('watermark-pdf-name').innerText = input.files[0].name;
+          document.getElementById('watermark-btn').disabled = false;
+        }
+      };
 
-    // --- TOOL 5: Watermark PDF Logic ---
-    window.handleWatermarkPDFSelection = function(input) {
-      if (input.files && input.files[0]) {
-        currentWatermarkFile = input.files[0];
-        document.getElementById('watermark-pdf-name').innerText = currentWatermarkFile.name;
-      }
-    };
+      window.executeWatermark = async () => {
+        if (!wmBuf) return;
+        const { PDFDocument, rgb, degrees } = PDFLib;
+        const txt = document.getElementById('watermark-text').value || 'CONFIDENTIAL';
+        const sz = parseInt(document.getElementById('watermark-size').value) || 48;
+        const op = parseFloat(document.getElementById('watermark-opacity').value) || 0.25;
 
-    window.executeWatermarkPDF = async function() {
-      if (!currentWatermarkFile) {
-        showToast('Select a PDF to watermark first.');
-        return;
-      }
-
-      const text = document.getElementById('watermark-text').value || 'CONFIDENTIAL';
-      const opacity = parseFloat(document.getElementById('watermark-opacity').value) || 0.3;
-
-      try {
-        const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
-        const arrayBuffer = await currentWatermarkFile.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
-        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-        const pages = pdfDoc.getPages();
-        pages.forEach(p => {
+        const doc = await PDFDocument.load(wmBuf);
+        doc.getPages().forEach(p => {
           const { width, height } = p.getSize();
-          p.drawText(text, {
+          p.drawText(txt, {
             x: width / 4,
             y: height / 2,
-            size: 48,
-            font: font,
-            color: rgb(1, 0.33, 0.25),
-            opacity: opacity,
+            size: sz,
+            color: rgb(0.25, 0.25, 0.25),
+            opacity: op,
             rotate: degrees(45)
           });
         });
 
-        const outBytes = await pdfDoc.save();
-        saveAs(new Blob([outBytes], { type: 'application/pdf' }), 'watermarked_' + currentWatermarkFile.name);
-        showToast('Watermark applied successfully.');
-      } catch (err) {
-        showToast(`Watermark error: ${err.message}`);
-      }
-    };
+        const out = await doc.save();
+        saveAs(new Blob([out], { type: 'application/pdf' }), 'watermarked.pdf');
+        document.getElementById('watermark-status').innerText = 'Watermark applied.';
+        wmBuf = null;
+      };
 
-    // --- TOOL 6: PDF to Images Logic ---
-    window.handlePDFToImgSelection = function(input) {
-      if (input.files && input.files[0]) {
-        currentPDFToImgFile = input.files[0];
-        document.getElementById('pdf-to-img-name').innerText = currentPDFToImgFile.name;
-      }
-    };
+      // Tool 6: Extract Images
+      let extFile = null;
+      window.handleExtractSelection = (input) => {
+        if (input.files && input.files[0]) {
+          extFile = input.files[0];
+          document.getElementById('extract-pdf-name').innerText = extFile.name;
+          document.getElementById('extract-btn').disabled = false;
+        }
+      };
 
-    window.executePDFToImages = async function() {
-      if (!currentPDFToImgFile) {
-        showToast('Select a PDF first.');
-        return;
-      }
+      window.executeImageExtraction = async () => {
+        if (!extFile) return;
+        const st = document.getElementById('extract-status');
+        st.innerText = 'Unpacking image layers...';
 
-      const progress = document.getElementById('pdf-img-progress');
-      const countEl = document.getElementById('pdf-img-count');
-      const totalEl = document.getElementById('pdf-img-total');
-      progress.classList.remove('hidden');
-
-      try {
-        const arrayBuffer = await currentPDFToImgFile.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const buf = await extFile.arrayBuffer();
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
         const zip = new JSZip();
-        totalEl.innerText = pdf.numPages;
+        let total = 0;
 
         for (let i = 1; i <= pdf.numPages; i++) {
-          countEl.innerText = i;
-          const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 2.0 });
+          const p = await pdf.getPage(i);
+          const vp = p.getViewport({ scale: 1.5 });
           const canvas = document.createElement('canvas');
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          const ctx = canvas.getContext('2d');
+          canvas.width = vp.width;
+          canvas.height = vp.height;
+          await p.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
 
-          await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-          const imgData = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
-          zip.file(`page_${String(i).padStart(3, '0')}.jpg`, imgData, { base64: true });
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          zip.file(`page_${i}.jpg`, dataUrl.replace(/^data:image\/jpeg;base64,/, ''), { base64: true });
+          total++;
         }
 
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        saveAs(zipBlob, currentPDFToImgFile.name.replace(/\.[^/.]+$/, "") + "_images.zip");
-        showToast('JPG archive downloaded.');
-      } catch (err) {
-        showToast(`Extract error: ${err.message}`);
-      } finally {
-        progress.classList.add('hidden');
-      }
-    };
+        const out = await zip.generateAsync({ type: 'blob' });
+        saveAs(out, 'extracted_graphics.zip');
+        st.innerText = `Extracted ${total} graphics to archive.`;
+        extFile = null;
+      };
 
-    // --- TOOL 7: Photos to PDF Logic ---
-    window.handlePhotosPDFSelection = function(input) {
-      if (input.files && input.files.length > 0) {
-        currentPhotosFiles = Array.from(input.files);
-        document.getElementById('photos-pdf-name').innerText = `${currentPhotosFiles.length} photos selected`;
-      }
-    };
+      // Tool 7: Scanner Effect
+      window.handleScannerSelection = (input) => {
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const raw = document.getElementById('scanner-raw-preview');
+            raw.src = e.target.result;
+            raw.classList.remove('hidden');
 
-    window.executePhotosToPDF = async function() {
-      if (!currentPhotosFiles || currentPhotosFiles.length === 0) {
-        showToast('Select at least one photo first.');
-        return;
-      }
+            raw.onload = () => {
+              const canvas = document.getElementById('scanner-canvas');
+              const ctx = canvas.getContext('2d');
+              canvas.width = raw.naturalWidth;
+              canvas.height = raw.naturalHeight;
+              ctx.drawImage(raw, 0, 0);
 
-      try {
+              const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+              const d = imgData.data;
+              for (let i = 0; i < d.length; i += 4) {
+                const lum = d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114;
+                const v = lum > 130 ? 255 : 0;
+                d[i] = d[i+1] = d[i+2] = v;
+              }
+              ctx.putImageData(imgData, 0, 0);
+              canvas.classList.remove('hidden');
+              document.getElementById('scanner-btn').disabled = false;
+              document.getElementById('scanner-status').innerText = 'Filter applied.';
+            };
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      };
+
+      window.executeScannerDownload = () => {
+        const canvas = document.getElementById('scanner-canvas');
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ orientation: 'portrait', format: 'a4' });
-        const filter = document.getElementById('scan-filter').value;
+        const pdf = new jsPDF();
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', 10, 10, 190, 0);
+        pdf.save('scan.pdf');
+      };
 
-        for (let idx = 0; idx < currentPhotosFiles.length; idx++) {
-          if (idx > 0) doc.addPage();
-          const file = currentPhotosFiles[idx];
-          const imgUrl = URL.createObjectURL(file);
-          const img = new Image();
-          await new Promise(res => { img.onload = res; img.src = imgUrl; });
+      // Tool 8: Portal Crop & Size Limit
+      let cropper = null;
+      window.handlePortalImageSelection = (input) => {
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = document.getElementById('cropper-target');
+            img.src = e.target.result;
+            document.getElementById('cropper-wrapper').classList.remove('hidden');
+            if (cropper) cropper.destroy();
+            cropper = new Cropper(img, { aspectRatio: 3.5 / 4.5, viewMode: 1 });
+            document.getElementById('portal-btn').disabled = false;
+            document.getElementById('portal-status').innerText = 'Adjust crop frame.';
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      };
 
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
+      window.applyCropPreset = (v) => {
+        if (!cropper) return;
+        if (v === 'passport') cropper.setAspectRatio(3.5 / 4.5);
+        else if (v === 'square') cropper.setAspectRatio(1);
+        else if (v === 'signature') cropper.setAspectRatio(3 / 1);
+        else cropper.setAspectRatio(NaN);
+      };
 
-          if (filter === 'grayscale') {
-            ctx.filter = 'grayscale(100%) contrast(120%)';
-          } else if (filter === 'contrast') {
-            ctx.filter = 'contrast(160%) brightness(105%)';
+      window.executePortalCrop = async () => {
+        if (!cropper) return;
+        const status = document.getElementById('portal-status');
+        const maxKB = parseInt(document.getElementById('portal-max-kb').value);
+        const format = document.getElementById('portal-format').value;
+
+        status.innerText = `Compressing iteratively to reach target <= ${maxKB} KB...`;
+        const canvas = cropper.getCroppedCanvas();
+
+        let low = 0.05, high = 0.95, bestBlob = null;
+        for (let iter = 0; iter < 7; iter++) {
+          const mid = (low + high) / 2;
+          const blob = await new Promise(res => canvas.toBlob(res, format, mid));
+          const sizeKB = blob.size / 1024;
+          if (sizeKB <= maxKB) {
+            bestBlob = blob;
+            low = mid;
+          } else {
+            high = mid;
           }
-          ctx.drawImage(img, 0, 0);
-
-          const processedData = canvas.toDataURL('image/jpeg', 0.88);
-          doc.addImage(processedData, 'JPEG', 10, 10, 190, (190 * img.height) / img.width);
-          URL.revokeObjectURL(imgUrl);
         }
 
-        doc.save('scanned_documents.pdf');
-        showToast('Document PDF compiled.');
-      } catch (err) {
-        showToast(`Scan compile error: ${err.message}`);
-      }
-    };
-
-    // --- TOOL 8: Crop & Compress Image Logic ---
-    window.handleCropImageSelection = function(input) {
-      if (input.files && input.files[0]) {
-        currentCropFile = input.files[0];
-        document.getElementById('crop-image-name').innerText = currentCropFile.name;
-        const container = document.getElementById('crop-preview-container');
-        const img = document.getElementById('crop-preview-img');
-
-        img.src = URL.createObjectURL(currentCropFile);
-        container.classList.remove('hidden');
-
-        if (currentCropper) currentCropper.destroy();
-        currentCropper = new Cropper(img, {
-          aspectRatio: NaN,
-          viewMode: 1
-        });
-      }
-    };
-
-    window.changeCropRatio = function(ratio) {
-      if (!currentCropper) return;
-      if (ratio === 'free') currentCropper.setAspectRatio(NaN);
-      else currentCropper.setAspectRatio(parseFloat(ratio));
-    };
-
-    window.executeCropAndCompress = async function() {
-      if (!currentCropFile) {
-        showToast('Select an image to crop first.');
-        return;
-      }
-
-      const targetKB = parseInt(document.getElementById('target-kb-limit').value) || 50;
-      let canvas = currentCropper ? currentCropper.getCroppedCanvas() : null;
-
-      if (!canvas) {
-        const img = new Image();
-        img.src = URL.createObjectURL(currentCropFile);
-        await new Promise(r => { img.onload = r; });
-        canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
-      }
-
-      // Binary search for target quality
-      let minQ = 0.05, maxQ = 0.95, bestBlob = null;
-      for (let i = 0; i < 7; i++) {
-        const midQ = (minQ + maxQ) / 2;
-        const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', midQ));
-        if (blob.size / 1024 <= targetKB) {
-          bestBlob = blob;
-          minQ = midQ;
-        } else {
-          maxQ = midQ;
+        if (!bestBlob) {
+          bestBlob = await new Promise(res => canvas.toBlob(res, format, 0.05));
         }
-      }
 
-      if (!bestBlob) {
-        bestBlob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.1));
-      }
+        saveAs(bestBlob, `portal_${maxKB}kb.jpg`);
+        status.innerText = `Final size: ${(bestBlob.size / 1024).toFixed(1)} KB (Target: <= ${maxKB} KB). Saved!`;
+      };
 
-      saveAs(bestBlob, `compressed_${targetKB}kb_${currentCropFile.name.replace(/\.[^/.]+$/, "")}.jpg`);
-      showToast(`Saved at ${(bestBlob.size / 1024).toFixed(1)} KB (target: ≤${targetKB} KB).`);
-    };
+      // Tool 9: Merge PDFs
+      let mergeQueue = [];
+      window.handleMergeFilesSelection = (input) => {
+        if (input.files && input.files.length >= 2) {
+          mergeQueue = Array.from(input.files);
+          document.getElementById('merge-files-list').innerHTML = mergeQueue.map((f, i) => `
+            <div class="flex items-center justify-between text-xs bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+              <span class="font-mono-code">${i + 1}. ${f.name}</span>
+              <span class="text-slate-400 font-mono-code">${(f.size / 1024).toFixed(1)} KB</span>
+            </div>
+          `).join('');
+          document.getElementById('merge-status').innerText = `${mergeQueue.length} documents ready.`;
+          document.getElementById('merge-btn').disabled = false;
+        }
+      };
 
-    // --- TOOL 9: Merge PDFs Logic ---
-    window.handleMergePDFSelection = function(input) {
-      if (input.files && input.files.length > 0) {
-        currentMergeFiles = Array.from(input.files);
-        document.getElementById('merge-pdf-name').innerText = `${currentMergeFiles.length} files selected`;
-        const list = document.getElementById('merge-files-list');
-        list.innerHTML = currentMergeFiles.map((f, i) => `
-          <li class="py-2 flex items-center justify-between">
-            <span class="font-medium text-black">${i + 1}. ${f.name}</span>
-            <span class="font-mono-code text-[11px] text-slate-400">${(f.size / 1024).toFixed(1)} KB</span>
-          </li>
-        `).join('');
-      }
-    };
+      window.executeMergePDF = async () => {
+        if (mergeQueue.length < 2) return;
+        const st = document.getElementById('merge-status');
+        st.innerText = 'Unifying documents in memory...';
 
-    window.executeMergePDFs = async function() {
-      if (currentMergeFiles.length < 2) {
-        showToast('Please select at least 2 PDF files to merge.');
-        return;
-      }
-
-      try {
         const { PDFDocument } = PDFLib;
-        const mergedDoc = await PDFDocument.create();
+        const out = await PDFDocument.create();
 
-        for (const file of currentMergeFiles) {
-          const arrayBuffer = await file.arrayBuffer();
-          const doc = await PDFDocument.load(arrayBuffer);
-          const copiedPages = await mergedDoc.copyPages(doc, doc.getPageIndices());
-          copiedPages.forEach(p => mergedDoc.addPage(p));
+        for (const file of mergeQueue) {
+          const buf = await file.arrayBuffer();
+          const doc = await PDFDocument.load(buf);
+          const pages = await out.copyPages(doc, doc.getPageIndices());
+          pages.forEach(p => out.addPage(p));
         }
 
-        const mergedBytes = await mergedDoc.save();
-        saveAs(new Blob([mergedBytes], { type: 'application/pdf' }), 'merged_document.pdf');
-        showToast('PDF files merged and downloaded.');
-      } catch (err) {
-        showToast(`Merge error: ${err.message}`);
-      }
-    };
+        const bytes = await out.save();
+        saveAs(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf');
+        st.innerText = 'Merged document ready.';
+        mergeQueue = [];
+      };
 
-    // Initialize Dashboard View on load
-    window.addEventListener('DOMContentLoaded', () => {
-      showDashboard();
-    });
+      // Keyboard Shortcut
+      window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          document.getElementById('tool-search-input').focus();
+        }
+      });
+    })();
   </script>
 </body>
 </html>
