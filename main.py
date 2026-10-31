@@ -1,27 +1,32 @@
 import os
 import shutil
 import tempfile
-from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException, Header, status
+from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pdf2docx import Converter
 
 app = FastAPI(
     title="PaperBytes Core",
-    docs_url=None,       # Disables public /docs swagger to prevent API reconnaissance
-    redoc_url=None,      # Disables public /redoc
-    openapi_url=None     # Disables schema inspection
+    docs_url=None,       # Disables public /docs swagger
+    redoc_url=None,
+    openapi_url=None
 )
 
-# Strict Origin Whitelist (Blocks unauthorized web requests)
-ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGINS", "https://adityavardhan123singh-maker.github.io")
-
+# Allow requests from any of your GitHub Pages URLs (convertx or paperbytes) and localhost
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[ALLOWED_ORIGIN.rstrip("/")],
+    allow_origins=[
+        "https://adityavardhan123singh-maker.github.io",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:3000"
+    ],
+    allow_origin_regex=r"https://.*\.github\.io.*",
     allow_credentials=False,
-    allow_methods=["POST", "GET", "HEAD"],
+    allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
     max_age=3600,
 )
 
@@ -54,7 +59,7 @@ async def convert_pdf_to_docx(
         )
 
     # 3. Create isolated, random temporary workspace
-    temp_dir = tempfile.mkdtemp(prefix="pb_ephemeral_")
+    temp_dir = tempfile.mkdtemp(prefix="paperbytes_")
     input_path = os.path.join(temp_dir, "input.pdf")
     output_path = os.path.join(temp_dir, "output.docx")
 
