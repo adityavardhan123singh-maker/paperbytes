@@ -454,7 +454,7 @@
               <span class="text-slate-600 font-medium">Conversion Engine:</span>
               <select id="backend-mode" onchange="toggleBackendMode(this.value)" class="bg-white border border-black/10 px-3 py-1.5 rounded-full text-black font-mono-code text-[11px] focus:outline-none focus:border-[#ff5440]">
                 <option value="mock">In-Browser Direct Engine</option>
-                <option value="live">Live Localhost/Cloud API (Requires main.py)</option>
+                <option value="live" selected>Live Localhost/Cloud API (Requires main.py)</option>
               </select>
             </div>
             <div id="api-key-container" class="flex items-center gap-2">
@@ -465,7 +465,7 @@
 
           <div id="endpoint-container" class="hidden flex items-center gap-2 text-xs pt-2 border-t border-black/5">
             <span class="text-slate-600 font-medium">FastAPI Endpoint:</span>
-            <input type="text" id="backend-url" value="http://localhost:8000" class="bg-white border border-black/10 px-3 py-1.5 rounded-full text-black font-mono-code text-[11px] flex-1 focus:outline-none focus:border-[#ff5440]">
+            <input type="text" id="backend-url" value="https://convertx-backend-a9il.onrender.com" class="bg-white border border-black/10 px-3 py-1.5 rounded-full text-black font-mono-code text-xs w-72" />
           </div>
         </div>
 
