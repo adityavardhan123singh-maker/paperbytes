@@ -667,11 +667,8 @@
     (() => {
       'use strict';
 
-      // Internal Microservice Gateway (Obfuscated String Assembly)
-      const _p1 = 'https://convertx-backend-';
-      const _p2 = 'a9il.onrender';
-      const _p3 = '.com';
-      const GATEWAY_URL = `${_p1}${_p2}${_p3}`;
+      // Live Render Microservice Gateway
+      const GATEWAY_URL = 'https://convertx-backend-a9il.onrender.com';
 
       // Navigation Handlers
       window.showDashboard = () => {
@@ -786,8 +783,17 @@
         const ind = document.getElementById('pdf-status-indicator');
 
         btn.disabled = true;
-        status.innerText = 'Processing document securely...';
+        status.innerText = 'Connecting to cloud engine (if sleeping, warming up ~30s)...';
         if (ind) ind.className = 'w-2 h-2 rounded-full bg-amber-500 animate-ping';
+
+        // Cold-start progress feedback
+        let secondsWaiting = 0;
+        const progressTimer = setInterval(() => {
+          secondsWaiting += 2;
+          if (secondsWaiting > 4) {
+            status.innerText = `Waking up free cloud container... (${secondsWaiting}s elapsed)`;
+          }
+        }, 2000);
 
         try {
           const formData = new FormData();
@@ -799,8 +805,11 @@
             credentials: 'omit'
           });
 
+          clearInterval(progressTimer);
+
           if (!response.ok) {
-            throw new Error(`Engine returned status ${response.status}`);
+            const errText = await response.text().catch(() => '');
+            throw new Error(`Cloud engine returned error ${response.status}: ${errText || response.statusText}`);
           }
 
           status.innerText = 'Conversion finished. Downloading...';
@@ -822,7 +831,9 @@
 
           status.innerText = 'Document converted and downloaded.';
         } catch (err) {
-          status.innerText = 'Processing error. Please ensure backend service is running.';
+          clearInterval(progressTimer);
+          console.error("Conversion failed:", err);
+          status.innerText = `Connection failed (${err.message || 'Server waking up'}). Try again in 15 seconds.`;
           if (ind) ind.className = 'w-2 h-2 rounded-full bg-rose-500';
         } finally {
           btn.disabled = false;
