@@ -378,9 +378,14 @@
       </div>
 
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">PDF to Microsoft Word (.docx)</h2>
-          <p class="text-sm text-slate-500 mt-1">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">PDF to Microsoft Word (.docx)</h2>
+            <p class="text-sm text-slate-500 mt-1">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+          </div>
+          <button id="real-pdf-cancel-btn" onclick="clearPDFToWordFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
 
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-12 text-center bg-slate-50/60 cursor-pointer relative transition">
@@ -671,9 +676,14 @@
         <span class="font-mono-code text-indigo-600">MOD-09: Unify Documents</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Merge Multiple PDF Documents</h2>
-          <p class="text-sm text-slate-500 mt-1">Combine two or more separate PDFs into a single file directly in browser memory.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Merge Multiple PDF Documents</h2>
+            <p class="text-sm text-slate-500 mt-1">Combine two or more separate PDFs into a single file directly in browser memory.</p>
+          </div>
+          <button id="merge-cancel-btn" onclick="clearMergeFiles()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Clear All Files
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="merge-files-input" accept="application/pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleMergeFilesSelection(this)" />
@@ -699,9 +709,14 @@
       </div>
 
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Split PDF / Extract Page Ranges</h2>
-          <p class="text-sm text-slate-500 mt-1">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Split PDF / Extract Page Ranges</h2>
+            <p class="text-sm text-slate-500 mt-1">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+          </div>
+          <button id="split-cancel-btn" onclick="clearSplitFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
 
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
@@ -751,9 +766,14 @@
       </div>
 
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Images to PDF Document</h2>
-          <p class="text-sm text-slate-500 mt-1">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Images to PDF Document</h2>
+            <p class="text-sm text-slate-500 mt-1">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+          </div>
+          <button id="images-pdf-cancel-btn" onclick="clearAllImagesPdf()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Clear All Photos
+          </button>
         </div>
 
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
@@ -851,9 +871,14 @@
       </div>
 
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Add Page Numbers & Bates Stamping</h2>
-          <p class="text-sm text-slate-500 mt-1">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Add Page Numbers & Bates Stamping</h2>
+            <p class="text-sm text-slate-500 mt-1">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+          </div>
+          <button id="pagenum-cancel-btn" onclick="clearPageNumFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
 
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
@@ -907,9 +932,14 @@
       </div>
 
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Document Cryptographic Checksum & Integrity</h2>
-          <p class="text-sm text-slate-500 mt-1">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Document Cryptographic Checksum & Integrity</h2>
+            <p class="text-sm text-slate-500 mt-1">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+          </div>
+          <button id="hash-cancel-btn" onclick="clearHashFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
 
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
@@ -1178,6 +1208,7 @@
           const ind = document.getElementById('pdf-status-indicator');
           if (ind) ind.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
           document.getElementById('real-pdf-btn').disabled = false;
+          document.getElementById('real-pdf-cancel-btn').classList.remove('hidden');
         }
       };
 
@@ -1267,6 +1298,7 @@
               document.getElementById('excel-preview-box').classList.remove('hidden');
               document.getElementById('excel-status').innerText = `Parsed ${sheetData.length} records.`;
               document.getElementById('excel-convert-btn').disabled = false;
+              document.getElementById('excel-cancel-btn').classList.remove('hidden');
             }
           };
           reader.readAsArrayBuffer(f);
@@ -1333,6 +1365,7 @@
         }
         document.getElementById('organize-status').innerText = `${count} pages loaded.`;
         document.getElementById('save-organize-btn').disabled = false;
+        document.getElementById('organize-cancel-btn').classList.remove('hidden');
       };
 
       window.rotatePageThumb = (idx) => {
@@ -1381,6 +1414,7 @@
           pProtectBuf = await input.files[0].arrayBuffer();
           document.getElementById('protect-pdf-name').innerText = input.files[0].name;
           document.getElementById('protect-btn').disabled = false;
+        document.getElementById('protect-cancel-btn').classList.remove('hidden');
         }
       };
 
@@ -1408,6 +1442,7 @@
           wmBuf = await input.files[0].arrayBuffer();
           document.getElementById('watermark-pdf-name').innerText = input.files[0].name;
           document.getElementById('watermark-btn').disabled = false;
+        document.getElementById('watermark-cancel-btn').classList.remove('hidden');
         }
       };
 
@@ -1444,6 +1479,7 @@
           extFile = input.files[0];
           document.getElementById('extract-pdf-name').innerText = extFile.name;
           document.getElementById('extract-btn').disabled = false;
+        document.getElementById('extract-cancel-btn').classList.remove('hidden');
         }
       };
 
@@ -1581,14 +1617,7 @@
       window.handleMergeFilesSelection = (input) => {
         if (input.files && input.files.length >= 2) {
           mergeQueue = Array.from(input.files);
-          document.getElementById('merge-files-list').innerHTML = mergeQueue.map((f, i) => `
-            <div class="flex items-center justify-between text-xs bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
-              <span class="font-mono-code">${i + 1}. ${f.name}</span>
-              <span class="text-slate-400 font-mono-code">${(f.size / 1024).toFixed(1)} KB</span>
-            </div>
-          `).join('');
-          document.getElementById('merge-status').innerText = `${mergeQueue.length} documents ready.`;
-          document.getElementById('merge-btn').disabled = false;
+          renderMergeQueue();
         }
       };
 
@@ -1632,6 +1661,7 @@
         document.getElementById('split-pdf-info').innerText = `Total Pages: ${splitTotalPages} | File Size: ${(file.size / 1024).toFixed(1)} KB`;
         document.getElementById('split-range-input').placeholder = `e.g. 1-${Math.min(splitTotalPages, 3)}, ${splitTotalPages}`;
         document.getElementById('split-controls').classList.remove('hidden');
+        document.getElementById('split-cancel-btn').classList.remove('hidden');
         document.getElementById('split-status').innerText = `Ready to extract from ${splitTotalPages} pages.`;
       };
 
@@ -2013,6 +2043,7 @@
         document.getElementById('pagenum-file-label').innerText = file.name;
         pageNumBuffer = await file.arrayBuffer();
         document.getElementById('pagenum-controls').classList.remove('hidden');
+        document.getElementById('pagenum-cancel-btn').classList.remove('hidden');
         document.getElementById('pagenum-status').innerText = 'Document loaded. Configure format and position.';
       };
 
@@ -2101,6 +2132,7 @@
         document.getElementById('hash-sha1-val').innerText = hash1Hex;
 
         document.getElementById('hash-results').classList.remove('hidden');
+        document.getElementById('hash-cancel-btn').classList.remove('hidden');
       };
 
       window.copyHashText = (elemId) => {
@@ -2250,6 +2282,148 @@
           document.getElementById('images-pdf-status').innerText = `${imagePdfQueue.length} images queued.`;
         }
       }
+
+
+      // Comprehensive Clear & Cancel Handlers for ALL Tools
+      window.clearPDFToWordFile = () => {
+        targetFile = null;
+        document.getElementById('real-pdf-input').value = '';
+        document.getElementById('real-pdf-filename').innerText = '';
+        document.getElementById('real-pdf-status').innerText = 'Awaiting file selection';
+        const ind = document.getElementById('pdf-status-indicator');
+        if (ind) ind.className = 'w-2 h-2 rounded-full bg-slate-300';
+        document.getElementById('real-pdf-btn').disabled = true;
+        document.getElementById('real-pdf-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearExcelFile = () => {
+        sheetData = [];
+        document.getElementById('excel-file-input').value = '';
+        document.getElementById('excel-filename').innerText = 'Select or Drop an Excel Spreadsheet (.xlsx, .xls, .csv)';
+        document.getElementById('excel-preview-box').classList.add('hidden');
+        document.getElementById('excel-table-preview').innerHTML = '';
+        document.getElementById('excel-status').innerText = 'Awaiting spreadsheet data';
+        document.getElementById('excel-convert-btn').disabled = true;
+        document.getElementById('excel-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearOrganizeFile = () => {
+        rawSourceBuffer = null;
+        rotations = [];
+        deletedSet.clear();
+        document.getElementById('organize-pdf-input').value = '';
+        document.getElementById('organize-pages-grid').innerHTML = '';
+        document.getElementById('organize-status').innerText = 'Awaiting document';
+        document.getElementById('save-organize-btn').disabled = true;
+        document.getElementById('organize-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearProtectFile = () => {
+        protectSourceBuffer = null;
+        document.getElementById('protect-pdf-input').value = '';
+        document.getElementById('protect-pdf-filename').innerText = 'Select or Drop a PDF File to Encrypt';
+        document.getElementById('protect-pass').value = '';
+        document.getElementById('protect-pass-confirm').value = '';
+        document.getElementById('protect-status').innerText = 'Awaiting file and password';
+        document.getElementById('protect-btn').disabled = true;
+        document.getElementById('protect-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearWatermarkFile = () => {
+        watermarkSourceBuffer = null;
+        document.getElementById('watermark-pdf-input').value = '';
+        document.getElementById('watermark-pdf-filename').innerText = 'Select or Drop a PDF File to Watermark';
+        document.getElementById('watermark-status').innerText = 'Awaiting document';
+        document.getElementById('watermark-btn').disabled = true;
+        document.getElementById('watermark-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearExtractFile = () => {
+        extFile = null;
+        document.getElementById('extract-file-input').value = '';
+        document.getElementById('extract-filename').innerText = 'Select or Drop a PDF to Unpack Graphics';
+        document.getElementById('extract-status').innerText = 'Awaiting document';
+        document.getElementById('extract-btn').disabled = true;
+        document.getElementById('extract-cancel-btn').classList.add('hidden');
+      };
+
+      window.renderMergeQueue = () => {
+        const list = document.getElementById('merge-files-list');
+        const btn = document.getElementById('merge-btn');
+        const st = document.getElementById('merge-status');
+        const cancelBtn = document.getElementById('merge-cancel-btn');
+
+        if (mergeQueue.length === 0) {
+          list.innerHTML = '';
+          btn.disabled = true;
+          cancelBtn.classList.add('hidden');
+          st.innerText = 'Awaiting multiple PDF documents';
+          return;
+        }
+
+        list.innerHTML = mergeQueue.map((f, i) => `
+          <div class="flex items-center justify-between text-xs bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl">
+            <span class="font-mono-code truncate max-w-xs sm:max-w-md">${i + 1}. ${escapeHTML(f.name)}</span>
+            <div class="flex items-center gap-3">
+              <span class="text-slate-400 font-mono-code">${(f.size / 1024).toFixed(1)} KB</span>
+              <button onclick="removeMergeFileItem(${i})" title="Remove file" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button>
+            </div>
+          </div>
+        `).join('');
+
+        cancelBtn.classList.remove('hidden');
+        st.innerText = `${mergeQueue.length} documents ready.`;
+        btn.disabled = mergeQueue.length < 2;
+      };
+
+      window.removeMergeFileItem = (idx) => {
+        mergeQueue.splice(idx, 1);
+        renderMergeQueue();
+      };
+
+      window.clearMergeFiles = () => {
+        mergeQueue = [];
+        document.getElementById('merge-files-input').value = '';
+        renderMergeQueue();
+      };
+
+      window.clearSplitFile = () => {
+        splitSourceBuffer = null;
+        splitTotalPages = 0;
+        document.getElementById('split-pdf-input').value = '';
+        document.getElementById('split-pdf-filename').innerText = 'Select or Drop a PDF File to Split';
+        document.getElementById('split-pdf-info').innerText = 'Pure in-browser memory extraction';
+        document.getElementById('split-controls').classList.add('hidden');
+        document.getElementById('split-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearAllImagesPdf = () => {
+        imagePdfQueue = [];
+        document.getElementById('images-pdf-input').value = '';
+        document.getElementById('images-pdf-list').innerHTML = '';
+        document.getElementById('images-pdf-controls').classList.add('hidden');
+        document.getElementById('images-pdf-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearPageNumFile = () => {
+        pageNumBuffer = null;
+        document.getElementById('pagenum-pdf-input').value = '';
+        document.getElementById('pagenum-file-label').innerText = 'Select or Drop a PDF File';
+        document.getElementById('pagenum-controls').classList.add('hidden');
+        document.getElementById('pagenum-cancel-btn').classList.add('hidden');
+      };
+
+      window.clearHashFile = () => {
+        currentHashSha256 = '';
+        document.getElementById('hash-file-input').value = '';
+        document.getElementById('hash-file-label').innerText = 'Select or Drop Any Document or File';
+        document.getElementById('hash-results').classList.add('hidden');
+        document.getElementById('hash-cancel-btn').classList.add('hidden');
+        document.getElementById('hash-sha256-val').innerText = '';
+        document.getElementById('hash-sha1-val').innerText = '';
+        document.getElementById('hash-compare-input').value = '';
+        document.getElementById('hash-compare-status').innerHTML = '';
+      };
 
       // Keyboard Shortcut
       window.addEventListener('keydown', (e) => {
