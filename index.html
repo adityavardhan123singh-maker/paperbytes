@@ -17,7 +17,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- In-Browser Document Processing Engines -->
-  <script src="https://unpkg.com/pdf-lib@1.17.9/dist/pdf-lib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1319,7 +1319,7 @@
           return;
         }
         st.innerText = 'Encrypting document in memory...';
-        const { PDFDocument } = PDFLib;
+        const { PDFDocument } = window.PDFLib || PDFLib;
         const pdf = await PDFDocument.load(pProtectBuf);
         const bytes = await pdf.save();
         saveAs(new Blob([bytes], { type: 'application/pdf' }), 'encrypted_document.pdf');
@@ -1521,7 +1521,7 @@
         const st = document.getElementById('merge-status');
         st.innerText = 'Unifying documents in memory...';
 
-        const { PDFDocument } = PDFLib;
+        const { PDFDocument } = window.PDFLib || PDFLib;
         const out = await PDFDocument.create();
 
         for (const file of mergeQueue) {
@@ -1549,7 +1549,7 @@
         document.getElementById('split-pdf-filename').innerText = file.name;
         splitSourceBuffer = await file.arrayBuffer();
 
-        const { PDFDocument } = PDFLib;
+        const { PDFDocument } = window.PDFLib || PDFLib;
         const doc = await PDFDocument.load(splitSourceBuffer);
         splitTotalPages = doc.getPageCount();
 
@@ -1570,7 +1570,7 @@
         btn.disabled = true;
 
         try {
-          const { PDFDocument } = PDFLib;
+          const { PDFDocument } = window.PDFLib || PDFLib;
           const srcDoc = await PDFDocument.load(splitSourceBuffer);
 
           if (splitCurrentMode === 'range') {
@@ -1676,7 +1676,7 @@
         st.innerText = 'Compiling PDF document...';
 
         try {
-          const { PDFDocument } = PDFLib;
+          const { PDFDocument } = window.PDFLib || PDFLib;
           const pdfDoc = await PDFDocument.create();
           const format = document.getElementById('images-pdf-format').value;
           const marginOpt = document.getElementById('images-pdf-margin').value;
@@ -1824,21 +1824,23 @@
             });
 
             if (target === 'pdf') {
-              const { PDFDocument } = PDFLib;
-              const doc = await PDFDocument.create();
               const canvas = document.createElement('canvas');
               const ctx = canvas.getContext('2d');
               const img = new Image();
-              await new Promise(r => { img.onload = r; img.src = dataUrl; });
+              await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = dataUrl; });
               canvas.width = img.naturalWidth;
               canvas.height = img.naturalHeight;
               ctx.drawImage(img, 0, 0);
-              const jpgBytes = await (await fetch(canvas.toDataURL('image/jpeg', 0.9))).arrayBuffer();
-              const emb = await doc.embedJpg(jpgBytes);
-              const p = doc.addPage([emb.width, emb.height]);
-              p.drawImage(emb, { x: 0, y: 0, width: emb.width, height: emb.height });
-              const out = await doc.save();
-              saveAs(new Blob([out], { type: 'application/pdf' }), `${baseName}.pdf`);
+
+              const { jsPDF } = window.jspdf;
+              const isLandscape = canvas.width > canvas.height;
+              const doc = new jsPDF({
+                orientation: isLandscape ? 'landscape' : 'portrait',
+                unit: 'px',
+                format: [canvas.width, canvas.height]
+              });
+              doc.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, canvas.width, canvas.height);
+              doc.save(`${baseName}.pdf`);
             } else {
               const canvas = document.createElement('canvas');
               const ctx = canvas.getContext('2d');
@@ -1949,7 +1951,7 @@
         st.innerText = 'Stamping page numbers...';
 
         try {
-          const { PDFDocument, StandardFonts, rgb } = PDFLib;
+          const { PDFDocument, StandardFonts, rgb } = window.PDFLib || PDFLib;
           const doc = await PDFDocument.load(pageNumBuffer);
           const font = await doc.embedFont(StandardFonts.Helvetica);
           const pageCount = doc.getPageCount();
