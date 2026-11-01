@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noarchive, nosnippet">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>PaperBytes — In-Browser Document Studio</title>
 
   <!-- Google Fonts -->
@@ -23,6 +25,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
@@ -87,7 +90,7 @@
           paper<span class="text-indigo-600">bytes</span><span class="text-indigo-500 text-xl leading-none">.</span>
         </span>
         <span class="hidden md:inline-block font-mono-code text-[10px] tracking-wider uppercase bg-slate-900 text-indigo-300 px-2.5 py-0.5 rounded-full font-semibold">
-          Client Engine v2.4
+          Client Engine v2.5 &bull; DPDPA 2023
         </span>
       </div>
 
@@ -138,11 +141,11 @@
 
         <!-- Filter Buttons -->
         <div class="flex flex-wrap items-center gap-2 pt-6">
-          <button onclick="filterGallery('all')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-900 bg-slate-900 text-white font-medium transition shadow-sm">All Tools (9)</button>
-          <button onclick="filterGallery('convert')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Conversion</button>
-          <button onclick="filterGallery('organize')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Organization</button>
-          <button onclick="filterGallery('security')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Security</button>
-          <button onclick="filterGallery('utility')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Utilities</button>
+          <button onclick="filterGallery('all')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-900 bg-slate-900 text-white font-medium transition shadow-sm">All Tools (14)</button>
+          <button onclick="filterGallery('convert')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Conversion (5)</button>
+          <button onclick="filterGallery('organize')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Organization (4)</button>
+          <button onclick="filterGallery('security')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Security (3)</button>
+          <button onclick="filterGallery('utility')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Utilities (2)</button>
         </div>
       </section>
 
@@ -272,6 +275,77 @@
           </div>
           <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
             <span>Merge Files</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-split-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-10 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">EXTRACT</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Split & Extract Ranges</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Extract custom page intervals (e.g. 1-3, 5, 8-10) into a single PDF or unpack all pages to a ZIP archive.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Split Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-images-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-11 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">IMG &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Images to PDF</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF with custom margins.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Compile Images</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-omni-convert')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-12 &bull; Universal</span>
+              <span class="text-xs font-mono-code text-slate-400">OMNI MATRIX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PaperBytes Omni-Converter</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Dynamic universal converter. Drop images, spreadsheets, JSON, or Markdown and cross-convert in memory.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Launch Matrix</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-page-numbers')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-13 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">BATES / PAGINATE</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Add Page Numbers</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Stamp sequential numbering, "Page X of Y", or legal Bates codes with custom placement and font sizes.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Stamp Numbers</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-hash-verifier')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-14 &bull; Web Crypto</span>
+              <span class="text-xs font-mono-code text-slate-400">SHA-256</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Hash & Integrity</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Calculate tamper-proof SHA-256 and SHA-1 cryptographic checksums in browser memory to verify authenticity.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Verify Integrity</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
@@ -593,6 +667,258 @@
       </div>
     </div>
 
+
+    <!-- TOOL 10: SPLIT PDF / EXTRACT RANGES -->
+    <div id="tool-split-pdf" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-10: Split & Extract</span>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Split PDF / Extract Page Ranges</h2>
+          <p class="text-sm text-slate-500 mt-1">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+        </div>
+
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="split-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleSplitPDFSelection(this)" />
+          <div class="space-y-2">
+            <p id="split-pdf-filename" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a PDF File to Split</p>
+            <p id="split-pdf-info" class="text-xs font-mono-code text-slate-400">Pure in-browser memory extraction</p>
+          </div>
+        </div>
+
+        <div id="split-controls" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
+              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-slate-900">
+                <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode(this.value)" class="text-indigo-600" />
+                <span>Extract Custom Range</span>
+              </label>
+              <p class="text-xs text-slate-500 mt-1">Combine selected pages into a single new PDF.</p>
+              <input type="text" id="split-range-input" placeholder="e.g. 1-3, 5, 8-10" class="mt-3 w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code focus:outline-none focus:border-indigo-600" />
+            </div>
+
+            <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
+              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-slate-900">
+                <input type="radio" name="split-mode" value="zip" onchange="toggleSplitMode(this.value)" class="text-indigo-600" />
+                <span>Extract All to Separate PDFs (ZIP)</span>
+              </label>
+              <p class="text-xs text-slate-500 mt-1">Saves each page as page_1.pdf, page_2.pdf in an archive.</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span id="split-status" class="text-xs font-mono-code text-slate-500">Document analyzed. Ready to extract.</span>
+            <button id="split-btn" onclick="executeSplitPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+              Extract & Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOL 11: IMAGES TO PDF -->
+    <div id="tool-images-to-pdf" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-11: Images to PDF</span>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Images to PDF Document</h2>
+          <p class="text-sm text-slate-500 mt-1">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+        </div>
+
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="images-pdf-input" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleImagesToPDFSelection(this)" />
+          <p class="font-brand font-bold text-slate-800 text-sm">Select or Drop One or More Images</p>
+          <p class="text-xs text-slate-400 mt-1 font-mono-code">PNG, JPG, JPEG, WEBP supported</p>
+        </div>
+
+        <div id="images-pdf-list" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-60 overflow-y-auto p-1"></div>
+
+        <div id="images-pdf-controls" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-mono-code text-slate-500 mb-1">Page Format</label>
+              <select id="images-pdf-format" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+                <option value="a4-portrait">A4 (Portrait)</option>
+                <option value="a4-landscape">A4 (Landscape)</option>
+                <option value="fit">Fit to Image Size</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-mono-code text-slate-500 mb-1">Page Margins</label>
+              <select id="images-pdf-margin" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+                <option value="none">No Margin (0 mm)</option>
+                <option value="small">Small Margin (10 mm)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span id="images-pdf-status" class="text-xs font-mono-code text-slate-500">Ready to compile</span>
+            <button id="images-pdf-btn" onclick="executeImagesToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+              Compile & Save PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOL 12: OMNI CONVERTER -->
+    <div id="tool-omni-convert" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-12: Omni-Converter</span>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">PaperBytes Omni-Converter</h2>
+          <p class="text-sm text-slate-500 mt-1">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+        </div>
+
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="omni-file-input" accept=".png,.jpg,.jpeg,.webp,.svg,.bmp,.xlsx,.csv,.json,.md,.txt" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOmniSelection(this)" />
+          <div class="space-y-2">
+            <p id="omni-file-label" class="font-brand font-bold text-slate-800 text-sm">Drop Any Supported File Here</p>
+            <p class="text-xs text-slate-400 font-mono-code">Images, Spreadsheets, JSON, Markdown, or Text</p>
+          </div>
+        </div>
+
+        <div id="omni-controls" class="space-y-4 hidden">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div>
+              <span class="text-[10px] font-mono-code uppercase font-semibold text-slate-400">Source Detection</span>
+              <p id="omni-detected-badge" class="font-brand font-bold text-slate-800 text-sm mt-0.5">Detecting...</p>
+            </div>
+            <div class="w-full sm:w-auto flex items-center gap-3">
+              <span class="text-xs font-mono-code text-slate-500 whitespace-nowrap">Convert To:</span>
+              <select id="omni-target-format" class="bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs font-mono-code font-bold text-indigo-600 focus:outline-none focus:border-indigo-600"></select>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span id="omni-status" class="text-xs font-mono-code text-slate-500">Ready to transform</span>
+            <button id="omni-btn" onclick="executeOmniConversion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+              Convert Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOL 13: PAGE NUMBERS -->
+    <div id="tool-page-numbers" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-13: Page Numbers</span>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Add Page Numbers & Bates Stamping</h2>
+          <p class="text-sm text-slate-500 mt-1">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+        </div>
+
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="pagenum-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePageNumSelection(this)" />
+          <p id="pagenum-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a PDF File</p>
+          <p class="text-xs text-slate-400 mt-1 font-mono-code">In-browser vector stamping</p>
+        </div>
+
+        <div id="pagenum-controls" class="space-y-4 hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-mono-code text-slate-500 mb-1">Format Pattern</label>
+              <select id="pagenum-format" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+                <option value="page_of">Page {n} of {total}</option>
+                <option value="simple">{n}</option>
+                <option value="page_prefix">Page {n}</option>
+                <option value="bates">DOC-00{n}</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-mono-code text-slate-500 mb-1">Position</label>
+              <select id="pagenum-position" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+                <option value="bottom-center">Bottom Center</option>
+                <option value="bottom-right">Bottom Right</option>
+                <option value="top-right">Top Right</option>
+                <option value="bottom-left">Bottom Left</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-mono-code text-slate-500 mb-1">Font Size</label>
+              <input type="number" id="pagenum-fontsize" value="10" min="6" max="24" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code" />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span id="pagenum-status" class="text-xs font-mono-code text-slate-500">Ready to stamp</span>
+            <button id="pagenum-btn" onclick="executeAddPageNumbers()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+              Apply Numbers & Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOL 14: HASH VERIFIER -->
+    <div id="tool-hash-verifier" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-14: Hash Verifier</span>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div>
+          <h2 class="font-brand text-3xl font-bold text-slate-900">Document Cryptographic Checksum & Integrity</h2>
+          <p class="text-sm text-slate-500 mt-1">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+        </div>
+
+        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="hash-file-input" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleHashFileSelection(this)" />
+          <p id="hash-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop Any Document or File</p>
+          <p class="text-xs text-slate-400 mt-1 font-mono-code">Zero network transmission &bull; Hardware Web Crypto</p>
+        </div>
+
+        <div id="hash-results" class="space-y-4 hidden">
+          <div class="space-y-3">
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div class="flex items-center justify-between text-xs font-mono-code text-slate-500 mb-1">
+                <span>SHA-256 (Industry Standard)</span>
+                <button onclick="copyHashText('hash-sha256-val')" class="text-indigo-600 hover:underline">Copy</button>
+              </div>
+              <p id="hash-sha256-val" class="font-mono-code text-xs text-slate-900 break-all select-all font-semibold"></p>
+            </div>
+
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div class="flex items-center justify-between text-xs font-mono-code text-slate-500 mb-1">
+                <span>SHA-1</span>
+                <button onclick="copyHashText('hash-sha1-val')" class="text-indigo-600 hover:underline">Copy</button>
+              </div>
+              <p id="hash-sha1-val" class="font-mono-code text-xs text-slate-700 break-all select-all"></p>
+            </div>
+          </div>
+
+          <div class="p-4 border border-indigo-100 bg-indigo-50/40 rounded-2xl space-y-2">
+            <label class="block text-xs font-brand font-bold text-slate-900">Verify Against Expected Checksum</label>
+            <input type="text" id="hash-compare-input" placeholder="Paste expected hash to verify integrity..." oninput="compareChecksum(this.value)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code focus:outline-none focus:border-indigo-600" />
+            <div id="hash-compare-status" class="text-xs font-mono-code text-slate-500"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -619,7 +945,7 @@
       </div>
       <div class="text-xs text-slate-600 space-y-3 leading-relaxed text-left">
         <p>This privacy declaration is provided pursuant to the <strong>Digital Personal Data Protection Act, 2023</strong> of the Republic of India:</p>
-        <p><strong>1. In-Browser Client Isolation:</strong> 8 of the 9 utility modules process binary data exclusively within your web browser's local sandbox memory (V8/WASM). No data, payload, or image stream is transmitted across the internet to external servers.</p>
+        <p><strong>1. In-Browser Client Isolation:</strong> 13 of the 14 utility modules process binary data exclusively within your web browser's local sandbox memory (V8/WASM). No data, payload, or image stream is transmitted across the internet to external servers.</p>
         <p><strong>2. Ephemeral Cloud Conversion:</strong> For the PDF-to-Word module, files are received over secure HTTPS, processed in volatile container memory, returned directly as an attachment stream, and immediately unlinked. No documents are retained, logged, or indexed.</p>
         <p><strong>3. Zero Analytics / Profiling:</strong> PaperBytes collects no cookies, runs no user tracking scripts, and maintains no database of user identities.</p>
       </div>
@@ -722,7 +1048,12 @@
           { id: 'tool-extract-images', title: 'Extract Images to ZIP', desc: 'Unpack embedded PDF photos' },
           { id: 'tool-scanner-effect', title: 'Document Scanner Filter', desc: 'Enhance phone photo into black/white scan' },
           { id: 'tool-portal-crop', title: 'Passport Crop & Compress (50KB)', desc: 'Crop photo and fit under 50KB or 20KB' },
-          { id: 'tool-merge-pdf', title: 'Merge PDF Documents', desc: 'Combine multiple PDF files into one' }
+          { id: 'tool-merge-pdf', title: 'Merge PDF Documents', desc: 'Combine multiple PDF files into one' },
+          { id: 'tool-split-pdf', title: 'Split & Extract Ranges', desc: 'Extract page intervals or unpack to ZIP' },
+          { id: 'tool-images-to-pdf', title: 'Images to PDF Document', desc: 'Convert JPG, PNG, WebP photos to PDF' },
+          { id: 'tool-omni-convert', title: 'PaperBytes Omni-Converter', desc: 'Universal cross-format conversion matrix' },
+          { id: 'tool-page-numbers', title: 'Add Page Numbers & Bates', desc: 'Stamp sequential pagination or Page X of Y' },
+          { id: 'tool-hash-verifier', title: 'Document Hash & Integrity', desc: 'Compute SHA-256 and SHA-1 checksums' }
         ];
 
         const matches = tools.filter(t => t.title.toLowerCase().includes(clean) || t.desc.toLowerCase().includes(clean));
@@ -1204,6 +1535,517 @@
         saveAs(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf');
         st.innerText = 'Merged document ready.';
         mergeQueue = [];
+      };
+
+
+      // Tool 10: Split PDF
+      let splitSourceBuffer = null;
+      let splitTotalPages = 0;
+      let splitCurrentMode = 'range';
+
+      window.handleSplitPDFSelection = async (input) => {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        document.getElementById('split-pdf-filename').innerText = file.name;
+        splitSourceBuffer = await file.arrayBuffer();
+
+        const { PDFDocument } = PDFLib;
+        const doc = await PDFDocument.load(splitSourceBuffer);
+        splitTotalPages = doc.getPageCount();
+
+        document.getElementById('split-pdf-info').innerText = `Total Pages: ${splitTotalPages} | File Size: ${(file.size / 1024).toFixed(1)} KB`;
+        document.getElementById('split-range-input').placeholder = `e.g. 1-${Math.min(splitTotalPages, 3)}, ${splitTotalPages}`;
+        document.getElementById('split-controls').classList.remove('hidden');
+        document.getElementById('split-status').innerText = `Ready to extract from ${splitTotalPages} pages.`;
+      };
+
+      window.toggleSplitMode = (mode) => {
+        splitCurrentMode = mode;
+      };
+
+      window.executeSplitPDF = async () => {
+        if (!splitSourceBuffer) return;
+        const st = document.getElementById('split-status');
+        const btn = document.getElementById('split-btn');
+        btn.disabled = true;
+
+        try {
+          const { PDFDocument } = PDFLib;
+          const srcDoc = await PDFDocument.load(splitSourceBuffer);
+
+          if (splitCurrentMode === 'range') {
+            const rawRange = document.getElementById('split-range-input').value.trim();
+            if (!rawRange) {
+              alert('Please enter a valid page range (e.g. 1-3, 5).');
+              btn.disabled = false;
+              return;
+            }
+
+            const indicesToExtract = new Set();
+            const segments = rawRange.split(',');
+            for (const seg of segments) {
+              const part = seg.trim();
+              if (part.includes('-')) {
+                const [startStr, endStr] = part.split('-');
+                const s = parseInt(startStr), e = parseInt(endStr);
+                if (!isNaN(s) && !isNaN(e)) {
+                  for (let p = Math.min(s, e); p <= Math.max(s, e); p++) {
+                    if (p >= 1 && p <= splitTotalPages) indicesToExtract.add(p - 1);
+                  }
+                }
+              } else {
+                const p = parseInt(part);
+                if (!isNaN(p) && p >= 1 && p <= splitTotalPages) indicesToExtract.add(p - 1);
+              }
+            }
+
+            if (indicesToExtract.size === 0) {
+              alert(`No valid pages found in range within bounds 1-${splitTotalPages}.`);
+              btn.disabled = false;
+              return;
+            }
+
+            st.innerText = `Extracting ${indicesToExtract.size} pages...`;
+            const outDoc = await PDFDocument.create();
+            const sortedIndices = Array.from(indicesToExtract).sort((a, b) => a - b);
+            const copiedPages = await outDoc.copyPages(srcDoc, sortedIndices);
+            copiedPages.forEach(p => outDoc.addPage(p));
+
+            const outBytes = await outDoc.save();
+            const outBlob = new Blob([outBytes], { type: 'application/pdf' });
+            saveAs(outBlob, 'extracted_range.pdf');
+            st.innerText = `Extracted ${indicesToExtract.size} pages to extracted_range.pdf`;
+          } else {
+            st.innerText = `Generating archive with ${splitTotalPages} separate PDFs...`;
+            const zip = new JSZip();
+
+            for (let i = 0; i < splitTotalPages; i++) {
+              const singleDoc = await PDFDocument.create();
+              const [copiedPage] = await singleDoc.copyPages(srcDoc, [i]);
+              singleDoc.addPage(copiedPage);
+              const singleBytes = await singleDoc.save();
+              zip.file(`page_${i + 1}.pdf`, singleBytes);
+            }
+
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            saveAs(zipBlob, 'split_all_pages.zip');
+            st.innerText = `All ${splitTotalPages} pages extracted to split_all_pages.zip`;
+          }
+        } catch (err) {
+          console.error(err);
+          st.innerText = `Error: ${err.message}`;
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Tool 11: Images to PDF
+      let imagePdfQueue = [];
+
+      window.handleImagesToPDFSelection = (input) => {
+        if (!input.files || input.files.length === 0) return;
+        const files = Array.from(input.files);
+        imagePdfQueue = [];
+        const container = document.getElementById('images-pdf-list');
+        container.innerHTML = '';
+
+        files.forEach((f, idx) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            imagePdfQueue.push({ name: f.name, dataUrl: e.target.result, type: f.type });
+            const item = document.createElement('div');
+            item.className = 'border border-slate-200 rounded-xl p-2 bg-slate-50 flex flex-col items-center gap-1 text-[10px] font-mono-code';
+            item.innerHTML = `
+              <img src="${e.target.result}" class="h-16 w-full object-contain rounded" />
+              <span class="truncate w-full text-center">${f.name}</span>
+            `;
+            container.appendChild(item);
+          };
+          reader.readAsDataURL(f);
+        });
+
+        document.getElementById('images-pdf-controls').classList.remove('hidden');
+        document.getElementById('images-pdf-status').innerText = `${files.length} images queued.`;
+      };
+
+      window.executeImagesToPDF = async () => {
+        if (imagePdfQueue.length === 0) return;
+        const st = document.getElementById('images-pdf-status');
+        const btn = document.getElementById('images-pdf-btn');
+        btn.disabled = true;
+        st.innerText = 'Compiling PDF document...';
+
+        try {
+          const { PDFDocument } = PDFLib;
+          const pdfDoc = await PDFDocument.create();
+          const format = document.getElementById('images-pdf-format').value;
+          const marginOpt = document.getElementById('images-pdf-margin').value;
+          const margin = marginOpt === 'small' ? 28 : 0; // 28pt ~= 10mm
+
+          for (const item of imagePdfQueue) {
+            let imgBytes, embeddedImg;
+            if (item.type === 'image/png') {
+              const res = await fetch(item.dataUrl);
+              imgBytes = await res.arrayBuffer();
+              embeddedImg = await pdfDoc.embedPng(imgBytes);
+            } else if (item.type === 'image/jpeg' || item.type === 'image/jpg') {
+              const res = await fetch(item.dataUrl);
+              imgBytes = await res.arrayBuffer();
+              embeddedImg = await pdfDoc.embedJpg(imgBytes);
+            } else {
+              // Convert WEBP or others to JPEG via off-screen canvas
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              const tempImg = new Image();
+              await new Promise((res, rej) => {
+                tempImg.onload = res;
+                tempImg.onerror = rej;
+                tempImg.src = item.dataUrl;
+              });
+              canvas.width = tempImg.naturalWidth;
+              canvas.height = tempImg.naturalHeight;
+              ctx.drawImage(tempImg, 0, 0);
+              const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+              const res = await fetch(jpgDataUrl);
+              imgBytes = await res.arrayBuffer();
+              embeddedImg = await pdfDoc.embedJpg(imgBytes);
+            }
+
+            const imgWidth = embeddedImg.width;
+            const imgHeight = embeddedImg.height;
+
+            let pageWidth, pageHeight;
+            if (format === 'a4-portrait') {
+              pageWidth = 595.28; pageHeight = 841.89;
+            } else if (format === 'a4-landscape') {
+              pageWidth = 841.89; pageHeight = 595.28;
+            } else {
+              pageWidth = imgWidth + margin * 2;
+              pageHeight = imgHeight + margin * 2;
+            }
+
+            const page = pdfDoc.addPage([pageWidth, pageHeight]);
+            const availableWidth = pageWidth - margin * 2;
+            const availableHeight = pageHeight - margin * 2;
+
+            const scale = Math.min(availableWidth / imgWidth, availableHeight / imgHeight);
+            const drawWidth = imgWidth * scale;
+            const drawHeight = imgHeight * scale;
+            const drawX = margin + (availableWidth - drawWidth) / 2;
+            const drawY = margin + (availableHeight - drawHeight) / 2;
+
+            page.drawImage(embeddedImg, {
+              x: drawX,
+              y: drawY,
+              width: drawWidth,
+              height: drawHeight
+            });
+          }
+
+          const pdfBytes = await pdfDoc.save();
+          saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), 'compiled_images.pdf');
+          st.innerText = `Compiled ${imagePdfQueue.length} images into compiled_images.pdf`;
+        } catch (err) {
+          console.error(err);
+          st.innerText = `Error: ${err.message}`;
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Tool 12: Omni-Converter
+      let omniFile = null;
+      let omniCategory = null;
+
+      window.handleOmniSelection = (input) => {
+        if (!input.files || !input.files[0]) return;
+        omniFile = input.files[0];
+        const fname = omniFile.name.toLowerCase();
+        const ext = fname.split('.').pop();
+        const select = document.getElementById('omni-target-format');
+        select.innerHTML = '';
+
+        document.getElementById('omni-file-label').innerText = `${omniFile.name} (${(omniFile.size / 1024).toFixed(1)} KB)`;
+        const badge = document.getElementById('omni-detected-badge');
+
+        if (['png', 'jpg', 'jpeg', 'webp', 'bmp'].includes(ext)) {
+          omniCategory = 'image';
+          badge.innerText = `${ext.toUpperCase()} Image File`;
+          const targets = ['JPG', 'PNG', 'WEBP', 'PDF'];
+          targets.forEach(t => {
+            if (t.toLowerCase() !== ext) select.innerHTML += `<option value="${t.toLowerCase()}">${t}</option>`;
+          });
+        } else if (['xlsx', 'xls'].includes(ext)) {
+          omniCategory = 'spreadsheet';
+          badge.innerText = 'Excel Spreadsheet';
+          select.innerHTML = '<option value="csv">CSV (Comma Separated)</option><option value="json">JSON Document</option><option value="pdf">PDF Table</option>';
+        } else if (ext === 'csv') {
+          omniCategory = 'csv';
+          badge.innerText = 'CSV Data Table';
+          select.innerHTML = '<option value="xlsx">Excel (.xlsx)</option><option value="json">JSON Document</option><option value="pdf">PDF Table</option>';
+        } else if (ext === 'json') {
+          omniCategory = 'json';
+          badge.innerText = 'JSON Data Object';
+          select.innerHTML = '<option value="csv">CSV Spreadsheet</option><option value="xlsx">Excel (.xlsx)</option>';
+        } else if (ext === 'md') {
+          omniCategory = 'markdown';
+          badge.innerText = 'Markdown Document';
+          select.innerHTML = '<option value="html">Rendered HTML</option><option value="pdf">Formatted PDF</option><option value="txt">Plain Text (.txt)</option>';
+        } else if (ext === 'txt') {
+          omniCategory = 'text';
+          badge.innerText = 'Plain Text File';
+          select.innerHTML = '<option value="pdf">Clean Monospace PDF</option>';
+        } else {
+          badge.innerText = 'Generic File';
+          select.innerHTML = '<option value="pdf">Convert to PDF</option>';
+          omniCategory = 'text';
+        }
+
+        document.getElementById('omni-controls').classList.remove('hidden');
+        document.getElementById('omni-status').innerText = 'Ready for transformation.';
+      };
+
+      window.executeOmniConversion = async () => {
+        if (!omniFile) return;
+        const st = document.getElementById('omni-status');
+        const btn = document.getElementById('omni-btn');
+        const target = document.getElementById('omni-target-format').value;
+        btn.disabled = true;
+        st.innerText = `Transforming into ${target.toUpperCase()}...`;
+
+        try {
+          const baseName = omniFile.name.replace(/\.[^/.]+$/, "");
+
+          if (omniCategory === 'image') {
+            const dataUrl = await new Promise((res) => {
+              const r = new FileReader();
+              r.onload = e => res(e.target.result);
+              r.readAsDataURL(omniFile);
+            });
+
+            if (target === 'pdf') {
+              const { PDFDocument } = PDFLib;
+              const doc = await PDFDocument.create();
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              const img = new Image();
+              await new Promise(r => { img.onload = r; img.src = dataUrl; });
+              canvas.width = img.naturalWidth;
+              canvas.height = img.naturalHeight;
+              ctx.drawImage(img, 0, 0);
+              const jpgBytes = await (await fetch(canvas.toDataURL('image/jpeg', 0.9))).arrayBuffer();
+              const emb = await doc.embedJpg(jpgBytes);
+              const p = doc.addPage([emb.width, emb.height]);
+              p.drawImage(emb, { x: 0, y: 0, width: emb.width, height: emb.height });
+              const out = await doc.save();
+              saveAs(new Blob([out], { type: 'application/pdf' }), `${baseName}.pdf`);
+            } else {
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              const img = new Image();
+              await new Promise(r => { img.onload = r; img.src = dataUrl; });
+              canvas.width = img.naturalWidth;
+              canvas.height = img.naturalHeight;
+              ctx.drawImage(img, 0, 0);
+              const mime = target === 'jpg' ? 'image/jpeg' : `image/${target}`;
+              canvas.toBlob(blob => {
+                saveAs(blob, `${baseName}.${target}`);
+              }, mime, 0.92);
+            }
+          } else if (omniCategory === 'spreadsheet' || omniCategory === 'csv') {
+            const buf = await omniFile.arrayBuffer();
+            const wb = XLSX.read(buf, { type: 'array' });
+            const sName = wb.SheetNames[0];
+
+            if (target === 'csv') {
+              const csvText = XLSX.utils.sheet_to_csv(wb.Sheets[sName]);
+              saveAs(new Blob([csvText], { type: 'text/csv' }), `${baseName}.csv`);
+            } else if (target === 'json') {
+              const jsonArr = XLSX.utils.sheet_to_json(wb.Sheets[sName]);
+              saveAs(new Blob([JSON.stringify(jsonArr, null, 2)], { type: 'application/json' }), `${baseName}.json`);
+            } else if (target === 'xlsx') {
+              const outWb = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+              saveAs(new Blob([outWb], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `${baseName}.xlsx`);
+            } else if (target === 'pdf') {
+              const dataRows = XLSX.utils.sheet_to_json(wb.Sheets[sName], { header: 1 });
+              const { jsPDF } = window.jspdf;
+              const doc = new jsPDF({ orientation: 'landscape' });
+              doc.autoTable({
+                head: [dataRows[0]],
+                body: dataRows.slice(1),
+                theme: 'grid',
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [79, 70, 229] }
+              });
+              doc.save(`${baseName}.pdf`);
+            }
+          } else if (omniCategory === 'json') {
+            const text = await omniFile.text();
+            const parsed = JSON.parse(text);
+            const arr = Array.isArray(parsed) ? parsed : [parsed];
+            const ws = XLSX.utils.json_to_sheet(arr);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            if (target === 'csv') {
+              const csv = XLSX.utils.sheet_to_csv(ws);
+              saveAs(new Blob([csv], { type: 'text/csv' }), `${baseName}.csv`);
+            } else if (target === 'xlsx') {
+              const outWb = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+              saveAs(new Blob([outWb], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `${baseName}.xlsx`);
+            }
+          } else if (omniCategory === 'markdown') {
+            const mdText = await omniFile.text();
+            if (target === 'html') {
+              const htmlContent = marked ? marked.parse(mdText) : `<pre>${mdText}</pre>`;
+              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${baseName}</title><style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:20px;line-height:1.6;color:#1e293b;}</style></head><body>${htmlContent}</body></html>`;
+              saveAs(new Blob([fullHtml], { type: 'text/html' }), `${baseName}.html`);
+            } else if (target === 'pdf') {
+              const { jsPDF } = window.jspdf;
+              const doc = new jsPDF();
+              const lines = doc.splitTextToSize(mdText, 180);
+              doc.text(lines, 15, 15);
+              doc.save(`${baseName}.pdf`);
+            } else {
+              saveAs(new Blob([mdText], { type: 'text/plain' }), `${baseName}.txt`);
+            }
+          } else {
+            // Text to PDF
+            const text = await omniFile.text();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFont('courier');
+            doc.setFontSize(9);
+            const lines = doc.splitTextToSize(text, 180);
+            doc.text(lines, 15, 15);
+            doc.save(`${baseName}.pdf`);
+          }
+
+          st.innerText = `Conversion to ${target.toUpperCase()} complete!`;
+        } catch (err) {
+          console.error(err);
+          st.innerText = `Error: ${err.message}`;
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Tool 13: Add Page Numbers
+      let pageNumBuffer = null;
+      window.handlePageNumSelection = async (input) => {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        document.getElementById('pagenum-file-label').innerText = file.name;
+        pageNumBuffer = await file.arrayBuffer();
+        document.getElementById('pagenum-controls').classList.remove('hidden');
+        document.getElementById('pagenum-status').innerText = 'Document loaded. Configure format and position.';
+      };
+
+      window.executeAddPageNumbers = async () => {
+        if (!pageNumBuffer) return;
+        const st = document.getElementById('pagenum-status');
+        const btn = document.getElementById('pagenum-btn');
+        btn.disabled = true;
+        st.innerText = 'Stamping page numbers...';
+
+        try {
+          const { PDFDocument, StandardFonts, rgb } = PDFLib;
+          const doc = await PDFDocument.load(pageNumBuffer);
+          const font = await doc.embedFont(StandardFonts.Helvetica);
+          const pageCount = doc.getPageCount();
+          const format = document.getElementById('pagenum-format').value;
+          const pos = document.getElementById('pagenum-position').value;
+          const fontSize = parseInt(document.getElementById('pagenum-fontsize').value) || 10;
+
+          for (let i = 0; i < pageCount; i++) {
+            const page = doc.getPage(i);
+            const { width, height } = page.getSize();
+            const n = i + 1;
+
+            let text = '';
+            if (format === 'page_of') text = `Page ${n} of ${pageCount}`;
+            else if (format === 'simple') text = `${n}`;
+            else if (format === 'page_prefix') text = `Page ${n}`;
+            else if (format === 'bates') text = `DOC-00${n}`;
+
+            const textWidth = font.widthOfTextAtSize(text, fontSize);
+            let x = 0, y = 0;
+            const margin = 25;
+
+            if (pos === 'bottom-center') {
+              x = (width - textWidth) / 2;
+              y = margin;
+            } else if (pos === 'bottom-right') {
+              x = width - textWidth - margin;
+              y = margin;
+            } else if (pos === 'bottom-left') {
+              x = margin;
+              y = margin;
+            } else if (pos === 'top-right') {
+              x = width - textWidth - margin;
+              y = height - margin;
+            }
+
+            page.drawText(text, {
+              x,
+              y,
+              size: fontSize,
+              font,
+              color: rgb(0.3, 0.3, 0.3)
+            });
+          }
+
+          const outBytes = await doc.save();
+          saveAs(new Blob([outBytes], { type: 'application/pdf' }), 'numbered_document.pdf');
+          st.innerText = `Stamped ${pageCount} pages. Download started!`;
+        } catch (err) {
+          console.error(err);
+          st.innerText = `Error: ${err.message}`;
+        } finally {
+          btn.disabled = false;
+        }
+      };
+
+      // Tool 14: Hash Verifier
+      let currentHashSha256 = '';
+      window.handleHashFileSelection = async (input) => {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        document.getElementById('hash-file-label').innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+
+        const buf = await file.arrayBuffer();
+
+        // Calculate SHA-256
+        const hash256Buf = await crypto.subtle.digest('SHA-256', buf);
+        currentHashSha256 = Array.from(new Uint8Array(hash256Buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        document.getElementById('hash-sha256-val').innerText = currentHashSha256;
+
+        // Calculate SHA-1
+        const hash1Buf = await crypto.subtle.digest('SHA-1', buf);
+        const hash1Hex = Array.from(new Uint8Array(hash1Buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        document.getElementById('hash-sha1-val').innerText = hash1Hex;
+
+        document.getElementById('hash-results').classList.remove('hidden');
+      };
+
+      window.copyHashText = (elemId) => {
+        const text = document.getElementById(elemId).innerText;
+        navigator.clipboard.writeText(text);
+        alert('Cryptographic checksum copied to clipboard.');
+      };
+
+      window.compareChecksum = (val) => {
+        const cleanExpected = val.trim().toLowerCase();
+        const status = document.getElementById('hash-compare-status');
+        if (!cleanExpected) {
+          status.innerText = '';
+          return;
+        }
+        if (cleanExpected === currentHashSha256.toLowerCase()) {
+          status.innerHTML = '<span class="text-emerald-600 font-bold">✓ Checksums match perfectly. Document is authentic and untampered.</span>';
+        } else {
+          status.innerHTML = '<span class="text-rose-600 font-bold">✕ Checksum mismatch! The file does not match this hash.</span>';
+        }
       };
 
       // Keyboard Shortcut
