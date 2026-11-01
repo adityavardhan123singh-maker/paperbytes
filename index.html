@@ -26,6 +26,8 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
@@ -141,8 +143,8 @@
 
         <!-- Filter Buttons -->
         <div class="flex flex-wrap items-center gap-2 pt-6">
-          <button onclick="filterGallery('all')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-900 bg-slate-900 text-white font-medium transition shadow-sm">All Tools (14)</button>
-          <button onclick="filterGallery('convert')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Conversion (5)</button>
+          <button onclick="filterGallery('all')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-900 bg-slate-900 text-white font-medium transition shadow-sm">All Tools (15)</button>
+          <button onclick="filterGallery('convert')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Conversion (6)</button>
           <button onclick="filterGallery('organize')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Organization (4)</button>
           <button onclick="filterGallery('security')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Security (3)</button>
           <button onclick="filterGallery('utility')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Utilities (2)</button>
@@ -346,6 +348,21 @@
           </div>
           <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
             <span>Verify Integrity</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-word-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-15 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">DOCX &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Word (.docx) to PDF</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Converts Microsoft Word documents into paginated vector PDFs with formatted headings, tables, and typography.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Convert Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
           </div>
         </div>
 
@@ -594,9 +611,14 @@
         <span class="font-mono-code text-indigo-600">MOD-08: Portal Optimization</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Portal Photo Cropper & Strict Size Target</h2>
-          <p class="text-sm text-slate-500 mt-1">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Portal Photo Cropper & Strict Size Target</h2>
+            <p class="text-sm text-slate-500 mt-1">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
+          </div>
+          <button id="portal-cancel-btn" onclick="clearPortalPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+            <span>✕</span> Remove & Select Different Photo
+          </button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -780,9 +802,14 @@
       </div>
 
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">PaperBytes Omni-Converter</h2>
-          <p class="text-sm text-slate-500 mt-1">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">PaperBytes Omni-Converter</h2>
+            <p class="text-sm text-slate-500 mt-1">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+          </div>
+          <button id="omni-cancel-btn" onclick="clearOmniFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+            <span>✕</span> Remove File & Select Another
+          </button>
         </div>
 
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
@@ -919,6 +946,52 @@
       </div>
     </div>
 
+
+    <!-- TOOL 15: WORD TO PDF -->
+    <div id="tool-word-to-pdf" class="tool-panel space-y-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
+        <span>/</span>
+        <span class="font-mono-code text-indigo-600">MOD-15: Word to PDF</span>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Word (.docx) to Formatted PDF</h2>
+            <p class="text-sm text-slate-500 mt-1">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
+          </div>
+          <button id="word-cancel-btn" onclick="clearWordDocument()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+            <span>✕</span> Remove & Select Different File
+          </button>
+        </div>
+
+        <div id="word-dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+          <input type="file" id="word-file-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWordSelection(this)" />
+          <div class="space-y-2">
+            <p id="word-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a Word (.docx) Document</p>
+            <p class="text-xs text-slate-400 font-mono-code">100% In-Browser Memory Conversion &bull; Zero Server Upload</p>
+          </div>
+        </div>
+
+        <div id="word-preview-section" class="space-y-4 hidden">
+          <div class="flex items-center justify-between text-xs font-mono-code text-slate-500 px-1">
+            <span id="word-doc-name" class="font-semibold text-slate-800"></span>
+            <span>Live Document Render</span>
+          </div>
+
+          <div id="word-preview-container" class="max-h-96 overflow-y-auto p-8 bg-white border border-slate-200 rounded-2xl shadow-inner prose prose-sm max-w-none text-slate-800 leading-relaxed font-sans"></div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span id="word-status" class="text-xs font-mono-code text-slate-500">Document parsed successfully.</span>
+            <button id="word-convert-btn" onclick="executeWordToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+              Download PDF Document
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -945,7 +1018,7 @@
       </div>
       <div class="text-xs text-slate-600 space-y-3 leading-relaxed text-left">
         <p>This privacy declaration is provided pursuant to the <strong>Digital Personal Data Protection Act, 2023</strong> of the Republic of India:</p>
-        <p><strong>1. In-Browser Client Isolation:</strong> 13 of the 14 utility modules process binary data exclusively within your web browser's local sandbox memory (V8/WASM). No data, payload, or image stream is transmitted across the internet to external servers.</p>
+        <p><strong>1. In-Browser Client Isolation:</strong> 14 of the 15 utility modules process binary data exclusively within your web browser's local sandbox memory (V8/WASM). No data, payload, or image stream is transmitted across the internet to external servers.</p>
         <p><strong>2. Ephemeral Cloud Conversion:</strong> For the PDF-to-Word module, files are received over secure HTTPS, processed in volatile container memory, returned directly as an attachment stream, and immediately unlinked. No documents are retained, logged, or indexed.</p>
         <p><strong>3. Zero Analytics / Profiling:</strong> PaperBytes collects no cookies, runs no user tracking scripts, and maintains no database of user identities.</p>
       </div>
@@ -1053,7 +1126,8 @@
           { id: 'tool-images-to-pdf', title: 'Images to PDF Document', desc: 'Convert JPG, PNG, WebP photos to PDF' },
           { id: 'tool-omni-convert', title: 'PaperBytes Omni-Converter', desc: 'Universal cross-format conversion matrix' },
           { id: 'tool-page-numbers', title: 'Add Page Numbers & Bates', desc: 'Stamp sequential pagination or Page X of Y' },
-          { id: 'tool-hash-verifier', title: 'Document Hash & Integrity', desc: 'Compute SHA-256 and SHA-1 checksums' }
+          { id: 'tool-hash-verifier', title: 'Document Hash & Integrity', desc: 'Compute SHA-256 and SHA-1 checksums' },
+          { id: 'tool-word-to-pdf', title: 'Word (.docx) to PDF', desc: 'Convert Word documents to formatted PDF in browser' }
         ];
 
         const matches = tools.filter(t => t.title.toLowerCase().includes(clean) || t.desc.toLowerCase().includes(clean));
@@ -1429,6 +1503,7 @@
               ctx.putImageData(imgData, 0, 0);
               canvas.classList.remove('hidden');
               document.getElementById('scanner-btn').disabled = false;
+              document.getElementById('scanner-cancel-btn').classList.remove('hidden');
               document.getElementById('scanner-status').innerText = 'Filter applied.';
             };
           };
@@ -1453,6 +1528,7 @@
             const img = document.getElementById('cropper-target');
             img.src = e.target.result;
             document.getElementById('cropper-wrapper').classList.remove('hidden');
+            document.getElementById('portal-cancel-btn').classList.remove('hidden');
             if (cropper) cropper.destroy();
             cropper = new Cropper(img, { aspectRatio: 3.5 / 4.5, viewMode: 1 });
             document.getElementById('portal-btn').disabled = false;
@@ -1649,23 +1725,19 @@
         const container = document.getElementById('images-pdf-list');
         container.innerHTML = '';
 
-        files.forEach((f, idx) => {
+        let loaded = 0;
+        files.forEach((f) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             imagePdfQueue.push({ name: f.name, dataUrl: e.target.result, type: f.type });
-            const item = document.createElement('div');
-            item.className = 'border border-slate-200 rounded-xl p-2 bg-slate-50 flex flex-col items-center gap-1 text-[10px] font-mono-code';
-            item.innerHTML = `
-              <img src="${e.target.result}" class="h-16 w-full object-contain rounded" />
-              <span class="truncate w-full text-center">${f.name}</span>
-            `;
-            container.appendChild(item);
+            loaded++;
+            if (loaded === files.length) {
+              renderImagePdfQueue();
+              document.getElementById('images-pdf-controls').classList.remove('hidden');
+            }
           };
           reader.readAsDataURL(f);
         });
-
-        document.getElementById('images-pdf-controls').classList.remove('hidden');
-        document.getElementById('images-pdf-status').innerText = `${files.length} images queued.`;
       };
 
       window.executeImagesToPDF = async () => {
@@ -1802,6 +1874,7 @@
         }
 
         document.getElementById('omni-controls').classList.remove('hidden');
+        document.getElementById('omni-cancel-btn').classList.remove('hidden');
         document.getElementById('omni-status').innerText = 'Ready for transformation.';
       };
 
@@ -2049,6 +2122,134 @@
           status.innerHTML = '<span class="text-rose-600 font-bold">✕ Checksum mismatch! The file does not match this hash.</span>';
         }
       };
+
+
+      function escapeHTML(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+
+      // Tool 15: Word to PDF Logic
+      let wordDocBuffer = null;
+      let wordOriginalName = 'document';
+
+      window.handleWordSelection = async (input) => {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        wordOriginalName = file.name.replace(/\.[^/.]+$/, "");
+        wordDocBuffer = await file.arrayBuffer();
+
+        const status = document.getElementById('word-status');
+        status.innerText = 'Parsing Word structure and typography in memory...';
+
+        try {
+          const result = await mammoth.convertToHtml({ arrayBuffer: wordDocBuffer });
+          const preview = document.getElementById('word-preview-container');
+          preview.innerHTML = result.value || '<p class="text-slate-400">Empty document content.</p>';
+          document.getElementById('word-doc-name').innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+          document.getElementById('word-preview-section').classList.remove('hidden');
+          document.getElementById('word-cancel-btn').classList.remove('hidden');
+          document.getElementById('word-dropzone').classList.add('hidden');
+          status.innerText = 'Document parsed. Ready to export PDF.';
+        } catch (err) {
+          console.error(err);
+          status.innerText = `Parsing error: ${err.message}`;
+        }
+      };
+
+      window.clearWordDocument = () => {
+        wordDocBuffer = null;
+        document.getElementById('word-file-input').value = '';
+        document.getElementById('word-preview-section').classList.add('hidden');
+        document.getElementById('word-cancel-btn').classList.add('hidden');
+        document.getElementById('word-dropzone').classList.remove('hidden');
+        document.getElementById('word-status').innerText = 'Ready to convert.';
+      };
+
+      window.executeWordToPDF = () => {
+        const element = document.getElementById('word-preview-container');
+        const status = document.getElementById('word-status');
+        status.innerText = 'Rendering vector PDF pages...';
+
+        const opt = {
+          margin: [12, 12, 12, 12],
+          filename: `${wordOriginalName}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+          status.innerText = 'PDF successfully generated and downloaded!';
+        }).catch((err) => {
+          console.error(err);
+          status.innerText = `Export failed: ${err.message}`;
+        });
+      };
+
+      // Photo Clear / Replace Handlers
+      window.clearPortalPhoto = () => {
+        if (cropper) {
+          cropper.destroy();
+          cropper = null;
+        }
+        document.getElementById('portal-image-input').value = '';
+        document.getElementById('cropper-wrapper').classList.add('hidden');
+        document.getElementById('portal-cancel-btn').classList.add('hidden');
+        document.getElementById('portal-btn').disabled = true;
+        document.getElementById('portal-status').innerText = 'Load photo to configure';
+      };
+
+      window.clearScannerPhoto = () => {
+        document.getElementById('scanner-image-input').value = '';
+        document.getElementById('scanner-raw-preview').src = '';
+        document.getElementById('scanner-raw-preview').classList.add('hidden');
+        document.getElementById('scanner-canvas').classList.add('hidden');
+        document.getElementById('scanner-cancel-btn').classList.add('hidden');
+        document.getElementById('scanner-btn').disabled = true;
+        document.getElementById('scanner-status').innerText = 'Provide photo to process';
+      };
+
+      window.clearOmniFile = () => {
+        omniFile = null;
+        omniCategory = null;
+        document.getElementById('omni-file-input').value = '';
+        document.getElementById('omni-controls').classList.add('hidden');
+        document.getElementById('omni-cancel-btn').classList.add('hidden');
+        document.getElementById('omni-file-label').innerText = 'Drop Any Supported File Here';
+        document.getElementById('omni-status').innerText = 'Ready for transformation.';
+      };
+
+      window.removeImagePdfItem = (idx) => {
+        imagePdfQueue.splice(idx, 1);
+        renderImagePdfQueue();
+      };
+
+      function renderImagePdfQueue() {
+        const container = document.getElementById('images-pdf-list');
+        container.innerHTML = '';
+        imagePdfQueue.forEach((item, i) => {
+          const el = document.createElement('div');
+          el.className = 'border border-slate-200 rounded-xl p-2 bg-slate-50 flex flex-col items-center gap-1 text-[10px] font-mono-code relative group';
+          el.innerHTML = `
+            <button onclick="removeImagePdfItem(${i})" title="Remove photo" class="absolute top-1 right-1 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center font-bold text-xs shadow hover:bg-rose-600 transition">✕</button>
+            <img src="${item.dataUrl}" class="h-16 w-full object-contain rounded" />
+            <span class="truncate w-full text-center">${escapeHTML(item.name)}</span>
+          `;
+          container.appendChild(el);
+        });
+        if (imagePdfQueue.length === 0) {
+          document.getElementById('images-pdf-controls').classList.add('hidden');
+          document.getElementById('images-pdf-input').value = '';
+        } else {
+          document.getElementById('images-pdf-status').innerText = `${imagePdfQueue.length} images queued.`;
+        }
+      }
 
       // Keyboard Shortcut
       window.addEventListener('keydown', (e) => {
