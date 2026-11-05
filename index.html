@@ -422,9 +422,14 @@
         <span class="font-mono-code text-indigo-600">MOD-02: Excel to PDF</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Spreadsheet to Formatted PDF Table</h2>
-          <p class="text-sm text-slate-500 mt-1">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Spreadsheet to Formatted PDF Table</h2>
+            <p class="text-sm text-slate-500 mt-1">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+          </div>
+          <button id="excel-cancel-btn" onclick="clearExcelFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="excel-file-input" accept=".xlsx,.xls,.csv" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExcelSelection(this)" />
@@ -453,9 +458,14 @@
         <span class="font-mono-code text-indigo-600">MOD-03: Rotate & Delete</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Page Arranger & Orientator</h2>
-          <p class="text-sm text-slate-500 mt-1">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Page Arranger & Orientator</h2>
+            <p class="text-sm text-slate-500 mt-1">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
+          </div>
+          <button id="organize-cancel-btn" onclick="clearOrganizeFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="organize-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOrganizePDF(this)" />
@@ -479,9 +489,14 @@
         <span class="font-mono-code text-indigo-600">MOD-04: Password Protect</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Enforce Encryption & Access Password</h2>
-          <p class="text-sm text-slate-500 mt-1">Encrypt documents with user passwords in browser memory.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Enforce Encryption & Access Password</h2>
+            <p class="text-sm text-slate-500 mt-1">Encrypt documents with user passwords in browser memory.</p>
+          </div>
+          <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="protect-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleProtectPDFSelection(this)" />
@@ -515,9 +530,14 @@
         <span class="font-mono-code text-indigo-600">MOD-05: Watermark</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Diagonal Watermark Overlay</h2>
-          <p class="text-sm text-slate-500 mt-1">Stamp identifiers across every page of your PDF.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Diagonal Watermark Overlay</h2>
+            <p class="text-sm text-slate-500 mt-1">Stamp identifiers across every page of your PDF.</p>
+          </div>
+          <button id="watermark-cancel-btn" onclick="clearWatermarkFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="watermark-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWatermarkSelection(this)" />
@@ -555,9 +575,14 @@
         <span class="font-mono-code text-indigo-600">MOD-06: Extract Graphics</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Extract Embedded Graphics to ZIP</h2>
-          <p class="text-sm text-slate-500 mt-1">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Extract Embedded Graphics to ZIP</h2>
+            <p class="text-sm text-slate-500 mt-1">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+          </div>
+          <button id="extract-cancel-btn" onclick="clearExtractFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="extract-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExtractSelection(this)" />
@@ -581,9 +606,14 @@
         <span class="font-mono-code text-indigo-600">MOD-07: Scanner Filter</span>
       </div>
       <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div>
-          <h2 class="font-brand text-3xl font-bold text-slate-900">Document Scanner Filters</h2>
-          <p class="text-sm text-slate-500 mt-1">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 class="font-brand text-3xl font-bold text-slate-900">Document Scanner Filters</h2>
+            <p class="text-sm text-slate-500 mt-1">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+          </div>
+          <button id="scanner-cancel-btn" onclick="clearScannerPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different Photo
+          </button>
         </div>
         <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="scanner-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleScannerSelection(this)" />
@@ -1448,7 +1478,7 @@
 
       window.executeWatermark = async () => {
         if (!wmBuf) return;
-        const { PDFDocument, rgb, degrees } = PDFLib;
+        const { PDFDocument, rgb, degrees } = window.PDFLib || PDFLib;
         const txt = document.getElementById('watermark-text').value || 'CONFIDENTIAL';
         const sz = parseInt(document.getElementById('watermark-size').value) || 48;
         const op = parseFloat(document.getElementById('watermark-opacity').value) || 0.25;
@@ -2238,7 +2268,7 @@
       };
 
       window.clearScannerPhoto = () => {
-        document.getElementById('scanner-image-input').value = '';
+        document.getElementById('scanner-input').value = '';
         document.getElementById('scanner-raw-preview').src = '';
         document.getElementById('scanner-raw-preview').classList.add('hidden');
         document.getElementById('scanner-canvas').classList.add('hidden');
@@ -2319,30 +2349,30 @@
       };
 
       window.clearProtectFile = () => {
-        protectSourceBuffer = null;
+        pProtectBuf = null;
         document.getElementById('protect-pdf-input').value = '';
-        document.getElementById('protect-pdf-filename').innerText = 'Select or Drop a PDF File to Encrypt';
-        document.getElementById('protect-pass').value = '';
-        document.getElementById('protect-pass-confirm').value = '';
-        document.getElementById('protect-status').innerText = 'Awaiting file and password';
+        document.getElementById('protect-pdf-name').innerText = '';
+        document.getElementById('protect-user-pass').value = '';
+        document.getElementById('protect-confirm-pass').value = '';
+        document.getElementById('protect-status').innerText = 'Provide document and password';
         document.getElementById('protect-btn').disabled = true;
         document.getElementById('protect-cancel-btn').classList.add('hidden');
       };
 
       window.clearWatermarkFile = () => {
-        watermarkSourceBuffer = null;
+        wmBuf = null;
         document.getElementById('watermark-pdf-input').value = '';
-        document.getElementById('watermark-pdf-filename').innerText = 'Select or Drop a PDF File to Watermark';
-        document.getElementById('watermark-status').innerText = 'Awaiting document';
+        document.getElementById('watermark-pdf-name').innerText = '';
+        document.getElementById('watermark-status').innerText = 'Awaiting document...';
         document.getElementById('watermark-btn').disabled = true;
         document.getElementById('watermark-cancel-btn').classList.add('hidden');
       };
 
       window.clearExtractFile = () => {
         extFile = null;
-        document.getElementById('extract-file-input').value = '';
-        document.getElementById('extract-filename').innerText = 'Select or Drop a PDF to Unpack Graphics';
-        document.getElementById('extract-status').innerText = 'Awaiting document';
+        document.getElementById('extract-pdf-input').value = '';
+        document.getElementById('extract-pdf-name').innerText = '';
+        document.getElementById('extract-status').innerText = 'Upload document to inspect graphics';
         document.getElementById('extract-btn').disabled = true;
         document.getElementById('extract-cancel-btn').classList.add('hidden');
       };
