@@ -6,9 +6,9 @@
   <meta name="robots" content="noarchive, nosnippet">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>PaperBytes — In-Browser Document Studio</title>
+  <title>PaperBytes — L'Atelier de Documents (Haute Horlogerie)</title>
 
-  <!-- Google Fonts: Haute Horlogerie Typography -->
+    <!-- Google Fonts: Haute Horlogerie Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -35,19 +35,25 @@
     :root {
       --gold-primary: #d4af37;
       --gold-light: #f5e6b8;
+      --gold-champagne: #e8d5b5;
       --gold-dark: #aa8222;
-      --gold-deep: #7d5e16;
-      --bg-dark: #070709;
-      --bg-card: #0e0e13;
+      --bg-dark: #08080a;
+      --bg-atelier: #0d0d12;
       --border-gold: rgba(212, 175, 55, 0.22);
-      --border-gold-hover: rgba(212, 175, 55, 0.65);
-      --text-gold: #dfba73;
+      --border-gold-hover: rgba(212, 175, 55, 0.7);
     }
 
     body {
       font-family: 'Outfit', sans-serif;
       background-color: var(--bg-dark);
       color: #e5e5ea;
+      background-image: 
+        radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.14) 0%, rgba(13, 13, 18, 0.5) 45%, transparent 75%),
+        radial-gradient(circle at 90% 80%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 10% 45%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+        radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      background-attachment: fixed;
     }
 
     .font-luxury { font-family: 'Cinzel', serif; }
@@ -58,13 +64,15 @@
     .tool-panel { display: none; }
     .tool-panel.active { display: block; }
 
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #07070a; }
-    ::-webkit-scrollbar-thumb { background: #2e281b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.2); }
+    /* Custom Watchmaker Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #08080b; }
+    ::-webkit-scrollbar-thumb { background: #332b1b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.25); }
     ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
 
+    /* Text & Metallic Shimmers */
     .hero-gold-gradient {
-      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 28%, #d4af37 62%, #9e7d3b 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 30%, #d4af37 65%, #9e7d3b 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.01em;
@@ -76,45 +84,47 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .watch-atelier-bg {
-      background-color: #070709;
-      background-image: 
-        radial-gradient(circle at 50% -18%, rgba(212, 175, 55, 0.16) 0%, rgba(18, 18, 24, 0.4) 40%, transparent 75%),
-        radial-gradient(circle at 85% 85%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 40%),
-        radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
-      background-attachment: fixed;
-    }
-
-    .studio-plaque {
-      background: linear-gradient(165deg, rgba(20, 20, 26, 0.92) 0%, rgba(10, 10, 14, 0.98) 100%);
+    /* Bento Cards with Chamfered Watch Bezel Aesthetic */
+    .bento-card {
+      background: linear-gradient(165deg, rgba(20, 20, 26, 0.94) 0%, rgba(10, 10, 14, 0.98) 100%);
       border: 1px solid rgba(212, 175, 55, 0.2);
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
         inset 0 0 20px rgba(0, 0, 0, 0.7),
         0 14px 34px -8px rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(20px);
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
+      border-radius: 1.5rem;
     }
-    .studio-plaque::before {
+    .bento-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.09), transparent 70%);
+      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 65%);
       border-radius: inherit;
       pointer-events: none;
       transition: opacity 0.35s ease;
     }
-    .studio-plaque:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.7);
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.65);
       box-shadow: 
         inset 0 1px 1px rgba(255, 255, 255, 0.18),
         0 22px 50px -10px rgba(0, 0, 0, 0.95),
-        0 0 35px -5px rgba(212, 175, 55, 0.25);
+        0 0 35px -5px rgba(212, 175, 55, 0.22);
+    }
+
+    /* Calibre corner rivets */
+    .bezel-rivet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #aa8222;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      position: absolute;
+      opacity: 0.5;
     }
 
     /* Filter buttons */
@@ -124,6 +134,7 @@
       color: #dfba73;
       transition: all 0.25s ease;
       backdrop-filter: blur(8px);
+      cursor: pointer;
     }
     .filter-btn:hover {
       border-color: rgba(212, 175, 55, 0.6);
@@ -138,7 +149,7 @@
       box-shadow: 0 0 22px rgba(212, 175, 55, 0.4) !important;
     }
 
-    /* Global Tool Panel Atelier Styling */
+    /* Watchmaker Workbench Panels (Inside Tools) */
     .tool-panel > div {
       background: linear-gradient(165deg, rgba(18, 18, 25, 0.96) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
       border: 1px solid rgba(212, 175, 55, 0.28) !important;
@@ -147,6 +158,7 @@
         0 28px 65px rgba(0, 0, 0, 0.92),
         0 0 45px -10px rgba(212, 175, 55, 0.12) !important;
       color: #f1f1f4 !important;
+      border-radius: 1.5rem !important;
     }
     .tool-panel h2 {
       font-family: 'Cinzel', serif !important;
@@ -156,19 +168,22 @@
     .tool-panel p {
       color: #9e9a8f !important;
     }
+
+    /* Watchmaker Mat Drop Zone */
     .tool-panel .border-dashed {
-      background: rgba(11, 11, 15, 0.85) !important;
-      border: 2px dashed rgba(212, 175, 55, 0.28) !important;
+      background: rgba(11, 11, 16, 0.85) !important;
+      border: 2px dashed rgba(212, 175, 55, 0.3) !important;
+      border-radius: 1.5rem !important;
       transition: all 0.3s ease !important;
+      position: relative !important;
     }
     .tool-panel .border-dashed:hover {
-      border-color: rgba(212, 175, 55, 0.75) !important;
-      background: rgba(18, 18, 25, 0.95) !important;
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.2) !important;
+      border-color: rgba(212, 175, 55, 0.8) !important;
+      background: rgba(18, 18, 26, 0.95) !important;
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.22) !important;
     }
-    .tool-panel .border-dashed p {
-      color: #e5e5ea !important;
-    }
+
+    /* Tactile Workbench Inputs */
     .tool-panel input[type="text"],
     .tool-panel input[type="password"],
     .tool-panel input[type="number"],
@@ -176,6 +191,7 @@
       background-color: #08080c !important;
       border: 1px solid rgba(212, 175, 55, 0.25) !important;
       color: #f5f5f7 !important;
+      border-radius: 0.75rem !important;
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
     }
     .tool-panel input:focus,
@@ -193,12 +209,12 @@
       font-family: 'Cinzel', serif !important;
     }
 
-    /* All Action Buttons */
+    /* 18k Brushed Gold Crown Action Buttons */
     .tool-panel button.bg-indigo-600,
     .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
-    #real-convert-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
-    #apply-watermark-btn, #extract-btn, #process-scan-btn, #execute-crop-btn,
-    #execute-merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
+    #real-pdf-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
+    #watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
+    #merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
     #hash-btn, #docx-btn {
       background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 80%, #7d5e16 100%) !important;
       color: #070709 !important;
@@ -206,35 +222,34 @@
       font-weight: 700 !important;
       letter-spacing: 0.12em !important;
       text-transform: uppercase !important;
-      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      border: 1px solid rgba(255, 255, 255, 0.5) !important;
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.5),
-        0 6px 20px rgba(212, 175, 55, 0.35) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 22px rgba(212, 175, 55, 0.35) !important;
       transition: all 0.25s ease !important;
+      cursor: pointer !important;
     }
-    .tool-panel button.bg-indigo-600:hover:not(:disabled),
-    .tool-panel button[id$="-btn"]:hover:not(:disabled):not([id$="-cancel-btn"]) {
+    .tool-panel button.bg-indigo-600:hover,
+    .tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]) {
       filter: brightness(1.15) !important;
       transform: translateY(-1px) !important;
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        0 10px 30px rgba(212, 175, 55, 0.5) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 32px rgba(212, 175, 55, 0.5) !important;
     }
-    .tool-panel button:disabled {
-      opacity: 0.35 !important;
-      filter: grayscale(0.8) !important;
-      cursor: not-allowed !important;
-      box-shadow: none !important;
+    .tool-panel button:active {
+      transform: translateY(1px) !important;
     }
 
-    /* Cancel Buttons */
+    /* Cancel Buttons (Ruby Jewel Bearing Style) */
     button[id$="-cancel-btn"] {
-      background: rgba(30, 12, 16, 0.85) !important;
+      background: rgba(30, 12, 16, 0.9) !important;
       color: #fca5a5 !important;
       border: 1px solid rgba(239, 68, 68, 0.35) !important;
       font-family: 'JetBrains Mono', monospace !important;
       letter-spacing: 0.04em !important;
       backdrop-filter: blur(8px) !important;
+      cursor: pointer !important;
     }
     button[id$="-cancel-btn"]:hover {
       background: rgba(50, 18, 25, 0.95) !important;
@@ -248,6 +263,7 @@
       text-transform: uppercase !important;
       letter-spacing: 0.15em !important;
       font-family: 'Cinzel', serif !important;
+      cursor: pointer !important;
     }
     .tool-panel button[onclick="showDashboard()"]:hover {
       color: #ffffff !important;
@@ -258,6 +274,21 @@
     span[id$="-status"], p[id$="-status"] {
       color: #dfba73 !important;
       font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Strict Modal Display Isolation */
+    #privacy-modal:not(.active-modal),
+    #terms-modal:not(.active-modal),
+    #copyright-modal:not(.active-modal),
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    #privacy-modal.active-modal,
+    #terms-modal.active-modal,
+    #copyright-modal.active-modal {
+      display: flex !important;
+      pointer-events: auto !important;
     }
 
     /* Modals (Swiss Chronometer Certificate Style) */
@@ -288,6 +319,7 @@
       font-family: 'Cinzel', serif !important;
       font-weight: 700 !important;
       letter-spacing: 0.1em !important;
+      cursor: pointer !important;
     }
 
     /* Selection Colors */
@@ -295,61 +327,101 @@
       background-color: rgba(212, 175, 55, 0.3);
       color: #ffffff;
     }
-  
-    /* Strict Modal Display Isolation */
-    #privacy-modal:not(.active-modal),
-    #terms-modal:not(.active-modal),
-    #copyright-modal:not(.active-modal),
-    .hidden {
-      display: none !important;
-      pointer-events: none !important;
+
+    /* Atelier Workbench & Tool Panel Haute Horlogerie Styling */
+    .atelier-workbench {
+      background: linear-gradient(165deg, rgba(18, 18, 24, 0.97) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 35px rgba(0, 0, 0, 0.8),
+        0 24px 60px -12px rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: blur(24px) !important;
+      position: relative !important;
     }
-    #privacy-modal.active-modal,
-    #terms-modal.active-modal,
-    #copyright-modal.active-modal {
-      display: flex !important;
-      pointer-events: auto !important;
+    
+    .atelier-dropzone {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.05) 0%, rgba(10, 10, 14, 0.95) 75%) !important;
+      border: 1px dashed rgba(212, 175, 55, 0.35) !important;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.9) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .atelier-dropzone:hover {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.1) 0%, rgba(16, 16, 22, 0.98) 75%) !important;
+      border-color: rgba(212, 175, 55, 0.75) !important;
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.15) !important;
     }
 
-    /* Interactive Buttons & Cards */
-    .studio-plaque {
+    .atelier-input, .atelier-select {
+      background: #09090d !important;
+      border: 1px solid rgba(212, 175, 55, 0.3) !important;
+      color: #f5e6b8 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      transition: all 0.2s ease !important;
+    }
+    .atelier-input:focus, .atelier-select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.25) !important;
+      outline: none !important;
+    }
+
+    .atelier-btn {
+      background: linear-gradient(135deg, #d4af37 0%, #f5e6b8 50%, #aa8222 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      border-radius: 0.75rem !important;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
       cursor: pointer !important;
-      position: relative !important;
-      z-index: 10 !important;
     }
-    .studio-plaque * {
-      pointer-events: auto;
+    .atelier-btn:hover {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #f5e6b8 100%) !important;
+      box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6) !important;
+      transform: translateY(-1px) scale(1.01) !important;
     }
-    .engage-btn {
+    .atelier-btn:active {
+      transform: translateY(1px) scale(0.99) !important;
+    }
+
+    .atelier-cancel-btn {
+      background: #1f0e12 !important;
+      border: 1px solid rgba(244, 63, 94, 0.45) !important;
+      color: #fca5a5 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      font-size: 0.75rem !important;
+      letter-spacing: 0.05em !important;
+      transition: all 0.25s ease !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
       cursor: pointer !important;
-      z-index: 20 !important;
-      position: relative !important;
     }
-    .filter-btn {
-      cursor: pointer !important;
-      position: relative !important;
-      z-index: 20 !important;
-    }
-    button, input, select {
-      cursor: pointer !important;
-    }
-    input[type="text"], input[type="password"], input[type="number"] {
-      cursor: text !important;
+    .atelier-cancel-btn:hover {
+      background: #3b1119 !important;
+      border-color: rgba(244, 63, 94, 0.8) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.35) !important;
     }
 
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-amber-500/20 selection:text-amber-300 watch-atelier-bg text-slate-100">
 
-  <!-- Header -->
-  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#09090d]/90 border-b border-[#d4af37]/25 px-5 sm:px-10 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+    <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#09090d]/90 border-b border-[#d4af37]/25 px-5 sm:px-10 py-3.5 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       <div class="flex items-center gap-3 cursor-pointer select-none" onclick="showDashboard()">
-        <span class="font-luxury text-2xl sm:text-3xl font-bold tracking-wider text-[#f5f5f7] hover:text-[#d4af37] transition">
-          PAPER<span class="text-[#d4af37]">BYTES</span><span class="text-[#f5e6b8] text-xl leading-none">.</span>
+        <span class="w-8 h-8 rounded-full border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1711] to-[#08080a] flex items-center justify-center text-[#d4af37] text-xs font-luxury font-bold shadow-inner">
+          ◈
         </span>
-        <span class="hidden md:inline-block font-mono-code text-[10px] tracking-widest uppercase bg-[#14120e] text-[#d4af37] border border-[#d4af37]/35 px-3 py-1 rounded-full font-semibold shadow-sm">
-          ATELIER HORLOGER &bull; DPDPA 2023
+        <span class="font-luxury text-xl sm:text-2xl font-bold tracking-widest text-[#f5f5f7] hover:text-[#d4af37] transition">
+          PAPER<span class="text-[#d4af37]">BYTES</span><span class="text-[#f5e6b8] text-lg leading-none">.</span>
+        </span>
+        <span class="hidden lg:inline-block font-mono-code text-[9px] tracking-widest uppercase bg-[#14120e] text-[#d4af37] border border-[#d4af37]/35 px-3 py-1 rounded-full font-semibold shadow-sm">
+          MANUFACTURE D'INSTRUMENTS &bull; DPDPA 2023
         </span>
       </div>
 
@@ -362,8 +434,8 @@
           <input 
             type="text" 
             id="tool-search-input" 
-            placeholder="Search complications (e.g. word, merge, protect, stamp)..." 
-            class="w-full bg-transparent text-xs text-[#f1f1f4] placeholder-[#8a857b] focus:outline-none font-mono-code"
+            placeholder="Search complications (word, protect, crop, split)..." 
+            class="w-full bg-transparent text-xs text-[#f1f1f4] placeholder-[#7d786d] focus:outline-none font-mono-code"
             oninput="handleSearch(this.value)"
           />
         </div>
@@ -373,9 +445,11 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-2.5">
-        <span class="w-2.5 h-2.5 rounded-full bg-[#d4af37] shadow-[0_0_10px_#d4af37] animate-pulse"></span>
-        <span class="hidden sm:inline font-mono-code text-[11px] text-[#dfba73] font-medium tracking-wider uppercase">CHRONOMETER ACTIVE</span>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-[#121118]/80 border border-[#d4af37]/25">
+          <span class="w-2 h-2 rounded-full bg-[#e11d48] shadow-[0_0_8px_#e11d48] animate-pulse"></span>
+          <span class="font-mono-code text-[10px] text-[#dfba73] tracking-widest uppercase hidden sm:inline">28,800 VPH</span>
+        </div>
       </div>
     </div>
   </header>
@@ -385,22 +459,63 @@
 
     <!-- Dashboard View -->
     <div id="dashboard-view" class="space-y-10">
-      <section class="pt-8 pb-4">
-        <div class="max-w-3xl space-y-4">
-          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#14141c]/90 border border-[#d4af37]/35 text-xs text-[#dfba73] font-mono-code shadow-[0_0_15px_rgba(212,175,55,0.12)]">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-pulse"></span>
-            <span class="tracking-widest uppercase text-[10px]">HAUTE HORLOGERIE FOR DIGITAL ASSETS &bull; CALIBRE 2026</span>
+      
+      <!-- Grand Atelier Showcase Hero -->
+      <section class="pt-6 pb-2">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-8 pb-4">
+          <div class="max-w-2xl space-y-4">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#14141c]/90 border border-[#d4af37]/35 text-xs text-[#dfba73] font-mono-code shadow-[0_0_15px_rgba(212,175,55,0.12)]">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-ping"></span>
+              <span class="tracking-widest uppercase text-[10px]" id="live-chronometer">CHRONOMETRE CERTIFIÉ &bull; 28,800 VPH</span>
+            </div>
+            <h1 class="font-luxury text-4xl sm:text-6xl font-bold tracking-tight hero-gold-gradient leading-tight">
+              L'Atelier de Documents.
+            </h1>
+            <p class="text-[#a8a49a] text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+              Bespoke in-browser instruments for sovereign document processing. Handcrafted with Swiss architectural precision: zero telemetry, volatile memory sandbox, and military-grade ciphers.
+            </p>
           </div>
-          <h1 class="font-luxury text-4xl sm:text-6xl font-bold tracking-tight hero-gold-gradient">
-            Mastery in Every Movement.
-          </h1>
-          <p class="text-[#a8a49a] text-sm sm:text-base max-w-xl font-normal leading-relaxed">
-            Swiss-grade architectural precision for digital documents. 15 in-browser complications running in local sandbox memory with absolute zero data retention.
-          </p>
+
+          <!-- Interactive Horological Tourbillon Escapement -->
+          <div class="shrink-0 flex flex-col items-center">
+            <div class="relative w-44 h-44 rounded-full border border-[#d4af37]/40 bg-gradient-to-b from-[#14141c] to-[#07070a] shadow-[0_0_40px_rgba(212,175,55,0.15)] flex items-center justify-center p-2">
+              <canvas id="escapement-canvas" width="160" height="160" class="block"></canvas>
+              <!-- Outer Roman bezel markers -->
+              <span class="absolute top-1 font-luxury text-[8px] text-[#aa8222] font-semibold">XII</span>
+              <span class="absolute bottom-1 font-luxury text-[8px] text-[#aa8222] font-semibold">VI</span>
+              <span class="absolute left-1.5 font-luxury text-[8px] text-[#aa8222] font-semibold">IX</span>
+              <span class="absolute right-1.5 font-luxury text-[8px] text-[#aa8222] font-semibold">III</span>
+            </div>
+            <span class="font-mono-code text-[9px] text-[#8a857b] tracking-widest uppercase mt-2">BALANCE ESCAPEMENT &bull; 4Hz</span>
+          </div>
         </div>
 
-        <!-- Filter Buttons -->
-        <div class="flex flex-wrap items-center gap-2.5 pt-6">
+        <!-- Horological Precision Architecture Bar -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 p-5 rounded-2xl bg-[#0c0c11]/90 border border-[#d4af37]/25 text-center font-mono-code shadow-2xl mt-4">
+          <div class="space-y-1">
+            <p class="text-[9px] tracking-widest text-[#8a857b] uppercase">PERSISTENCE</p>
+            <p class="text-sm font-luxury font-bold text-[#f5e6b8]">0.00ms Storage</p>
+            <p class="text-[9px] text-[#716c61]">100% Volatile Client RAM</p>
+          </div>
+          <div class="space-y-1 border-l border-[#d4af37]/15">
+            <p class="text-[9px] tracking-widest text-[#8a857b] uppercase">ENCRYPTION CIPHER</p>
+            <p class="text-sm font-luxury font-bold text-[#f5e6b8]">AES-256 Bit</p>
+            <p class="text-[9px] text-[#716c61]">ISO 32000-2 Certified</p>
+          </div>
+          <div class="space-y-1 border-l border-[#d4af37]/15">
+            <p class="text-[9px] tracking-widest text-[#8a857b] uppercase">WORKBENCH CALIBRES</p>
+            <p class="text-sm font-luxury font-bold text-[#f5e6b8]">15 Complications</p>
+            <p class="text-[9px] text-[#716c61]">Client-Isolated Sandbox</p>
+          </div>
+          <div class="space-y-1 border-l border-[#d4af37]/15">
+            <p class="text-[9px] tracking-widest text-[#8a857b] uppercase">JURISDICTION</p>
+            <p class="text-sm font-luxury font-bold text-[#f5e6b8]">DPDPA 2023</p>
+            <p class="text-[9px] text-[#716c61]">Section 79 Safe Harbor</p>
+          </div>
+        </div>
+
+        <!-- Filter Sub-dials -->
+        <div class="flex flex-wrap items-center gap-2.5 pt-8">
           <button onclick="filterGallery('all', this)" class="filter-btn active-filter font-mono-code text-xs px-4 py-2 rounded-full font-medium shadow-sm">All Calibres (15)</button>
           <button onclick="filterGallery('convert', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full font-medium">Conversion (6)</button>
           <button onclick="filterGallery('organize', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full font-medium">Organization (4)</button>
@@ -412,24 +527,48 @@
       <!-- Tool Cards Grid -->
       <section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
+                <div class="bento-card md:col-span-2 p-7 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 01 &bull; ATELIER CORE</span>
-              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">PDF &rarr; DOCX</span>
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+                <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/40 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 01 &bull; FLAGSHIP COMPLICATION</span>
+              </div>
+              <span class="text-[10px] font-mono-code text-[#c5a059] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">STATELESS ATELIER CORE</span>
             </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">PDF to Word DOCX</h3>
-            <p class="text-xs text-[#a19e95] leading-relaxed font-light">Layout-preserving document extraction. Reconstructs text flows, alignments, and structured tables.</p>
+            <div>
+              <h3 class="font-luxury text-2xl sm:text-3xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7]">PDF to Microsoft Word (.docx)</h3>
+              <p class="text-xs sm:text-sm text-[#a19e95] leading-relaxed font-light mt-1.5 max-w-xl">Deep architectural layout reconstruction. Faithfully reconstitutes flowing paragraph vectors, column geometry, and tabular structures without server retention.</p>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3 py-3 px-4 rounded-xl bg-[#09090d]/90 border border-[#d4af37]/20 font-mono-code text-[10px] shadow-inner">
+              <div class="text-center">
+                <span class="text-[#8a857b] block text-[9px] uppercase tracking-wider">LATENCY</span>
+                <span class="text-[#f5e6b8] font-bold text-xs">~1.5s Stream</span>
+              </div>
+              <div class="text-center border-x border-[#d4af37]/20">
+                <span class="text-[#8a857b] block text-[9px] uppercase tracking-wider">HARD LIMIT</span>
+                <span class="text-[#f5e6b8] font-bold text-xs">30 Pages Max</span>
+              </div>
+              <div class="text-center">
+                <span class="text-[#8a857b] block text-[9px] uppercase tracking-wider">RECONSTRUCTION</span>
+                <span class="text-[#f5e6b8] font-bold text-xs">Tables & Vectors</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
-            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
-              <span>Engage Complication</span>
-              <span class="text-sm font-sans">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-[#d4af37]/20">
+            <button type="button" class="engage-btn w-full py-3 px-5 rounded-xl border border-[#d4af37]/50 bg-gradient-to-r from-[#181611] to-[#121118] hover:from-[#d4af37] hover:to-[#f5e6b8] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-widest uppercase transition-all duration-300 flex items-center justify-between shadow-lg">
+              <span>Engage Atelier Core &rarr;</span>
+              <span class="font-mono-code text-[10px] tracking-widest text-[#d4af37] group-hover:text-[#070709]">CALIBRE 01</span>
             </button>
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-excel-to-pdf')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-excel-to-pdf')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 02 &bull; SPREADSHEET CHRONO</span>
@@ -446,7 +585,9 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-rotate-delete')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-rotate-delete')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 03 &bull; PAGINATION ENGINE</span>
@@ -463,24 +604,33 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-password-protect')">
-          <div class="space-y-4">
+                <div class="bento-card md:col-span-1 p-6 flex flex-col justify-between cursor-pointer group relative" data-category="security" onclick="openTool('tool-password-protect')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
+          <div class="space-y-3.5">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 04 &bull; AES-256 VAULT</span>
-              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">ENCRYPT</span>
+              <span class="font-mono-code text-[10px] font-semibold text-[#f43f5e] bg-[#221015] border border-[#f43f5e]/40 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 04 &bull; AES-256 VAULT</span>
+              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">MIL-SPEC</span>
             </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Protect with Password</h3>
-            <p class="text-xs text-[#a19e95] leading-relaxed font-light">Enforce military-grade AES-256 encryption. PDF strictly requires password to view or print in any PDF reader.</p>
+            <h3 class="font-luxury text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7]">Protect with Password</h3>
+            <p class="text-xs text-[#a19e95] leading-relaxed font-light">Hardware-grade AES-256 bit encryption engine. Generates certified ISO 32000-2 encrypted standard dictionaries requiring password authentication to open in Adobe, Chrome, or Apple Preview.</p>
+            
+            <div class="flex items-center gap-2 py-2 px-3 rounded-xl bg-[#09090d]/90 border border-[#d4af37]/20 font-mono-code text-[10px] text-[#dfba73]">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+              <span>CFM/AESV3 &bull; DocOpen Lock &bull; Ephemeral</span>
+            </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/20">
             <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
-              <span>Engage Complication</span>
-              <span class="text-sm font-sans">&rarr;</span>
+              <span>Lock Document &rarr;</span>
+              <span class="font-mono-code text-[9px] text-[#aa8222] group-hover:text-[#070709]">VAULT</span>
             </button>
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-watermark')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="security" onclick="openTool('tool-watermark')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 05 &bull; SEAL & WATERMARK</span>
@@ -497,7 +647,9 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-extract-images')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="utility" onclick="openTool('tool-extract-images')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 06 &bull; GRAPHIC EXTRACTOR</span>
@@ -514,7 +666,9 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-scanner-effect')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="utility" onclick="openTool('tool-scanner-effect')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 07 &bull; FLATBED OPTIC</span>
@@ -531,24 +685,33 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-portal-crop')">
-          <div class="space-y-4">
+                <div class="bento-card md:col-span-1 p-6 flex flex-col justify-between cursor-pointer group relative" data-category="utility" onclick="openTool('tool-portal-crop')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
+          <div class="space-y-3.5">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 08 &bull; BINARY CROP PORTAL</span>
-              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">&le; 50KB TARGET</span>
+              <span class="font-mono-code text-[10px] font-semibold text-[#fbbf24] bg-[#221c0e] border border-[#fbbf24]/40 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 08 &bull; BIOMETRIC CALIPER</span>
+              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">&le; 50KB / 20KB</span>
             </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Passport Crop & Compress</h3>
-            <p class="text-xs text-[#a19e95] leading-relaxed font-light">Aspect-ratio cropping with automated binary-search compression to satisfy strict portal file-size limits.</p>
+            <h3 class="font-luxury text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7]">Passport Crop & Compress</h3>
+            <p class="text-xs text-[#a19e95] leading-relaxed font-light">Precision aspect-ratio framing with automated binary-search JPEG quantization to hit strict government portal ceilings (e.g. UPSC, SSC, US Visa).</p>
+            
+            <div class="flex items-center justify-between py-2 px-3 rounded-xl bg-[#09090d]/90 border border-[#d4af37]/20 font-mono-code text-[9px] text-[#dfba73]">
+              <span>35&times;45mm &bull; 2&times;2 in (Passport)</span>
+              <span class="text-rose-400 font-bold">&le; 50KB Engine</span>
+            </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/20">
             <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
-              <span>Engage Complication</span>
-              <span class="text-sm font-sans">&rarr;</span>
+              <span>Engage Caliper &rarr;</span>
+              <span class="font-mono-code text-[9px] text-[#aa8222] group-hover:text-[#070709]">CROP</span>
             </button>
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-merge-pdf')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-merge-pdf')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 09 &bull; MERGE COMPLICATION</span>
@@ -566,7 +729,9 @@
         </div>
 
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-split-pdf')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-split-pdf')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 10 &bull; INTERVAL EXTRACTOR</span>
@@ -583,7 +748,9 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-images-to-pdf')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-images-to-pdf')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 11 &bull; IMAGE COMPILATION</span>
@@ -600,24 +767,42 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-omni-convert')">
+                <div class="bento-card md:col-span-2 p-7 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-omni-convert')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 12 &bull; OMNI-MATRIX CORE</span>
-              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">OMNI MATRIX</span>
+              <span class="font-mono-code text-[10px] font-semibold text-[#38bdf8] bg-[#0c1f2d] border border-[#38bdf8]/40 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 12 &bull; UNIVERSAL MATRIX</span>
+              <span class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">MULTI-COMPLICATION</span>
             </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">PaperBytes Omni-Converter</h3>
-            <p class="text-xs text-[#a19e95] leading-relaxed font-light">Dynamic universal converter. Drop images, spreadsheets, JSON, or Markdown and cross-convert in memory.</p>
+            <div>
+              <h3 class="font-luxury text-2xl sm:text-3xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7]">PaperBytes Omni-Converter Matrix</h3>
+              <p class="text-xs sm:text-sm text-[#a19e95] leading-relaxed font-light mt-1.5 max-w-xl">Universal cross-format synthesis matrix operating 100% in local memory. Seamlessly translate between image rasters, tabular sheets, JSON schemas, Markdown prose, and paginated vector PDFs.</p>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-2 py-2.5 px-4 rounded-xl bg-[#09090d]/90 border border-[#d4af37]/20 font-mono-code text-[9px] text-[#f5e6b8]">
+              <span class="px-2.5 py-1 rounded bg-[#16141f] border border-[#d4af37]/25 text-[#dfba73]">JPG / PNG</span>
+              <span class="text-[#8a857b] font-bold">&bull;</span>
+              <span class="px-2.5 py-1 rounded bg-[#16141f] border border-[#d4af37]/25 text-[#dfba73]">XLSX SHEETS</span>
+              <span class="text-[#8a857b] font-bold">&bull;</span>
+              <span class="px-2.5 py-1 rounded bg-[#16141f] border border-[#d4af37]/25 text-[#dfba73]">RAW JSON</span>
+              <span class="text-[#8a857b] font-bold">&bull;</span>
+              <span class="px-2.5 py-1 rounded bg-[#16141f] border border-[#d4af37]/25 text-[#dfba73]">MARKDOWN</span>
+              <span class="text-[#8a857b] font-bold">&rarr;</span>
+              <span class="px-3 py-1 rounded bg-[#d4af37] text-[#070709] font-bold shadow-sm">VECTOR PDF</span>
+            </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
-            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
-              <span>Engage Complication</span>
-              <span class="text-sm font-sans">&rarr;</span>
+          <div class="pt-5 mt-4 border-t border-[#d4af37]/20">
+            <button type="button" class="engage-btn w-full py-3 px-5 rounded-xl border border-[#d4af37]/50 bg-gradient-to-r from-[#181611] to-[#121118] hover:from-[#d4af37] hover:to-[#f5e6b8] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-widest uppercase transition-all duration-300 flex items-center justify-between shadow-lg">
+              <span>Launch Matrix Router &rarr;</span>
+              <span class="font-mono-code text-[10px] tracking-widest text-[#d4af37] group-hover:text-[#070709]">CALIBRE 12</span>
             </button>
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-page-numbers')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-page-numbers')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 13 &bull; BATES NUMERATOR</span>
@@ -634,7 +819,9 @@
           </div>
         </div>
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-hash-verifier')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="security" onclick="openTool('tool-hash-verifier')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 14 &bull; SHA-256 INTEGRITY</span>
@@ -652,7 +839,9 @@
         </div>
 
 
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-word-to-pdf')">
+        <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-word-to-pdf')">
+          <span class="bezel-rivet top-3.5 left-3.5"></span>
+          <span class="bezel-rivet top-3.5 right-3.5"></span>
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="font-mono-code text-[10px] font-semibold text-[#d4af37] bg-[#14120e] border border-[#d4af37]/35 px-3 py-1 rounded-full uppercase tracking-wider">CAL. 15 &bull; DOCX TYPOGRAPHY</span>
@@ -674,43 +863,45 @@
 
     <!-- TOOL 1: PDF TO WORD -->
     <div id="tool-pdf-to-word-real" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-01: PDF to Word</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-01: PDF to Word</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">PDF to Microsoft Word (.docx)</h2>
-            <p class="text-sm text-slate-500 mt-1">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">PDF to Microsoft Word (.docx)</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
           </div>
-          <button id="real-pdf-cancel-btn" onclick="clearPDFToWordFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="real-pdf-cancel-btn" onclick="clearPDFToWordFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-12 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-10 sm:p-12 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="real-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePDFToWordSelection(this)" />
           <div class="space-y-3">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
+            <div class="w-14 h-14 rounded-2xl bg-[#14120e] text-[#d4af37] border border-[#d4af37]/35 flex items-center justify-center mx-auto shadow-md group-hover:scale-105 transition">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <div>
-              <p class="font-brand font-bold text-slate-800 text-base">Select or Drop Your PDF Document</p>
-              <p class="text-xs text-slate-400 mt-1">Direct layout reconstruction &bull; Ephemeral conversion</p>
+              <p class="font-luxury font-bold text-[#f5e6b8] text-base tracking-wide">Select or Drop Your PDF Document</p>
+              <p class="text-xs text-[#8a857b] font-light mt-1">Direct layout reconstruction &bull; Ephemeral conversion</p>
             </div>
-            <p id="real-pdf-filename" class="text-xs font-mono-code text-indigo-600 font-semibold"></p>
+            <p id="real-pdf-filename" class="text-xs font-mono-code text-[#dfba73] font-bold bg-[#14120e] px-4 py-1.5 rounded-lg border border-[#d4af37]/30 inline-block shadow-inner"></p>
           </div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
           <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-slate-300" id="pdf-status-indicator"></span>
-            <span id="real-pdf-status" class="text-xs font-mono-code text-slate-500">Ready for document selection</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" id="pdf-status-indicator"></span>
+            <span id="real-pdf-status" class="text-xs font-mono-code text-[#a19e95]">Ready for document selection</span>
           </div>
-          <button id="real-pdf-btn" onclick="executePDFToWordSecure()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-8 py-3.5 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <button id="real-pdf-btn" onclick="executePDFToWordSecure()" class="w-full sm:w-auto atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all disabled:opacity-50">
             Convert to .DOCX
           </button>
         </div>
@@ -719,34 +910,36 @@
 
     <!-- TOOL 2: EXCEL TO PDF -->
     <div id="tool-excel-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-02: Excel to PDF</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-02: Excel to PDF</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Spreadsheet to Formatted PDF Table</h2>
-            <p class="text-sm text-slate-500 mt-1">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Spreadsheet to Formatted PDF Table</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
           </div>
-          <button id="excel-cancel-btn" onclick="clearExcelFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="excel-cancel-btn" onclick="clearExcelFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="border-2 border-dashed border-[#d4af37]/30 hover:border-indigo-500 rounded-3xl p-10 text-center bg-[#09090d]/90/60 cursor-pointer relative transition">
           <input type="file" id="excel-file-input" accept=".xlsx,.xls,.csv" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExcelSelection(this)" />
           <div class="space-y-2">
-            <p class="font-brand font-bold text-slate-800 text-sm">Select Excel or CSV Spreadsheet</p>
-            <p id="excel-filename" class="text-xs font-mono-code text-indigo-600 font-semibold"></p>
+            <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Excel or CSV Spreadsheet</p>
+            <p id="excel-filename" class="text-xs font-mono-code text-[#dfba73] font-bold bg-[#14120e] px-4 py-1.5 rounded-lg border border-[#d4af37]/30 inline-block shadow-inner"></p>
           </div>
         </div>
-        <div id="excel-preview-box" class="max-h-60 overflow-auto border border-slate-200 rounded-2xl hidden">
+        <div id="excel-preview-box" class="max-h-60 overflow-auto border border-[#d4af37]/25 rounded-2xl hidden">
           <table id="excel-table-preview" class="min-w-full divide-y divide-slate-200 text-xs"></table>
         </div>
         <div class="flex items-center justify-between">
-          <span id="excel-status" class="text-xs font-mono-code text-slate-500">Awaiting workbook...</span>
-          <button id="excel-convert-btn" onclick="executeExcelToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="excel-status" class="text-xs font-mono-code text-[#a19e95]">Awaiting workbook...</span>
+          <button id="excel-convert-btn" onclick="executeExcelToPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Render Vector PDF
           </button>
         </div>
@@ -755,29 +948,31 @@
 
     <!-- TOOL 3: ROTATE & DELETE -->
     <div id="tool-rotate-delete" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-03: Rotate & Delete</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-03: Rotate & Delete</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Page Arranger & Orientator</h2>
-            <p class="text-sm text-slate-500 mt-1">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Page Arranger & Orientator</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
           </div>
-          <button id="organize-cancel-btn" onclick="clearOrganizeFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="organize-cancel-btn" onclick="clearOrganizeFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="organize-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOrganizePDF(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Select PDF to Reorganize Pages</p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select PDF to Reorganize Pages</p>
         </div>
         <div id="organize-pages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-2"></div>
         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-          <span id="organize-status" class="text-xs font-mono-code text-slate-500">Upload document to render pages</span>
-          <button id="save-organize-btn" onclick="executeSaveOrganizedPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="organize-status" class="text-xs font-mono-code text-[#a19e95]">Upload document to render pages</span>
+          <button id="save-organize-btn" onclick="executeSaveOrganizedPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Export Modified PDF
           </button>
         </div>
@@ -786,39 +981,41 @@
 
     <!-- TOOL 4: PASSWORD PROTECT -->
     <div id="tool-password-protect" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-04: Password Protect</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-04: Password Protect</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Enforce Encryption & Access Password</h2>
-            <p class="text-sm text-slate-500 mt-1">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Enforce Encryption & Access Password</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
           </div>
-          <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="protect-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleProtectPDFSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Choose PDF to Encrypt</p>
-          <p id="protect-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Choose PDF to Encrypt</p>
+          <p id="protect-pdf-name" class="text-xs font-mono-code text-[#dfba73] font-bold bg-[#14120e] px-4 py-1.5 rounded-lg border border-[#d4af37]/30 inline-block shadow-inner mt-1"></p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Set Password</label>
-            <input type="password" id="protect-user-pass" placeholder="Enter password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-mono-code" />
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Set Password</label>
+            <input type="password" id="protect-user-pass" placeholder="Enter password" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-mono-code" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Confirm Password</label>
-            <input type="password" id="protect-confirm-pass" placeholder="Re-enter password" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-mono-code" />
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Confirm Password</label>
+            <input type="password" id="protect-confirm-pass" placeholder="Re-enter password" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-mono-code" />
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span id="protect-status" class="text-xs font-mono-code text-slate-500">Provide document and password</span>
-          <button id="protect-btn" onclick="executePasswordProtect()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="protect-status" class="text-xs font-mono-code text-[#a19e95]">Provide document and password</span>
+          <button id="protect-btn" onclick="executePasswordProtect()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Encrypt & Download
           </button>
         </div>
@@ -827,43 +1024,45 @@
 
     <!-- TOOL 5: WATERMARK -->
     <div id="tool-watermark" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-05: Watermark</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-05: Watermark</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Diagonal Watermark Overlay</h2>
-            <p class="text-sm text-slate-500 mt-1">Stamp identifiers across every page of your PDF.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Diagonal Watermark Overlay</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Stamp identifiers across every page of your PDF.</p>
           </div>
-          <button id="watermark-cancel-btn" onclick="clearWatermarkFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="watermark-cancel-btn" onclick="clearWatermarkFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="watermark-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWatermarkSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Select Document to Stamp</p>
-          <p id="watermark-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Document to Stamp</p>
+          <p id="watermark-pdf-name" class="text-xs font-mono-code text-[#dfba73] font-bold bg-[#14120e] px-4 py-1.5 rounded-lg border border-[#d4af37]/30 inline-block shadow-inner mt-1"></p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Watermark Text</label>
-            <input type="text" id="watermark-text" value="CONFIDENTIAL" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-brand font-bold" />
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Watermark Text</label>
+            <input type="text" id="watermark-text" value="CONFIDENTIAL" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-brand font-bold" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Font Size (pt)</label>
-            <input type="number" id="watermark-size" value="48" min="16" max="120" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-600 font-mono-code" />
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Font Size (pt)</label>
+            <input type="number" id="watermark-size" value="48" min="16" max="120" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-mono-code" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Opacity</label>
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Opacity</label>
             <input type="range" id="watermark-opacity" min="0.05" max="0.6" step="0.05" value="0.25" class="w-full mt-2 accent-indigo-600" />
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span id="watermark-status" class="text-xs font-mono-code text-slate-500">Awaiting document...</span>
-          <button id="watermark-btn" onclick="executeWatermark()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="watermark-status" class="text-xs font-mono-code text-[#a19e95]">Awaiting document...</span>
+          <button id="watermark-btn" onclick="executeWatermark()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Stamp & Download
           </button>
         </div>
@@ -872,29 +1071,31 @@
 
     <!-- TOOL 6: EXTRACT IMAGES -->
     <div id="tool-extract-images" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-06: Extract Graphics</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-06: Extract Graphics</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Extract Embedded Graphics to ZIP</h2>
-            <p class="text-sm text-slate-500 mt-1">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Extract Embedded Graphics to ZIP</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
           </div>
-          <button id="extract-cancel-btn" onclick="clearExtractFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="extract-cancel-btn" onclick="clearExtractFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="extract-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExtractSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Drop PDF Document</p>
-          <p id="extract-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Drop PDF Document</p>
+          <p id="extract-pdf-name" class="text-xs font-mono-code text-[#dfba73] font-bold bg-[#14120e] px-4 py-1.5 rounded-lg border border-[#d4af37]/30 inline-block shadow-inner mt-1"></p>
         </div>
         <div class="flex items-center justify-between">
-          <span id="extract-status" class="text-xs font-mono-code text-slate-500">Upload document to inspect graphics</span>
-          <button id="extract-btn" onclick="executeImageExtraction()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="extract-status" class="text-xs font-mono-code text-[#a19e95]">Upload document to inspect graphics</span>
+          <button id="extract-btn" onclick="executeImageExtraction()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Extract & Download ZIP
           </button>
         </div>
@@ -903,38 +1104,40 @@
 
     <!-- TOOL 7: SCANNER FX -->
     <div id="tool-scanner-effect" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-07: Scanner Filter</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-07: Scanner Filter</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Document Scanner Filters</h2>
-            <p class="text-sm text-slate-500 mt-1">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Document Scanner Filters</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
           </div>
-          <button id="scanner-cancel-btn" onclick="clearScannerPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="scanner-cancel-btn" onclick="clearScannerPhoto()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different Photo
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="scanner-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleScannerSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Select Raw Camera Document Image</p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Raw Camera Document Image</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="text-center p-3 border border-slate-200 rounded-2xl bg-slate-50">
-            <p class="text-xs font-mono-code text-slate-500 mb-2">Original Capture</p>
+          <div class="text-center p-3 border border-[#d4af37]/25 rounded-2xl bg-[#09090d]/90">
+            <p class="text-xs font-mono-code text-[#a19e95] mb-2">Original Capture</p>
             <img id="scanner-raw-preview" class="max-h-48 mx-auto rounded shadow-sm hidden" />
           </div>
-          <div class="text-center p-3 border border-slate-200 rounded-2xl bg-slate-50">
-            <p class="text-xs font-mono-code text-slate-500 mb-2">Processed Scan Preview</p>
+          <div class="text-center p-3 border border-[#d4af37]/25 rounded-2xl bg-[#09090d]/90">
+            <p class="text-xs font-mono-code text-[#a19e95] mb-2">Processed Scan Preview</p>
             <canvas id="scanner-canvas" class="max-h-48 mx-auto rounded shadow-sm hidden"></canvas>
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span id="scanner-status" class="text-xs font-mono-code text-slate-500">Provide photo to process</span>
-          <button id="scanner-btn" onclick="executeScannerDownload()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="scanner-status" class="text-xs font-mono-code text-[#a19e95]">Provide photo to process</span>
+          <button id="scanner-btn" onclick="executeScannerDownload()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Save as Scanned PDF
           </button>
         </div>
@@ -943,25 +1146,27 @@
 
     <!-- TOOL 8: PORTAL CROP -->
     <div id="tool-portal-crop" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-08: Portal Optimization</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-08: Portal Optimization</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Portal Photo Cropper & Strict Size Target</h2>
-            <p class="text-sm text-slate-500 mt-1">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Portal Photo Cropper & Strict Size Target</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
           </div>
-          <button id="portal-cancel-btn" onclick="clearPortalPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+          <button id="portal-cancel-btn" onclick="clearPortalPhoto()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different Photo
           </button>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Preset Aspect Ratio</label>
-            <select id="portal-preset" onchange="applyCropPreset(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Preset Aspect Ratio</label>
+            <select id="portal-preset" onchange="applyCropPreset(this.value)" class="w-full atelier-select px-4 py-2.5 text-xs font-medium">
               <option value="passport">Passport Photo (3.5 x 4.5 ratio)</option>
               <option value="square">Square Identity (1:1)</option>
               <option value="signature">Signature Strip (3:1)</option>
@@ -969,8 +1174,8 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Target Max File Size</label>
-            <select id="portal-max-kb" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Target Max File Size</label>
+            <select id="portal-max-kb" class="w-full atelier-select px-4 py-2.5 text-xs font-medium">
               <option value="50">Strictly under 50 KB (Gov/Exam Portals)</option>
               <option value="20">Strictly under 20 KB (Signatures)</option>
               <option value="100">Strictly under 100 KB</option>
@@ -978,23 +1183,23 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-700 mb-1">Output Format</label>
-            <select id="portal-format" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
+            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Output Format</label>
+            <select id="portal-format" class="w-full atelier-select px-4 py-2.5 text-xs font-medium">
               <option value="image/jpeg">JPEG (.jpg)</option>
               <option value="image/png">PNG (.png)</option>
             </select>
           </div>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-6 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="border-2 border-dashed border-[#d4af37]/30 hover:border-indigo-500 rounded-3xl p-6 text-center bg-[#09090d]/90/60 cursor-pointer relative transition">
           <input type="file" id="portal-image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePortalImageSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Select Image to Crop & Compress</p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Image to Crop & Compress</p>
         </div>
-        <div class="max-h-96 overflow-hidden rounded-2xl border border-slate-200 hidden" id="cropper-wrapper">
+        <div class="max-h-96 overflow-hidden rounded-2xl border border-[#d4af37]/25 hidden" id="cropper-wrapper">
           <img id="cropper-target" class="max-w-full" />
         </div>
         <div class="flex items-center justify-between">
-          <span id="portal-status" class="text-xs font-mono-code text-slate-500">Load photo to configure</span>
-          <button id="portal-btn" onclick="executePortalCrop()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="portal-status" class="text-xs font-mono-code text-[#a19e95]">Load photo to configure</span>
+          <button id="portal-btn" onclick="executePortalCrop()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Crop, Compress & Save
           </button>
         </div>
@@ -1003,29 +1208,31 @@
 
     <!-- TOOL 9: MERGE PDF -->
     <div id="tool-merge-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-09: Unify Documents</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-09: Unify Documents</span>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Merge Multiple PDF Documents</h2>
-            <p class="text-sm text-slate-500 mt-1">Combine two or more separate PDFs into a single file directly in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Merge Multiple PDF Documents</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Combine two or more separate PDFs into a single file directly in browser memory.</p>
           </div>
-          <button id="merge-cancel-btn" onclick="clearMergeFiles()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="merge-cancel-btn" onclick="clearMergeFiles()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Clear All Files
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="merge-files-input" accept="application/pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleMergeFilesSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Select Two or More PDF Files</p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Two or More PDF Files</p>
         </div>
         <div id="merge-files-list" class="space-y-2"></div>
         <div class="flex items-center justify-between">
-          <span id="merge-status" class="text-xs font-mono-code text-slate-500">Awaiting multiple PDF documents</span>
-          <button id="merge-btn" onclick="executeMergePDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
+          <span id="merge-status" class="text-xs font-mono-code text-[#a19e95]">Awaiting multiple PDF documents</span>
+          <button id="merge-btn" onclick="executeMergePDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Merge Documents
           </button>
         </div>
@@ -1035,54 +1242,56 @@
 
     <!-- TOOL 10: SPLIT PDF / EXTRACT RANGES -->
     <div id="tool-split-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-10: Split & Extract</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-10: Split & Extract</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Split PDF / Extract Page Ranges</h2>
-            <p class="text-sm text-slate-500 mt-1">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Split PDF / Extract Page Ranges</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
           </div>
-          <button id="split-cancel-btn" onclick="clearSplitFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="split-cancel-btn" onclick="clearSplitFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="split-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleSplitPDFSelection(this)" />
           <div class="space-y-2">
-            <p id="split-pdf-filename" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a PDF File to Split</p>
+            <p id="split-pdf-filename" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop a PDF File to Split</p>
             <p id="split-pdf-info" class="text-[10px] font-mono-code text-[#8a857b] tracking-widest uppercase">Pure in-browser memory extraction</p>
           </div>
         </div>
 
         <div id="split-controls" class="space-y-4 hidden">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
-              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-slate-900">
-                <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode(this.value)" class="text-indigo-600" />
+            <div class="border border-[#d4af37]/25 rounded-2xl p-4 bg-[#09090d]/90/50">
+              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-[#f5f5f7]">
+                <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode(this.value)" class="text-[#dfba73]" />
                 <span>Extract Custom Range</span>
               </label>
-              <p class="text-xs text-slate-500 mt-1">Combine selected pages into a single new PDF.</p>
-              <input type="text" id="split-range-input" placeholder="e.g. 1-3, 5, 8-10" class="mt-3 w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code focus:outline-none focus:border-indigo-600" />
+              <p class="text-xs text-[#a19e95] mt-1">Combine selected pages into a single new PDF.</p>
+              <input type="text" id="split-range-input" placeholder="e.g. 1-3, 5, 8-10" class="mt-3 w-full atelier-input px-3 py-2 text-xs font-mono-code focus:outline-none" />
             </div>
 
-            <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/50">
-              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-slate-900">
-                <input type="radio" name="split-mode" value="zip" onchange="toggleSplitMode(this.value)" class="text-indigo-600" />
+            <div class="border border-[#d4af37]/25 rounded-2xl p-4 bg-[#09090d]/90/50">
+              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-[#f5f5f7]">
+                <input type="radio" name="split-mode" value="zip" onchange="toggleSplitMode(this.value)" class="text-[#dfba73]" />
                 <span>Extract All to Separate PDFs (ZIP)</span>
               </label>
-              <p class="text-xs text-slate-500 mt-1">Saves each page as page_1.pdf, page_2.pdf in an archive.</p>
+              <p class="text-xs text-[#a19e95] mt-1">Saves each page as page_1.pdf, page_2.pdf in an archive.</p>
             </div>
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="split-status" class="text-xs font-mono-code text-slate-500">Document analyzed. Ready to extract.</span>
-            <button id="split-btn" onclick="executeSplitPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+            <span id="split-status" class="text-xs font-mono-code text-[#a19e95]">Document analyzed. Ready to extract.</span>
+            <button id="split-btn" onclick="executeSplitPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Extract & Download
             </button>
           </div>
@@ -1092,27 +1301,29 @@
 
     <!-- TOOL 11: IMAGES TO PDF -->
     <div id="tool-images-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-11: Images to PDF</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-11: Images to PDF</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Images to PDF Document</h2>
-            <p class="text-sm text-slate-500 mt-1">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Images to PDF Document</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
           </div>
-          <button id="images-pdf-cancel-btn" onclick="clearAllImagesPdf()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="images-pdf-cancel-btn" onclick="clearAllImagesPdf()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Clear All Photos
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="images-pdf-input" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleImagesToPDFSelection(this)" />
-          <p class="font-brand font-bold text-slate-800 text-sm">Select or Drop One or More Images</p>
-          <p class="text-xs text-slate-400 mt-1 font-mono-code">PNG, JPG, JPEG, WEBP supported</p>
+          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop One or More Images</p>
+          <p class="text-xs text-[#8a857b] font-light mt-1 font-mono-code">PNG, JPG, JPEG, WEBP supported</p>
         </div>
 
         <div id="images-pdf-list" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-60 overflow-y-auto p-1"></div>
@@ -1120,16 +1331,16 @@
         <div id="images-pdf-controls" class="space-y-4 hidden">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-mono-code text-slate-500 mb-1">Page Format</label>
-              <select id="images-pdf-format" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-[#a19e95] mb-1">Page Format</label>
+              <select id="images-pdf-format" class="w-full bg-[#09090d]/90 border border-[#d4af37]/25 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="a4-portrait">A4 (Portrait)</option>
                 <option value="a4-landscape">A4 (Landscape)</option>
                 <option value="fit">Fit to Image Size</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-mono-code text-slate-500 mb-1">Page Margins</label>
-              <select id="images-pdf-margin" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-[#a19e95] mb-1">Page Margins</label>
+              <select id="images-pdf-margin" class="w-full bg-[#09090d]/90 border border-[#d4af37]/25 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="none">No Margin (0 mm)</option>
                 <option value="small">Small Margin (10 mm)</option>
               </select>
@@ -1137,8 +1348,8 @@
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="images-pdf-status" class="text-xs font-mono-code text-slate-500">Ready to compile</span>
-            <button id="images-pdf-btn" onclick="executeImagesToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+            <span id="images-pdf-status" class="text-xs font-mono-code text-[#a19e95]">Ready to compile</span>
+            <button id="images-pdf-btn" onclick="executeImagesToPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Compile & Save PDF
             </button>
           </div>
@@ -1148,46 +1359,48 @@
 
     <!-- TOOL 12: OMNI CONVERTER -->
     <div id="tool-omni-convert" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-12: Omni-Converter</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-12: Omni-Converter</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">PaperBytes Omni-Converter</h2>
-            <p class="text-sm text-slate-500 mt-1">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">PaperBytes Omni-Converter</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
           </div>
-          <button id="omni-cancel-btn" onclick="clearOmniFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+          <button id="omni-cancel-btn" onclick="clearOmniFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove File & Select Another
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="border-2 border-dashed border-[#d4af37]/30 hover:border-indigo-500 rounded-3xl p-10 text-center bg-[#09090d]/90/60 cursor-pointer relative transition">
           <input type="file" id="omni-file-input" accept=".png,.jpg,.jpeg,.webp,.svg,.bmp,.xlsx,.csv,.json,.md,.txt" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOmniSelection(this)" />
           <div class="space-y-2">
-            <p id="omni-file-label" class="font-brand font-bold text-slate-800 text-sm">Drop Any Supported File Here</p>
-            <p class="text-xs text-slate-400 font-mono-code">Images, Spreadsheets, JSON, Markdown, or Text</p>
+            <p id="omni-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Drop Any Supported File Here</p>
+            <p class="text-xs text-[#8a857b] font-mono-code">Images, Spreadsheets, JSON, Markdown, or Text</p>
           </div>
         </div>
 
         <div id="omni-controls" class="space-y-4 hidden">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#09090d]/90 border border-[#d4af37]/25">
             <div>
-              <span class="text-[10px] font-mono-code uppercase font-semibold text-slate-400">Source Detection</span>
-              <p id="omni-detected-badge" class="font-brand font-bold text-slate-800 text-sm mt-0.5">Detecting...</p>
+              <span class="text-[10px] font-mono-code uppercase font-semibold text-[#8a857b]">Source Detection</span>
+              <p id="omni-detected-badge" class="font-brand font-bold text-[#f5f5f7] text-sm mt-0.5">Detecting...</p>
             </div>
             <div class="w-full sm:w-auto flex items-center gap-3">
-              <span class="text-xs font-mono-code text-slate-500 whitespace-nowrap">Convert To:</span>
-              <select id="omni-target-format" class="bg-white border border-slate-300 rounded-xl px-4 py-2 text-xs font-mono-code font-bold text-indigo-600 focus:outline-none focus:border-indigo-600"></select>
+              <span class="text-xs font-mono-code text-[#a19e95] whitespace-nowrap">Convert To:</span>
+              <select id="omni-target-format" class="atelier-select px-4 py-2 text-xs font-mono-code font-bold focus:outline-none"></select>
             </div>
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="omni-status" class="text-xs font-mono-code text-slate-500">Ready to transform</span>
-            <button id="omni-btn" onclick="executeOmniConversion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+            <span id="omni-status" class="text-xs font-mono-code text-[#a19e95]">Ready to transform</span>
+            <button id="omni-btn" onclick="executeOmniConversion()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Convert Now
             </button>
           </div>
@@ -1197,34 +1410,36 @@
 
     <!-- TOOL 13: PAGE NUMBERS -->
     <div id="tool-page-numbers" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-13: Page Numbers</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-13: Page Numbers</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Add Page Numbers & Bates Stamping</h2>
-            <p class="text-sm text-slate-500 mt-1">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Add Page Numbers & Bates Stamping</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
           </div>
-          <button id="pagenum-cancel-btn" onclick="clearPageNumFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="pagenum-cancel-btn" onclick="clearPageNumFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="pagenum-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePageNumSelection(this)" />
-          <p id="pagenum-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a PDF File</p>
-          <p class="text-xs text-slate-400 mt-1 font-mono-code">In-browser vector stamping</p>
+          <p id="pagenum-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop a PDF File</p>
+          <p class="text-xs text-[#8a857b] font-light mt-1 font-mono-code">In-browser vector stamping</p>
         </div>
 
         <div id="pagenum-controls" class="space-y-4 hidden">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label class="block text-xs font-mono-code text-slate-500 mb-1">Format Pattern</label>
-              <select id="pagenum-format" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-[#a19e95] mb-1">Format Pattern</label>
+              <select id="pagenum-format" class="w-full bg-[#09090d]/90 border border-[#d4af37]/25 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="page_of">Page {n} of {total}</option>
                 <option value="simple">{n}</option>
                 <option value="page_prefix">Page {n}</option>
@@ -1232,8 +1447,8 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-mono-code text-slate-500 mb-1">Position</label>
-              <select id="pagenum-position" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-[#a19e95] mb-1">Position</label>
+              <select id="pagenum-position" class="w-full bg-[#09090d]/90 border border-[#d4af37]/25 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="bottom-center">Bottom Center</option>
                 <option value="bottom-right">Bottom Right</option>
                 <option value="top-right">Top Right</option>
@@ -1241,14 +1456,14 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-mono-code text-slate-500 mb-1">Font Size</label>
-              <input type="number" id="pagenum-fontsize" value="10" min="6" max="24" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code" />
+              <label class="block text-xs font-mono-code text-[#a19e95] mb-1">Font Size</label>
+              <input type="number" id="pagenum-fontsize" value="10" min="6" max="24" class="w-full bg-[#09090d]/90 border border-[#d4af37]/25 rounded-xl px-3 py-2 text-xs font-mono-code" />
             </div>
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="pagenum-status" class="text-xs font-mono-code text-slate-500">Ready to stamp</span>
-            <button id="pagenum-btn" onclick="executeAddPageNumbers()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+            <span id="pagenum-status" class="text-xs font-mono-code text-[#a19e95]">Ready to stamp</span>
+            <button id="pagenum-btn" onclick="executeAddPageNumbers()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Apply Numbers & Save
             </button>
           </div>
@@ -1258,52 +1473,54 @@
 
     <!-- TOOL 14: HASH VERIFIER -->
     <div id="tool-hash-verifier" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-14: Hash Verifier</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-14: Hash Verifier</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Document Cryptographic Checksum & Integrity</h2>
-            <p class="text-sm text-slate-500 mt-1">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Document Cryptographic Checksum & Integrity</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
           </div>
-          <button id="hash-cancel-btn" onclick="clearHashFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+          <button id="hash-cancel-btn" onclick="clearHashFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="hash-file-input" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleHashFileSelection(this)" />
-          <p id="hash-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop Any Document or File</p>
-          <p class="text-xs text-slate-400 mt-1 font-mono-code">Zero network transmission &bull; Hardware Web Crypto</p>
+          <p id="hash-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop Any Document or File</p>
+          <p class="text-xs text-[#8a857b] font-light mt-1 font-mono-code">Zero network transmission &bull; Hardware Web Crypto</p>
         </div>
 
         <div id="hash-results" class="space-y-4 hidden">
           <div class="space-y-3">
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
-              <div class="flex items-center justify-between text-xs font-mono-code text-slate-500 mb-1">
+            <div class="p-3 bg-[#09090d]/90 border border-[#d4af37]/25 rounded-2xl">
+              <div class="flex items-center justify-between text-xs font-mono-code text-[#a19e95] mb-1">
                 <span>SHA-256 (Industry Standard)</span>
-                <button onclick="copyHashText('hash-sha256-val')" class="text-indigo-600 hover:underline">Copy</button>
+                <button onclick="copyHashText('hash-sha256-val')" class="text-[#dfba73] hover:underline">Copy</button>
               </div>
-              <p id="hash-sha256-val" class="font-mono-code text-xs text-slate-900 break-all select-all font-semibold"></p>
+              <p id="hash-sha256-val" class="font-mono-code text-xs text-[#f5f5f7] break-all select-all font-semibold"></p>
             </div>
 
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
-              <div class="flex items-center justify-between text-xs font-mono-code text-slate-500 mb-1">
+            <div class="p-3 bg-[#09090d]/90 border border-[#d4af37]/25 rounded-2xl">
+              <div class="flex items-center justify-between text-xs font-mono-code text-[#a19e95] mb-1">
                 <span>SHA-1</span>
-                <button onclick="copyHashText('hash-sha1-val')" class="text-indigo-600 hover:underline">Copy</button>
+                <button onclick="copyHashText('hash-sha1-val')" class="text-[#dfba73] hover:underline">Copy</button>
               </div>
-              <p id="hash-sha1-val" class="font-mono-code text-xs text-slate-700 break-all select-all"></p>
+              <p id="hash-sha1-val" class="font-mono-code text-xs text-[#e2e0d8] break-all select-all"></p>
             </div>
           </div>
 
           <div class="p-4 border border-indigo-100 bg-indigo-50/40 rounded-2xl space-y-2">
-            <label class="block text-xs font-brand font-bold text-slate-900">Verify Against Expected Checksum</label>
-            <input type="text" id="hash-compare-input" placeholder="Paste expected hash to verify integrity..." oninput="compareChecksum(this.value)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code focus:outline-none focus:border-indigo-600" />
-            <div id="hash-compare-status" class="text-xs font-mono-code text-slate-500"></div>
+            <label class="block text-xs font-brand font-bold text-[#f5f5f7]">Verify Against Expected Checksum</label>
+            <input type="text" id="hash-compare-input" placeholder="Paste expected hash to verify integrity..." oninput="compareChecksum(this.value)" class="w-full atelier-input px-4 py-2.5 text-xs font-mono-code focus:outline-none" />
+            <div id="hash-compare-status" class="text-xs font-mono-code text-[#a19e95]"></div>
           </div>
         </div>
       </div>
@@ -1312,42 +1529,44 @@
 
     <!-- TOOL 15: WORD TO PDF -->
     <div id="tool-word-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-15: Word to PDF</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-[#a19e95]">
+        <button onclick="showDashboard()" class="hover:text-[#f5e6b8] text-[#d4af37] transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Atelier Dashboard</button>
+        <span class="text-[#d4af37]/40">/</span>
+        <span class="font-mono-code text-[#f5e6b8] tracking-widest uppercase border-b border-[#d4af37]/30 pb-0.5">MOD-15: Word to PDF</span>
       </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+        <span class="bezel-rivet top-3.5 left-3.5"></span>
+        <span class="bezel-rivet top-3.5 right-3.5"></span>
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Word (.docx) to Formatted PDF</h2>
-            <p class="text-sm text-slate-500 mt-1">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Word (.docx) to Formatted PDF</h2>
+            <p class="text-xs sm:text-sm text-[#a19e95] font-light mt-1.5 leading-relaxed">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
           </div>
-          <button id="word-cancel-btn" onclick="clearWordDocument()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+          <button id="word-cancel-btn" onclick="clearWordDocument()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
 
-        <div id="word-dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+        <div id="word-dropzone" class="border-2 border-dashed border-[#d4af37]/30 hover:border-indigo-500 rounded-3xl p-10 text-center bg-[#09090d]/90/60 cursor-pointer relative transition">
           <input type="file" id="word-file-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWordSelection(this)" />
           <div class="space-y-2">
-            <p id="word-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a Word (.docx) Document</p>
-            <p class="text-xs text-slate-400 font-mono-code">100% In-Browser Memory Conversion &bull; Zero Server Upload</p>
+            <p id="word-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop a Word (.docx) Document</p>
+            <p class="text-xs text-[#8a857b] font-mono-code">100% In-Browser Memory Conversion &bull; Zero Server Upload</p>
           </div>
         </div>
 
         <div id="word-preview-section" class="space-y-4 hidden">
-          <div class="flex items-center justify-between text-xs font-mono-code text-slate-500 px-1">
-            <span id="word-doc-name" class="font-semibold text-slate-800"></span>
+          <div class="flex items-center justify-between text-xs font-mono-code text-[#a19e95] px-1">
+            <span id="word-doc-name" class="font-semibold text-[#f5f5f7]"></span>
             <span>Live Document Render</span>
           </div>
 
-          <div id="word-preview-container" class="max-h-96 overflow-y-auto p-8 bg-white border border-slate-200 rounded-2xl shadow-inner prose prose-sm max-w-none text-slate-800 leading-relaxed font-sans"></div>
+          <div id="word-preview-container" class="max-h-96 overflow-y-auto p-8 bg-[#09090d] border border-[#d4af37]/25 rounded-2xl shadow-inner text-[#f5e6b8] text-sm leading-relaxed space-y-4"></div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="word-status" class="text-xs font-mono-code text-slate-500">Document parsed successfully.</span>
-            <button id="word-convert-btn" onclick="executeWordToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20">
+            <span id="word-status" class="text-xs font-mono-code text-[#a19e95]">Document parsed successfully.</span>
+            <button id="word-convert-btn" onclick="executeWordToPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Download PDF Document
             </button>
           </div>
@@ -1807,7 +2026,7 @@
           formData.append('file', pProtectFile);
           formData.append('password', p1);
 
-          const response = await fetch(${GATEWAY_URL}/security/password-protect, {
+          const response = await fetch(`${GATEWAY_URL}/security/password-protect`, {
             method: 'POST',
             body: formData
           });
@@ -2411,23 +2630,29 @@
             const mdText = await omniFile.text();
             if (target === 'html') {
               const htmlContent = marked ? marked.parse(mdText) : `<pre>${mdText}</pre>`;
-              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${baseName}</title><style>
+              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>PaperBytes — L'Atelier de Documents (Haute Horlogerie)</title><style>
     :root {
       --gold-primary: #d4af37;
       --gold-light: #f5e6b8;
+      --gold-champagne: #e8d5b5;
       --gold-dark: #aa8222;
-      --gold-deep: #7d5e16;
-      --bg-dark: #070709;
-      --bg-card: #0e0e13;
+      --bg-dark: #08080a;
+      --bg-atelier: #0d0d12;
       --border-gold: rgba(212, 175, 55, 0.22);
-      --border-gold-hover: rgba(212, 175, 55, 0.65);
-      --text-gold: #dfba73;
+      --border-gold-hover: rgba(212, 175, 55, 0.7);
     }
 
     body {
       font-family: 'Outfit', sans-serif;
       background-color: var(--bg-dark);
       color: #e5e5ea;
+      background-image: 
+        radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.14) 0%, rgba(13, 13, 18, 0.5) 45%, transparent 75%),
+        radial-gradient(circle at 90% 80%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 10% 45%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+        radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      background-attachment: fixed;
     }
 
     .font-luxury { font-family: 'Cinzel', serif; }
@@ -2438,13 +2663,15 @@
     .tool-panel { display: none; }
     .tool-panel.active { display: block; }
 
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #07070a; }
-    ::-webkit-scrollbar-thumb { background: #2e281b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.2); }
+    /* Custom Watchmaker Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #08080b; }
+    ::-webkit-scrollbar-thumb { background: #332b1b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.25); }
     ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
 
+    /* Text & Metallic Shimmers */
     .hero-gold-gradient {
-      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 28%, #d4af37 62%, #9e7d3b 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 30%, #d4af37 65%, #9e7d3b 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.01em;
@@ -2456,45 +2683,47 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .watch-atelier-bg {
-      background-color: #070709;
-      background-image: 
-        radial-gradient(circle at 50% -18%, rgba(212, 175, 55, 0.16) 0%, rgba(18, 18, 24, 0.4) 40%, transparent 75%),
-        radial-gradient(circle at 85% 85%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 40%),
-        radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
-      background-attachment: fixed;
-    }
-
-    .studio-plaque {
-      background: linear-gradient(165deg, rgba(20, 20, 26, 0.92) 0%, rgba(10, 10, 14, 0.98) 100%);
+    /* Bento Cards with Chamfered Watch Bezel Aesthetic */
+    .bento-card {
+      background: linear-gradient(165deg, rgba(20, 20, 26, 0.94) 0%, rgba(10, 10, 14, 0.98) 100%);
       border: 1px solid rgba(212, 175, 55, 0.2);
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
         inset 0 0 20px rgba(0, 0, 0, 0.7),
         0 14px 34px -8px rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(20px);
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
+      border-radius: 1.5rem;
     }
-    .studio-plaque::before {
+    .bento-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.09), transparent 70%);
+      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 65%);
       border-radius: inherit;
       pointer-events: none;
       transition: opacity 0.35s ease;
     }
-    .studio-plaque:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.7);
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.65);
       box-shadow: 
         inset 0 1px 1px rgba(255, 255, 255, 0.18),
         0 22px 50px -10px rgba(0, 0, 0, 0.95),
-        0 0 35px -5px rgba(212, 175, 55, 0.25);
+        0 0 35px -5px rgba(212, 175, 55, 0.22);
+    }
+
+    /* Calibre corner rivets */
+    .bezel-rivet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #aa8222;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      position: absolute;
+      opacity: 0.5;
     }
 
     /* Filter buttons */
@@ -2504,6 +2733,7 @@
       color: #dfba73;
       transition: all 0.25s ease;
       backdrop-filter: blur(8px);
+      cursor: pointer;
     }
     .filter-btn:hover {
       border-color: rgba(212, 175, 55, 0.6);
@@ -2518,7 +2748,7 @@
       box-shadow: 0 0 22px rgba(212, 175, 55, 0.4) !important;
     }
 
-    /* Global Tool Panel Atelier Styling */
+    /* Watchmaker Workbench Panels (Inside Tools) */
     .tool-panel > div {
       background: linear-gradient(165deg, rgba(18, 18, 25, 0.96) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
       border: 1px solid rgba(212, 175, 55, 0.28) !important;
@@ -2527,6 +2757,7 @@
         0 28px 65px rgba(0, 0, 0, 0.92),
         0 0 45px -10px rgba(212, 175, 55, 0.12) !important;
       color: #f1f1f4 !important;
+      border-radius: 1.5rem !important;
     }
     .tool-panel h2 {
       font-family: 'Cinzel', serif !important;
@@ -2536,19 +2767,22 @@
     .tool-panel p {
       color: #9e9a8f !important;
     }
+
+    /* Watchmaker Mat Drop Zone */
     .tool-panel .border-dashed {
-      background: rgba(11, 11, 15, 0.85) !important;
-      border: 2px dashed rgba(212, 175, 55, 0.28) !important;
+      background: rgba(11, 11, 16, 0.85) !important;
+      border: 2px dashed rgba(212, 175, 55, 0.3) !important;
+      border-radius: 1.5rem !important;
       transition: all 0.3s ease !important;
+      position: relative !important;
     }
     .tool-panel .border-dashed:hover {
-      border-color: rgba(212, 175, 55, 0.75) !important;
-      background: rgba(18, 18, 25, 0.95) !important;
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.2) !important;
+      border-color: rgba(212, 175, 55, 0.8) !important;
+      background: rgba(18, 18, 26, 0.95) !important;
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.22) !important;
     }
-    .tool-panel .border-dashed p {
-      color: #e5e5ea !important;
-    }
+
+    /* Tactile Workbench Inputs */
     .tool-panel input[type="text"],
     .tool-panel input[type="password"],
     .tool-panel input[type="number"],
@@ -2556,6 +2790,7 @@
       background-color: #08080c !important;
       border: 1px solid rgba(212, 175, 55, 0.25) !important;
       color: #f5f5f7 !important;
+      border-radius: 0.75rem !important;
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
     }
     .tool-panel input:focus,
@@ -2573,12 +2808,12 @@
       font-family: 'Cinzel', serif !important;
     }
 
-    /* All Action Buttons */
+    /* 18k Brushed Gold Crown Action Buttons */
     .tool-panel button.bg-indigo-600,
     .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
-    #real-convert-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
-    #apply-watermark-btn, #extract-btn, #process-scan-btn, #execute-crop-btn,
-    #execute-merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
+    #real-pdf-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
+    #watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
+    #merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
     #hash-btn, #docx-btn {
       background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 80%, #7d5e16 100%) !important;
       color: #070709 !important;
@@ -2586,35 +2821,34 @@
       font-weight: 700 !important;
       letter-spacing: 0.12em !important;
       text-transform: uppercase !important;
-      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      border: 1px solid rgba(255, 255, 255, 0.5) !important;
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.5),
-        0 6px 20px rgba(212, 175, 55, 0.35) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 22px rgba(212, 175, 55, 0.35) !important;
       transition: all 0.25s ease !important;
+      cursor: pointer !important;
     }
-    .tool-panel button.bg-indigo-600:hover:not(:disabled),
-    .tool-panel button[id$="-btn"]:hover:not(:disabled):not([id$="-cancel-btn"]) {
+    .tool-panel button.bg-indigo-600:hover,
+    .tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]) {
       filter: brightness(1.15) !important;
       transform: translateY(-1px) !important;
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        0 10px 30px rgba(212, 175, 55, 0.5) !important;
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 32px rgba(212, 175, 55, 0.5) !important;
     }
-    .tool-panel button:disabled {
-      opacity: 0.35 !important;
-      filter: grayscale(0.8) !important;
-      cursor: not-allowed !important;
-      box-shadow: none !important;
+    .tool-panel button:active {
+      transform: translateY(1px) !important;
     }
 
-    /* Cancel Buttons */
+    /* Cancel Buttons (Ruby Jewel Bearing Style) */
     button[id$="-cancel-btn"] {
-      background: rgba(30, 12, 16, 0.85) !important;
+      background: rgba(30, 12, 16, 0.9) !important;
       color: #fca5a5 !important;
       border: 1px solid rgba(239, 68, 68, 0.35) !important;
       font-family: 'JetBrains Mono', monospace !important;
       letter-spacing: 0.04em !important;
       backdrop-filter: blur(8px) !important;
+      cursor: pointer !important;
     }
     button[id$="-cancel-btn"]:hover {
       background: rgba(50, 18, 25, 0.95) !important;
@@ -2628,6 +2862,7 @@
       text-transform: uppercase !important;
       letter-spacing: 0.15em !important;
       font-family: 'Cinzel', serif !important;
+      cursor: pointer !important;
     }
     .tool-panel button[onclick="showDashboard()"]:hover {
       color: #ffffff !important;
@@ -2638,6 +2873,21 @@
     span[id$="-status"], p[id$="-status"] {
       color: #dfba73 !important;
       font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Strict Modal Display Isolation */
+    #privacy-modal:not(.active-modal),
+    #terms-modal:not(.active-modal),
+    #copyright-modal:not(.active-modal),
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    #privacy-modal.active-modal,
+    #terms-modal.active-modal,
+    #copyright-modal.active-modal {
+      display: flex !important;
+      pointer-events: auto !important;
     }
 
     /* Modals (Swiss Chronometer Certificate Style) */
@@ -2668,6 +2918,7 @@
       font-family: 'Cinzel', serif !important;
       font-weight: 700 !important;
       letter-spacing: 0.1em !important;
+      cursor: pointer !important;
     }
 
     /* Selection Colors */
@@ -2675,46 +2926,83 @@
       background-color: rgba(212, 175, 55, 0.3);
       color: #ffffff;
     }
-  
-    /* Strict Modal Display Isolation */
-    #privacy-modal:not(.active-modal),
-    #terms-modal:not(.active-modal),
-    #copyright-modal:not(.active-modal),
-    .hidden {
-      display: none !important;
-      pointer-events: none !important;
+
+    /* Atelier Workbench & Tool Panel Haute Horlogerie Styling */
+    .atelier-workbench {
+      background: linear-gradient(165deg, rgba(18, 18, 24, 0.97) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 35px rgba(0, 0, 0, 0.8),
+        0 24px 60px -12px rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: blur(24px) !important;
+      position: relative !important;
     }
-    #privacy-modal.active-modal,
-    #terms-modal.active-modal,
-    #copyright-modal.active-modal {
-      display: flex !important;
-      pointer-events: auto !important;
+    
+    .atelier-dropzone {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.05) 0%, rgba(10, 10, 14, 0.95) 75%) !important;
+      border: 1px dashed rgba(212, 175, 55, 0.35) !important;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.9) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .atelier-dropzone:hover {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.1) 0%, rgba(16, 16, 22, 0.98) 75%) !important;
+      border-color: rgba(212, 175, 55, 0.75) !important;
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.15) !important;
     }
 
-    /* Interactive Buttons & Cards */
-    .studio-plaque {
+    .atelier-input, .atelier-select {
+      background: #09090d !important;
+      border: 1px solid rgba(212, 175, 55, 0.3) !important;
+      color: #f5e6b8 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      transition: all 0.2s ease !important;
+    }
+    .atelier-input:focus, .atelier-select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.25) !important;
+      outline: none !important;
+    }
+
+    .atelier-btn {
+      background: linear-gradient(135deg, #d4af37 0%, #f5e6b8 50%, #aa8222 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      border-radius: 0.75rem !important;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
       cursor: pointer !important;
-      position: relative !important;
-      z-index: 10 !important;
     }
-    .studio-plaque * {
-      pointer-events: auto;
+    .atelier-btn:hover {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #f5e6b8 100%) !important;
+      box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6) !important;
+      transform: translateY(-1px) scale(1.01) !important;
     }
-    .engage-btn {
+    .atelier-btn:active {
+      transform: translateY(1px) scale(0.99) !important;
+    }
+
+    .atelier-cancel-btn {
+      background: #1f0e12 !important;
+      border: 1px solid rgba(244, 63, 94, 0.45) !important;
+      color: #fca5a5 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      font-size: 0.75rem !important;
+      letter-spacing: 0.05em !important;
+      transition: all 0.25s ease !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
       cursor: pointer !important;
-      z-index: 20 !important;
-      position: relative !important;
     }
-    .filter-btn {
-      cursor: pointer !important;
-      position: relative !important;
-      z-index: 20 !important;
-    }
-    button, input, select {
-      cursor: pointer !important;
-    }
-    input[type="text"], input[type="password"], input[type="number"] {
-      cursor: text !important;
+    .atelier-cancel-btn:hover {
+      background: #3b1119 !important;
+      border-color: rgba(244, 63, 94, 0.8) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.35) !important;
     }
 
   </style></head><body>${htmlContent}</body></html>`;
@@ -3146,6 +3434,116 @@
           document.getElementById('tool-search-input').focus();
         }
       });
+    
+    // -------------------------------------------------------------
+    // Mechanical Balance Wheel & Escapement Simulation (4Hz / 28,800 VPH)
+    // -------------------------------------------------------------
+    (() => {
+      const canvas = document.getElementById('escapement-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let time = 0;
+      const amplitude = 1.25;
+
+      function renderTourbillon() {
+        const w = canvas.width;
+        const h = canvas.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const r = w * 0.40;
+
+        ctx.clearRect(0, 0, w, h);
+
+        time += 0.055;
+        // Harmonic oscillation mimicking 28,800 VPH balance spring
+        const currentAngle = Math.sin(time * 3.2) * amplitude;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+
+        // 1. Outer Balance Ring (Polished Gold with bevel glow)
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+        ctx.shadowBlur = 10;
+        ctx.stroke();
+
+        // 2. Peripheral Poising Screws / Gold Mass Weights
+        ctx.rotate(currentAngle);
+        for (let i = 0; i < 16; i++) {
+          const a = (i * Math.PI) / 8;
+          const x1 = Math.cos(a) * (r - 2);
+          const y1 = Math.sin(a) * (r - 2);
+          const x2 = Math.cos(a) * (r + 4);
+          const y2 = Math.sin(a) * (r + 4);
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.strokeStyle = i % 2 === 0 ? '#f5e6b8' : '#aa8222';
+          ctx.lineWidth = i % 2 === 0 ? 2 : 1.5;
+          ctx.stroke();
+        }
+
+        // 3. Glucydur Triple Arms
+        for (let s = 0; s < 3; s++) {
+          const sa = (s * Math.PI * 2) / 3;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(sa) * r, Math.sin(sa) * r);
+          ctx.strokeStyle = '#c5a059';
+          ctx.lineWidth = 2.2;
+          ctx.stroke();
+        }
+
+        // 4. Spiral Breguet Overcoil Hairspring (Thermally Blued Steel)
+        ctx.beginPath();
+        const turns = 4.2;
+        const breath = 1.0 + Math.sin(time * 3.2) * 0.16;
+        for (let theta = 0; theta < Math.PI * 2 * turns; theta += 0.1) {
+          const sr = (theta / (Math.PI * 2 * turns)) * (r * 0.62) * breath;
+          const sx = Math.cos(theta - currentAngle * 0.45) * sr;
+          const sy = Math.sin(theta - currentAngle * 0.45) * sr;
+          if (theta === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
+        }
+        ctx.strokeStyle = '#38bdf8'; // blued steel
+        ctx.lineWidth = 1.4;
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
+        ctx.shadowBlur = 6;
+        ctx.stroke();
+
+        // 5. Center Synthetic Ruby Cap Jewel
+        ctx.beginPath();
+        ctx.arc(0, 0, 6.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#e11d48'; // ruby red jewel
+        ctx.shadowColor = '#e11d48';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.restore();
+
+        // Real-time ticking chronometer readout
+        const chronoEl = document.getElementById('live-chronometer');
+        if (chronoEl) {
+          const now = new Date();
+          const h = String(now.getHours()).padStart(2, '0');
+          const m = String(now.getMinutes()).padStart(2, '0');
+          const s = String(now.getSeconds()).padStart(2, '0');
+          const ms = Math.floor(now.getMilliseconds() / 100);
+          chronoEl.innerText = `${h}:${m}:${s}.${ms} • CHRONOMETRE CERTIFIÉ • 28,800 VPH`;
+        }
+
+        requestAnimationFrame(renderTourbillon);
+      }
+
+      requestAnimationFrame(renderTourbillon);
+    })();
+
     })();
   </script>
 </body>
