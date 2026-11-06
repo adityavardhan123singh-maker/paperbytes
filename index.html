@@ -1476,7 +1476,7 @@
           formData.append('file', pProtectFile);
           formData.append('password', p1);
 
-          const response = await fetch(${GATEWAY_URL}/security/password-protect, {
+          const response = await fetch(`${GATEWAY_URL}/security/password-protect`, {
             method: 'POST',
             body: formData
           });
@@ -1493,7 +1493,7 @@
           const blob = await response.blob();
           const cleanBase = pProtectFile.name.replace(/\.[^/.]+$/, '');
           const safeBase = cleanBase.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'document';
-          const downloadName = protected_.pdf;
+          const downloadName = `protected_${safeBase}.pdf`;
 
           const dlUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
