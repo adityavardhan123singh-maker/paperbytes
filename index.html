@@ -80,9 +80,217 @@
       border-color: rgba(79, 70, 229, 0.4);
       box-shadow: 0 16px 36px -10px rgba(79, 70, 229, 0.12);
     }
+
+    /* Ambient Motion Canvas */
+    #ambient-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+    header, main, footer, .modal-backdrop {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ========================================================
+       ULTRA LUXURY OBSIDIAN THEME (CINEMATIC LUXURY)
+       ======================================================== */
+    body.luxury-dark {
+      background-color: #06070c !important;
+      color: #f8fafc !important;
+    }
+    body.luxury-dark header {
+      background: rgba(8, 10, 18, 0.72) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+    body.luxury-dark .brand-title {
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #818cf8 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    body.luxury-dark .search-container {
+      background: rgba(13, 17, 30, 0.7) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+    }
+    body.luxury-dark .search-container:focus-within {
+      border-color: rgba(99, 102, 241, 0.8) !important;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3) !important;
+    }
+    body.luxury-dark #tool-search-input {
+      color: #ffffff !important;
+    }
+    body.luxury-dark #tool-search-input::placeholder {
+      color: #64748b !important;
+    }
+    body.luxury-dark #search-dropdown {
+      background: rgba(10, 13, 24, 0.95) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85) !important;
+    }
+    body.luxury-dark #search-list > div:hover {
+      background: rgba(99, 102, 241, 0.18) !important;
+    }
+    body.luxury-dark #search-list p:first-child {
+      color: #ffffff !important;
+    }
+    body.luxury-dark .hero-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 40%, #818cf8 75%, #6366f1 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      filter: drop-shadow(0 2px 25px rgba(99, 102, 241, 0.3));
+    }
+    body.luxury-dark .hero-badge {
+      background: rgba(15, 23, 42, 0.7) !important;
+      border-color: rgba(99, 102, 241, 0.3) !important;
+      color: #c7d2fe !important;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.15) !important;
+    }
+    body.luxury-dark .filter-btn {
+      background: rgba(13, 17, 30, 0.6) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      color: #94a3b8 !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    body.luxury-dark .filter-btn:hover {
+      border-color: rgba(99, 102, 241, 0.5) !important;
+      color: #ffffff !important;
+      background: rgba(25, 33, 56, 0.7) !important;
+    }
+    body.luxury-dark .filter-btn.bg-slate-900,
+    body.luxury-dark .filter-btn.active {
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+      border-color: #6366f1 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 25px rgba(79, 70, 229, 0.5) !important;
+    }
+
+    /* Studio Plaques with Spotlight Glow */
+    body.luxury-dark .studio-plaque {
+      position: relative;
+      background: rgba(12, 16, 28, 0.65) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      border-radius: 1.5rem !important;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.luxury-dark .studio-plaque::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.22), transparent 45%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: 1;
+    }
+    body.luxury-dark .studio-plaque:hover::before {
+      opacity: 1;
+    }
+    body.luxury-dark .studio-plaque:hover {
+      transform: translateY(-5px) scale(1.01);
+      border-color: rgba(99, 102, 241, 0.5) !important;
+      box-shadow: 0 20px 45px -10px rgba(79, 70, 229, 0.3), 0 0 30px rgba(99, 102, 241, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.2) !important;
+    }
+    body.luxury-dark .studio-plaque h3 { color: #ffffff !important; }
+    body.luxury-dark .studio-plaque:hover h3 { color: #c7d2fe !important; }
+    body.luxury-dark .studio-plaque p { color: #94a3b8 !important; }
+    body.luxury-dark .studio-plaque .border-slate-100 { border-color: rgba(255, 255, 255, 0.07) !important; }
+
+    /* Tool Panels & In-Card Elements */
+    body.luxury-dark .tool-panel > div:last-child,
+    body.luxury-dark .bg-white.rounded-3xl {
+      background: rgba(11, 15, 26, 0.82) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(28px) saturate(180%) !important;
+    }
+    body.luxury-dark h2 { color: #ffffff !important; }
+    body.luxury-dark .text-slate-900 { color: #f8fafc !important; }
+    body.luxury-dark .text-slate-800 { color: #e2e8f0 !important; }
+    body.luxury-dark .text-slate-700 { color: #cbd5e1 !important; }
+    body.luxury-dark .text-slate-600 { color: #94a3b8 !important; }
+    body.luxury-dark .text-slate-500 { color: #64748b !important; }
+
+    /* Dashed Dropzones */
+    body.luxury-dark .border-dashed {
+      border-color: rgba(255, 255, 255, 0.14) !important;
+      background: rgba(15, 23, 42, 0.45) !important;
+      transition: all 0.3s ease;
+    }
+    body.luxury-dark .border-dashed:hover {
+      border-color: rgba(99, 102, 241, 0.6) !important;
+      background: rgba(30, 27, 75, 0.3) !important;
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.2) !important;
+    }
+
+    /* Form Inputs */
+    body.luxury-dark input[type="text"],
+    body.luxury-dark input[type="password"],
+    body.luxury-dark input[type="number"],
+    body.luxury-dark select,
+    body.luxury-dark textarea {
+      background: rgba(8, 11, 20, 0.85) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+    }
+    body.luxury-dark input:focus,
+    body.luxury-dark select:focus,
+    body.luxury-dark textarea:focus {
+      border-color: rgba(99, 102, 241, 0.8) !important;
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.35) !important;
+    }
+
+    /* Action Buttons */
+    body.luxury-dark button.bg-indigo-600 {
+      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+      box-shadow: 0 0 25px rgba(79, 70, 229, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+    }
+    body.luxury-dark button.bg-indigo-600:hover:not(:disabled) {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.35) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Cancel Buttons */
+    body.luxury-dark button[id$="-cancel-btn"] {
+      background: rgba(244, 63, 94, 0.12) !important;
+      border-color: rgba(244, 63, 94, 0.35) !important;
+      color: #fda4af !important;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.2) !important;
+    }
+    body.luxury-dark button[id$="-cancel-btn"]:hover {
+      background: rgba(244, 63, 94, 0.22) !important;
+      border-color: rgba(244, 63, 94, 0.6) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.35) !important;
+    }
+
+    /* Modals & Dialogs */
+    body.luxury-dark #privacy-modal > div,
+    body.luxury-dark #terms-modal > div,
+    body.luxury-dark #copyright-modal > div {
+      background: rgba(10, 13, 24, 0.95) !important;
+      border-color: rgba(255, 255, 255, 0.14) !important;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 45px rgba(99, 102, 241, 0.25) !important;
+    }
+    body.luxury-dark footer {
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500/20 selection:text-indigo-600 studio-room-bg">
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500/20 selection:text-indigo-600 studio-room-bg luxury-dark">
+
+  <!-- Live Environment Motion Background Canvas -->
+  <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
 
   <!-- Header -->
   <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200/80 px-5 sm:px-10 py-3.5">
@@ -98,7 +306,7 @@
 
       <!-- Search Input -->
       <div class="relative flex-1 max-w-md mx-2">
-        <div class="flex items-center bg-slate-50 border border-slate-200 focus-within:border-indigo-600 rounded-full px-4 py-2 transition shadow-sm">
+        <div class="search-container flex items-center bg-slate-50 border border-slate-200 focus-within:border-indigo-600 rounded-full px-4 py-2 transition shadow-sm">
           <svg class="w-3.5 h-3.5 text-slate-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
@@ -116,9 +324,15 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="hidden sm:inline font-mono-code text-[11px] text-slate-600 font-medium">Memory Sandbox Active</span>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle-btn" onclick="toggleLuxuryTheme()" class="font-mono-code text-[11px] px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 transition flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+          <span id="theme-toggle-label">Obsidian Live</span>
+        </button>
+        <div class="hidden sm:flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="font-mono-code text-[11px] text-slate-400 font-medium">Sandbox Active</span>
+        </div>
       </div>
     </div>
   </header>
@@ -2509,6 +2723,280 @@
           document.getElementById('tool-search-input').focus();
         }
       });
+
+      // ========================================================
+      // ULTRA LUXURY LIVE ENVIRONMENT MOTION ENGINE (60 FPS)
+      // ========================================================
+      (function initLuxuryEnvironment() {
+        const canvas = document.getElementById('ambient-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let width = 0;
+        let height = 0;
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let animId = null;
+        let isRunning = true;
+
+        const mouse = {
+          x: -1000,
+          y: -1000,
+          targetX: -1000,
+          targetY: -1000,
+          radius: 190,
+          active: false
+        };
+
+        window.addEventListener('mousemove', (e) => {
+          mouse.targetX = e.clientX;
+          mouse.targetY = e.clientY;
+          mouse.active = true;
+
+          // Update dynamic spotlight gradient on studio plaques
+          document.querySelectorAll('.studio-plaque').forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            if (
+              e.clientX >= rect.left - 60 &&
+              e.clientX <= rect.right + 60 &&
+              e.clientY >= rect.top - 60 &&
+              e.clientY <= rect.bottom + 60
+            ) {
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              card.style.setProperty('--mouse-x', `${x}px`);
+              card.style.setProperty('--mouse-y', `${y}px`);
+            }
+          });
+        }, { passive: true });
+
+        window.addEventListener('mouseleave', () => {
+          mouse.active = false;
+          mouse.targetX = -1000;
+          mouse.targetY = -1000;
+        });
+
+        // 1. Organic Radiant Plasma Orbs (Volumetric Background Glow)
+        const orbs = [
+          { x: 0.25, y: 0.22, r: 440, baseR: 440, color: 'rgba(79, 70, 229, 0.14)', vx: 0.0003, vy: 0.0002, phase: 0 },
+          { x: 0.75, y: 0.28, r: 480, baseR: 480, color: 'rgba(59, 130, 246, 0.12)', vx: -0.0002, vy: 0.0003, phase: 2 },
+          { x: 0.45, y: 0.75, r: 460, baseR: 460, color: 'rgba(168, 85, 247, 0.10)', vx: 0.0002, vy: -0.0002, phase: 4 },
+          { x: 0.85, y: 0.82, r: 400, baseR: 400, color: 'rgba(236, 72, 153, 0.07)', vx: -0.0003, vy: -0.0002, phase: 1 }
+        ];
+
+        // 2. Interactive Constellation Stardust Particles
+        const particleCount = window.innerWidth < 768 ? 40 : 75;
+        const particles = [];
+
+        function resetParticles() {
+          particles.length = 0;
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.45,
+              vy: (Math.random() - 0.5) * 0.45,
+              size: Math.random() * 1.8 + 0.8,
+              alpha: Math.random() * 0.5 + 0.2,
+              baseAlpha: Math.random() * 0.5 + 0.2,
+              pulseSpeed: Math.random() * 0.02 + 0.01,
+              pulsePhase: Math.random() * Math.PI * 2
+            });
+          }
+        }
+
+        // 3. Upward Floating Cosmic Micro-Sparks
+        const sparkCount = window.innerWidth < 768 ? 15 : 30;
+        const sparks = [];
+        function resetSparks() {
+          sparks.length = 0;
+          for (let i = 0; i < sparkCount; i++) {
+            sparks.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vy: -(Math.random() * 0.35 + 0.15),
+              swaySpeed: Math.random() * 0.02 + 0.01,
+              swayAmp: Math.random() * 1.2 + 0.4,
+              phase: Math.random() * Math.PI * 2,
+              size: Math.random() * 1.2 + 0.5,
+              alpha: Math.random() * 0.4 + 0.1
+            });
+          }
+        }
+
+        function resize() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          resetParticles();
+          resetSparks();
+        }
+        window.addEventListener('resize', resize, { passive: true });
+        resize();
+
+        let lastTime = performance.now();
+
+        function render(now) {
+          if (!isRunning) return;
+          lastTime = now;
+
+          mouse.x += (mouse.targetX - mouse.x) * 0.1;
+          mouse.y += (mouse.targetY - mouse.y) * 0.1;
+
+          ctx.clearRect(0, 0, width, height);
+
+          // LAYER 1: Radiant Plasma Orbs with Soft Volumetric Glow
+          ctx.globalCompositeOperation = 'screen';
+          orbs.forEach((orb) => {
+            orb.phase += 0.008;
+            orb.x += orb.vx;
+            orb.y += orb.vy;
+
+            if (orb.x < 0.1 || orb.x > 0.9) orb.vx *= -1;
+            if (orb.y < 0.1 || orb.y > 0.9) orb.vy *= -1;
+
+            const px = orb.x * width;
+            const py = orb.y * height;
+            const dynamicRadius = orb.baseR + Math.sin(orb.phase) * 35;
+
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, dynamicRadius);
+            grad.addColorStop(0, orb.color);
+            grad.addColorStop(0.5, orb.color.replace(/[\d\.]+\)$/, '0.04)'));
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(px, py, dynamicRadius, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          // LAYER 2: Constellation Network & Crystalline Connections
+          ctx.globalCompositeOperation = 'lighter';
+
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            if (mouse.active) {
+              const dx = p.x - mouse.x;
+              const dy = p.y - mouse.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < mouse.radius && dist > 0) {
+                const force = (1 - dist / mouse.radius) * 1.5;
+                p.x += (dx / dist) * force;
+                p.y += (dy / dist) * force;
+                p.alpha = Math.min(1, p.baseAlpha + (1 - dist / mouse.radius) * 0.5);
+              } else {
+                p.alpha += (p.baseAlpha - p.alpha) * 0.05;
+              }
+            } else {
+              p.pulsePhase += p.pulseSpeed;
+              p.alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.15;
+            }
+
+            ctx.fillStyle = `rgba(199, 210, 254, ${p.alpha})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            for (let j = i + 1; j < particles.length; j++) {
+              const p2 = particles[j];
+              const dx = p.x - p2.x;
+              const dy = p.y - p2.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              const maxDist = 110;
+
+              if (dist < maxDist) {
+                const lineAlpha = (1 - dist / maxDist) * 0.12 * Math.min(p.alpha, p2.alpha);
+                ctx.strokeStyle = `rgba(165, 180, 252, ${lineAlpha})`;
+                ctx.lineWidth = 0.75;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+              }
+            }
+
+            if (mouse.active) {
+              const mdx = p.x - mouse.x;
+              const mdy = p.y - mouse.y;
+              const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+              if (mdist < 130) {
+                const mouseAlpha = (1 - mdist / 130) * 0.22;
+                ctx.strokeStyle = `rgba(129, 140, 248, ${mouseAlpha})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+              }
+            }
+          }
+
+          // LAYER 3: Cosmic Micro-Sparks Drifting Upward
+          for (let i = 0; i < sparks.length; i++) {
+            const s = sparks[i];
+            s.y += s.vy;
+            s.phase += s.swaySpeed;
+            s.x += Math.sin(s.phase) * s.swayAmp * 0.3;
+
+            if (s.y < -10) {
+              s.y = height + 10;
+              s.x = Math.random() * width;
+            }
+
+            ctx.fillStyle = `rgba(224, 231, 255, ${s.alpha})`;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.globalCompositeOperation = 'source-over';
+          animId = requestAnimationFrame(render);
+        }
+
+        animId = requestAnimationFrame(render);
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            isRunning = false;
+            if (animId) cancelAnimationFrame(animId);
+          } else {
+            isRunning = true;
+            lastTime = performance.now();
+            animId = requestAnimationFrame(render);
+          }
+        });
+      })();
+
+      // Luxury Theme Controller
+      window.toggleLuxuryTheme = () => {
+        const isDark = document.body.classList.toggle('luxury-dark');
+        const label = document.getElementById('theme-toggle-label');
+        if (label) label.innerText = isDark ? 'Obsidian Live' : 'Platinum Live';
+        localStorage.setItem('paperbytes_luxury_theme', isDark ? 'dark' : 'light');
+      };
+
+      (function applyInitialTheme() {
+        const saved = localStorage.getItem('paperbytes_luxury_theme');
+        const label = document.getElementById('theme-toggle-label');
+        if (saved === 'light') {
+          document.body.classList.remove('luxury-dark');
+          if (label) label.innerText = 'Platinum Live';
+        } else {
+          document.body.classList.add('luxury-dark');
+          if (label) label.innerText = 'Obsidian Live';
+        }
+      })();
     })();
   </script>
 </body>
