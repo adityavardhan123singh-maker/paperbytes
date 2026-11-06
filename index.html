@@ -18,7 +18,8 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com">
+</script>
 
   <!-- In-Browser Document Processing Engines -->
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -815,6 +816,61 @@
       box-shadow: 0 0 20px rgba(59, 130, 246, 0.7), inset 0 2px 4px rgba(0,0,0,0.5) !important;
     }
 
+
+
+    /* ========================================================
+       INTERACTIVE VOXEL DIORAMA STAGE (FULL SCREEN AESTHETIC)
+       ======================================================== */
+    .diorama-interactive-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1360px;
+      aspect-ratio: 1024 / 571;
+      margin: 0 auto;
+      border: 6px solid #3d2817;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 
+        inset 3px 3px 0 #5c3e23,
+        inset -3px -3px 0 #21160d,
+        0 14px 0 #181009,
+        0 30px 70px rgba(0, 0, 0, 0.95);
+      background-color: #0b110e;
+    }
+
+    /* Ambient Canvas directly inside diorama */
+    #ambient-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Studio Drawer & Modals */
+    #studio-drawer {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    }
+    #studio-drawer.drawer-closed {
+      transform: translateY(-110%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #studio-drawer.drawer-open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Terminal Modal */
+    #terminal-modal.modal-closed {
+      display: none;
+    }
+    #terminal-modal.modal-open {
+      display: flex;
+    }
+
 </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500/20 selection:text-indigo-600 studio-room-bg luxury-dark">
@@ -888,6 +944,119 @@
        Active by default on initial page load
        ======================================================== -->
   <div id="view-mechanisms" class="main-view space-y-6">
+
+    <!-- ========================================================
+         INTERACTIVE 3D VOXEL DIORAMA (PRIMARY INTERACTIVE STAGE)
+         ======================================================== -->
+    <div id="diorama-stage-wrapper" class="w-full py-2">
+      <div class="diorama-interactive-stage relative">
+        <!-- 1. The High-Resolution 3D Voxel Diorama Artwork -->
+        <img src="paperbytes-voxel-hero.jpg" alt="PaperBytes 3D Voxel Diorama" class="w-full h-full object-cover block pointer-events-none select-none" />
+
+        <!-- 2. The 60 FPS Ambient Canvas Layer (Torches, Bubbles, Redstone Sparks, Cursor Glow) -->
+        <canvas id="ambient-canvas"></canvas>
+
+        <!-- 3. Top Navigation 3 Buttons Overlay (Aligned directly below PaperBytes logo) -->
+        <div class="absolute z-20 flex items-center justify-center gap-1.5 sm:gap-2.5" style="left: 30.5%; top: 30.5%; width: 35.5%; height: 8.5%;">
+          <button id="diorama-btn-studio" onclick="openStudioDrawer()" class="voxel-nav-pill voxel-pill-studio h-full flex-1 flex items-center justify-center text-[9px] sm:text-xs md:text-sm font-pixel-ui shadow-lg">
+            The Studio
+          </button>
+          <button id="diorama-btn-mechanisms" onclick="focusMechanisms()" class="voxel-nav-pill voxel-pill-mechanisms active h-full flex-1 flex items-center justify-center text-[9px] sm:text-xs md:text-sm font-pixel-ui shadow-lg">
+            Mechanisms
+          </button>
+          <button id="diorama-btn-privacy" onclick="openPrivacyModal()" class="voxel-nav-pill voxel-pill-privacy h-full flex-1 flex items-center justify-center text-[9px] sm:text-xs md:text-sm font-pixel-ui shadow-lg">
+            Privacy Craft
+          </button>
+        </div>
+
+        <!-- 4. Left Wooden Signboard Interactive Overlay -->
+        <div id="diorama-signboard" class="absolute z-20 flex flex-col justify-between p-2 sm:p-3 md:p-4 text-[#2b1c0e] font-sans" style="left: 4.88%; top: 35.90%; width: 21.00%; height: 29.77%;">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span id="diorama-sign-mod" class="font-pixel-title text-[7px] sm:text-[9px] md:text-[10px] bg-[#4a2e16] text-[#f7e6ca] px-1.5 py-0.5 rounded">MOD-01</span>
+              <span class="font-pixel-ui text-[7px] sm:text-[8px] md:text-[9px] text-emerald-800 font-bold hidden sm:inline">IN-MEMORY</span>
+            </div>
+            <h3 id="diorama-sign-title" class="font-pixel-ui text-[9px] sm:text-xs md:text-sm lg:text-base font-bold uppercase leading-tight tracking-tight text-[#23160a] line-clamp-2">
+              THE PAPERBYTES CONVERTER
+            </h3>
+            <p id="diorama-sign-desc" class="text-[7px] sm:text-[9px] md:text-[11px] leading-tight text-[#4a3622] mt-1 line-clamp-3">
+              A digital restoration station reconstructing paragraph flow, vector alignments, and tabular formatting block by block.
+            </p>
+          </div>
+          <div class="pt-1 border-t border-[#8f7952]/40 flex items-center justify-between">
+            <button onclick="openStudioDrawer()" class="font-pixel-ui text-[7px] sm:text-[9px] text-[#2b1c0e] hover:text-emerald-900 font-bold underline flex items-center gap-1">
+              <span>🔨 Switch (15) &rarr;</span>
+            </button>
+            <span class="text-[7px] sm:text-[8px] text-[#5c4530] font-mono-code hidden md:inline">DPDPA 2023</span>
+          </div>
+        </div>
+
+        <!-- 5. Right Retro CRT Screen Interactive Dropzone Overlay -->
+        <div id="diorama-crt-screen" class="absolute z-20 rounded-lg overflow-hidden bg-[#0d1614]/85 backdrop-blur-[1px] p-2 sm:p-3 text-emerald-300 font-mono-code flex flex-col justify-between" style="left: 70.51%; top: 16.81%; width: 19.53%; height: 30.82%;">
+          <!-- CRT Scanlines -->
+          <div class="voxel-scanlines absolute inset-0 pointer-events-none z-10"></div>
+          
+          <!-- Screen Header -->
+          <div class="relative z-20 flex items-center justify-between border-b border-emerald-500/20 pb-1">
+            <span class="font-pixel-ui text-[7px] sm:text-[9px] text-emerald-400 font-bold uppercase truncate">
+              Deposit Document
+            </span>
+            <button id="diorama-cancel-btn" onclick="cancelActiveFile()" class="hidden text-[8px] sm:text-[9px] font-pixel-ui text-rose-400 hover:text-rose-200 bg-rose-950/70 border border-rose-600/50 px-1.5 py-0.5 rounded font-bold shadow-sm" title="Remove & Select Different File">
+              ✕
+            </button>
+          </div>
+
+          <!-- Active Dropzone & File Area -->
+          <div id="diorama-dropzone" onclick="triggerFileInput()" class="relative z-20 flex-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-emerald-950/30 transition rounded p-1">
+            <!-- Hidden Master Input -->
+            <input type="file" id="diorama-master-input" class="hidden" onchange="handleDioramaFile(this)" />
+            
+            <!-- Empty State (No file deposited) -->
+            <div id="diorama-empty-state" class="flex flex-col items-center justify-center space-y-1">
+              <svg class="w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 text-emerald-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <p class="font-pixel-ui text-[7px] sm:text-[9px] text-emerald-200 leading-tight">Drop File Here</p>
+              <p class="text-[6px] sm:text-[8px] text-emerald-400/70 hidden sm:block">Click to browse</p>
+            </div>
+
+            <!-- Loaded State (File Deposited) -->
+            <div id="diorama-loaded-state" class="hidden flex flex-col items-center justify-center space-y-1 w-full">
+              <div class="w-5 h-5 sm:w-6 sm:h-6 rounded bg-emerald-500/20 text-emerald-300 flex items-center justify-center shadow-sm">
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <p id="diorama-file-name" class="text-[7px] sm:text-[9px] text-emerald-200 font-bold truncate max-w-full px-1"></p>
+              <p id="diorama-file-size" class="text-[6px] sm:text-[8px] text-emerald-400/80 font-mono-code"></p>
+            </div>
+
+            <!-- Extra Inputs (Password, etc.) -->
+            <div id="diorama-extra-controls" class="hidden w-full mt-1 space-y-1">
+              <input type="password" id="diorama-pass-input" placeholder="Set password..." class="w-full text-[7px] sm:text-[9px] bg-black/70 border border-emerald-500/40 rounded px-1.5 py-0.5 text-emerald-200 focus:outline-none" onclick="event.stopPropagation()" />
+            </div>
+          </div>
+
+          <!-- Screen Footer Status -->
+          <div class="relative z-20 flex items-center justify-between text-[6px] sm:text-[8px] text-emerald-400/80 pt-0.5 border-t border-emerald-500/20">
+            <span id="diorama-screen-status">Ready</span>
+            <button onclick="openTerminalModal()" class="text-emerald-400 hover:text-white underline" title="Open High-Res CRT Terminal">
+              ⛶ Zoom
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. Illuminated Marquee Action Button Overlay -->
+        <div class="absolute z-20 flex items-center justify-center" style="left: 67.77%; top: 65.15%; width: 15.82%; height: 9.46%;">
+          <button id="diorama-marquee-btn" onclick="executeDioramaAction()" class="voxel-marquee-btn w-full h-full flex items-center justify-center text-[7px] sm:text-[9px] md:text-xs font-pixel-title text-[#4ade80] rounded shadow-2xl transition disabled:opacity-50">
+            CONVERT TO .DOCX
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Notice Banner Linking to The Studio -->
     <div class="flex items-center justify-between flex-wrap gap-3 bg-[#131d17]/85 border-2 border-[#2b4030] rounded-xl px-4 py-2.5 shadow-lg">
       <div class="flex items-center gap-2.5">
@@ -4069,7 +4238,263 @@
             const mdText = await omniFile.text();
             if (target === 'html') {
               const htmlContent = marked ? marked.parse(mdText) : `<pre>${mdText}</pre>`;
-              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${baseName}</title><style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:20px;line-height:1.6;color:#1e293b;}</style></head><body>${htmlContent}</body></html>`;
+              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${baseName}</title><style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:20px;line-height:1.6;color:#1e293b;}</style></head><body>${htmlContent}
+
+  <!-- ========================================================
+       STUDIO DRAWER (OVERLAY INVENTORY OF ALL 15 TOOLS)
+       ======================================================== -->
+  <div id="studio-drawer" class="drawer-closed fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col justify-start p-4 sm:p-8 overflow-y-auto">
+    <div class="max-w-6xl w-full mx-auto space-y-6">
+      <!-- Drawer Header -->
+      <div class="voxel-signboard p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#4a2e16] text-[10px] text-[#f7e6ca] font-pixel-ui">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            CRAFTING INVENTORY &bull; 15 MECHANISMS
+          </div>
+          <h2 class="voxel-sign-title text-xl sm:text-2xl mt-2 mb-1">
+            The Studio Crafting Gallery
+          </h2>
+          <p class="voxel-sign-desc text-xs sm:text-sm">
+            Select any digital restoration plaque below to load its dedicated mechanism into the interactive Voxel Diorama.
+          </p>
+        </div>
+        <button onclick="closeStudioDrawer()" class="voxel-sign-back-btn self-start md:self-auto text-sm px-4 py-2">
+          <span>✕</span> Close Studio (ESC)
+        </button>
+      </div>
+
+      <!-- Category Filter Buttons inside Drawer -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="filterGallery('all')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-emerald-500 bg-[#192b1e] text-emerald-200 font-bold transition shadow-sm active">All (15)</button>
+        <button onclick="filterGallery('convert')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Conversion (6)</button>
+        <button onclick="filterGallery('organize')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Organization (4)</button>
+        <button onclick="filterGallery('security')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Security (3)</button>
+        <button onclick="filterGallery('utility')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Utilities (2)</button>
+      </div>
+
+      <!-- Drawer Plaque Grid -->
+      <div id="drawer-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="selectDioramaTool('tool-pdf-to-word-real')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-01 &bull; Stateless Core</span>
+              <span class="text-xs font-mono-code text-slate-400">PDF &rarr; DOCX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PDF to Word DOCX</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Layout-preserving document extraction. Reconstructs text flows, alignments, and structured tables.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Launch Engine</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="selectDioramaTool('tool-excel-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-02 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">XLSX &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Excel to PDF Tables</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Generate Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="selectDioramaTool('tool-rotate-delete')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-03 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">PAGINATION</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Rotate & Delete Pages</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Visual thumbnail management. Rotate individual orientations (90°/180°) and prune unwanted pages instantly.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Organize Pages</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="selectDioramaTool('tool-password-protect')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-04 &bull; AES-256 CORE</span>
+              <span class="text-xs font-mono-code text-slate-400">ENCRYPT</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Protect with Password</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Enforce military-grade AES-256 encryption. PDF strictly requires password to view or print in any PDF reader.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Secure File</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="selectDioramaTool('tool-watermark')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-05 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">STAMP</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Diagonal Watermark</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Overlay custom identifiers with live angle, size, and opacity calibrations.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Apply Stamp</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="selectDioramaTool('tool-extract-images')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full uppercase">MOD-06 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">ZIP BUNDLE</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Extract Images to ZIP</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Isolates all embedded graphics and figures from every page into a downloadable archive.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Unpack Graphics</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="selectDioramaTool('tool-scanner-effect')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-07 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">CANVAS FX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Scanner FX</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Convert camera photos into high-contrast black-and-white flatbed scan PDFs.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Process Scan</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="selectDioramaTool('tool-portal-crop')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-08 &bull; Binary Search</span>
+              <span class="text-xs font-mono-code text-slate-400">&le; 50KB TARGET</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Passport Crop & Compress</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Aspect-ratio cropping with automated binary-search compression to satisfy strict portal file-size limits.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Prepare Photo</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="selectDioramaTool('tool-merge-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-09 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">UNIFY</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Merge PDF Documents</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Combines multiple PDF files into a single ordered document without uploading to a third-party server.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Merge Files</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="selectDioramaTool('tool-split-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-10 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">EXTRACT</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Split & Extract Ranges</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Extract custom page intervals (e.g. 1-3, 5, 8-10) into a single PDF or unpack all pages to a ZIP archive.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Split Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="selectDioramaTool('tool-images-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-11 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">IMG &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Images to PDF</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF with custom margins.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Compile Images</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="selectDioramaTool('tool-omni-convert')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-12 &bull; Universal</span>
+              <span class="text-xs font-mono-code text-slate-400">OMNI MATRIX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PaperBytes Omni-Converter</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Dynamic universal converter. Drop images, spreadsheets, JSON, or Markdown and cross-convert in memory.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Launch Matrix</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="selectDioramaTool('tool-page-numbers')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-13 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">BATES / PAGINATE</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Add Page Numbers</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Stamp sequential numbering, "Page X of Y", or legal Bates codes with custom placement and font sizes.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Stamp Numbers</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="selectDioramaTool('tool-hash-verifier')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-14 &bull; Web Crypto</span>
+              <span class="text-xs font-mono-code text-slate-400">SHA-256</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Hash & Integrity</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Calculate tamper-proof SHA-256 and SHA-1 cryptographic checksums in browser memory to verify authenticity.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Verify Integrity</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="selectDioramaTool('tool-word-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-15 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">DOCX &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Word (.docx) to PDF</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Converts Microsoft Word documents into paginated vector PDFs with formatted headings, tables, and typography.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Convert Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+      
+</div>
+    </div>
+  </div>
+
+</body></html>`;
               saveAs(new Blob([fullHtml], { type: 'text/html' }), `${baseName}.html`);
             } else if (target === 'pdf') {
               const { jsPDF } = window.jspdf;
@@ -4736,6 +5161,395 @@
         }
       })();
     })();
+  </script>
+
+  <script>
+// ========================================================
+      // INTERACTIVE VOXEL DIORAMA ENGINE
+      // ========================================================
+      const TOOL_METADATA = [
+      {
+            "id": "tool-pdf-to-word-real",
+            "mod": "MOD-01",
+            "title": "THE PAPERBYTES CONVERTER",
+            "sub": "PDF to Microsoft Word (.docx)",
+            "desc": "A digital restoration station reconstructing paragraph flow, vector alignments, and tabular formatting block by block.",
+            "marquee": "CONVERT TO .DOCX",
+            "accept": "application/pdf",
+            "inputId": "real-pdf-input",
+            "btnId": "real-pdf-btn",
+            "cancelId": "real-pdf-cancel-btn"
+      },
+      {
+            "id": "tool-word-to-pdf",
+            "mod": "MOD-02",
+            "title": "WORD TO PDF RESTORER",
+            "sub": "Word (.docx) to Formatted PDF",
+            "desc": "Parses Word paragraphs, headings, bullet lists, and tabular alignments directly in browser memory.",
+            "marquee": "RENDER VECTOR PDF",
+            "accept": ".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "inputId": "word-file-input",
+            "btnId": "word-convert-btn",
+            "cancelId": "word-cancel-btn"
+      },
+      {
+            "id": "tool-excel-to-pdf",
+            "mod": "MOD-03",
+            "title": "EMERALD SPREADSHEET MATRIX",
+            "sub": "Excel (.xlsx) to Formatted PDF Table",
+            "desc": "Converts spreadsheet workbooks into clean paginated PDF tables in browser memory.",
+            "marquee": "RENDER VECTOR PDF",
+            "accept": ".xlsx,.xls,.csv",
+            "inputId": "excel-file-input",
+            "btnId": "excel-convert-btn",
+            "cancelId": "excel-cancel-btn"
+      },
+      {
+            "id": "tool-rotate-delete",
+            "mod": "MOD-04",
+            "title": "PISTON PAGE ARRANGER",
+            "sub": "Rotate & Delete PDF Pages",
+            "desc": "Rotate sideways pages or discard unnecessary pages with interactive page thumbnails.",
+            "marquee": "EXPORT MODIFIED PDF",
+            "accept": "application/pdf",
+            "inputId": "organize-file-input",
+            "btnId": "save-organize-btn",
+            "cancelId": "organize-cancel-btn"
+      },
+      {
+            "id": "tool-password-protect",
+            "mod": "MOD-05",
+            "title": "OBSIDIAN PASSWORD VAULT",
+            "sub": "Military-Grade AES-256 Encryption",
+            "desc": "Enforce military-grade AES-256 encryption. Zero retention, ephemeral cryptographic locking.",
+            "marquee": "ENCRYPT & DOWNLOAD",
+            "accept": "application/pdf",
+            "inputId": "protect-pdf-input",
+            "btnId": "protect-btn",
+            "cancelId": "protect-cancel-btn"
+      },
+      {
+            "id": "tool-watermark",
+            "mod": "MOD-06",
+            "title": "ALCHEMICAL WATERMARKER",
+            "sub": "Diagonal Watermark Overlay",
+            "desc": "Stamp custom identifiers and confidentiality marks across every page of your PDF.",
+            "marquee": "STAMP & DOWNLOAD",
+            "accept": "application/pdf",
+            "inputId": "watermark-file-input",
+            "btnId": "watermark-btn",
+            "cancelId": "watermark-cancel-btn"
+      },
+      {
+            "id": "tool-extract-images",
+            "mod": "MOD-07",
+            "title": "NETHERITE IMAGE EXTRACTOR",
+            "sub": "Extract Embedded Graphics to ZIP",
+            "desc": "Extracts high-resolution embedded figures into a downloadable ZIP archive.",
+            "marquee": "EXTRACT & DOWNLOAD ZIP",
+            "accept": "application/pdf",
+            "inputId": "extract-file-input",
+            "btnId": "extract-btn",
+            "cancelId": "extract-cancel-btn"
+      },
+      {
+            "id": "tool-scanner-effect",
+            "mod": "MOD-08",
+            "title": "GLOWSTONE SCANNER FILTER",
+            "sub": "Document Scanner Filters",
+            "desc": "Converts phone camera captures into clean high-contrast scanned documents.",
+            "marquee": "SAVE AS SCANNED PDF",
+            "accept": "image/*",
+            "inputId": "scanner-file-input",
+            "btnId": "scanner-btn",
+            "cancelId": "scanner-cancel-btn"
+      },
+      {
+            "id": "tool-portal-crop",
+            "mod": "MOD-09",
+            "title": "PORTAL PHOTO CROPPING FRAME",
+            "sub": "Passport Cropper & Strict Size Target",
+            "desc": "Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.",
+            "marquee": "CROP, COMPRESS & SAVE",
+            "accept": "image/*",
+            "inputId": "portal-file-input",
+            "btnId": "portal-btn",
+            "cancelId": "portal-cancel-btn"
+      },
+      {
+            "id": "tool-merge-pdf",
+            "mod": "MOD-10",
+            "title": "ANVIL DOCUMENT COMPACTOR",
+            "sub": "Merge Multiple PDF Documents",
+            "desc": "Combine two or more separate PDFs into a single unified file in browser memory.",
+            "marquee": "MERGE DOCUMENTS",
+            "accept": "application/pdf",
+            "inputId": "merge-files-input",
+            "btnId": "merge-btn",
+            "cancelId": "merge-cancel-btn"
+      },
+      {
+            "id": "tool-split-pdf",
+            "mod": "MOD-11",
+            "title": "SHEARS DISSECTION BENCH",
+            "sub": "Split PDF / Extract Page Ranges",
+            "desc": "Extract specific page subsets or unpack every single page into an individual PDF.",
+            "marquee": "EXTRACT & DOWNLOAD",
+            "accept": "application/pdf",
+            "inputId": "split-file-input",
+            "btnId": "split-btn",
+            "cancelId": "split-cancel-btn"
+      },
+      {
+            "id": "tool-images-to-pdf",
+            "mod": "MOD-12",
+            "title": "CARTOGRAPHY PHOTO COMPILER",
+            "sub": "Images to PDF Document",
+            "desc": "Compile photos, homework notes, or receipts (JPG, PNG) into a single PDF.",
+            "marquee": "COMPILE & SAVE PDF",
+            "accept": "image/*",
+            "inputId": "images-pdf-input",
+            "btnId": "images-pdf-btn",
+            "cancelId": "images-pdf-cancel-btn"
+      },
+      {
+            "id": "tool-omni-convert",
+            "mod": "MOD-13",
+            "title": "PAPERBYTES OMNI-ALCHEMIST",
+            "sub": "Cross-Format Conversion Matrix",
+            "desc": "Universal cross-format conversion matrix running 100% locally in browser memory.",
+            "marquee": "CONVERT NOW",
+            "accept": "*",
+            "inputId": "omni-file-input",
+            "btnId": "omni-btn",
+            "cancelId": "omni-cancel-btn"
+      },
+      {
+            "id": "tool-page-numbers",
+            "mod": "MOD-14",
+            "title": "LECTERN CALLIGRAPHY STAMP",
+            "sub": "Add Page Numbers & Bates Stamping",
+            "desc": "Stamp sequential page numbers or custom pagination format onto every page.",
+            "marquee": "APPLY NUMBERS & SAVE",
+            "accept": "application/pdf",
+            "inputId": "pagenum-file-input",
+            "btnId": "pagenum-btn",
+            "cancelId": "pagenum-cancel-btn"
+      },
+      {
+            "id": "tool-hash-verifier",
+            "mod": "MOD-15",
+            "title": "EYE OF ENDER HASH VERIFIER",
+            "sub": "Cryptographic Checksum & Integrity",
+            "desc": "Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.",
+            "marquee": "GENERATE CHECKSUM",
+            "accept": "*",
+            "inputId": "hash-file-input",
+            "btnId": "hash-copy-btn",
+            "cancelId": "hash-cancel-btn"
+      }
+];
+      let currentToolId = 'tool-pdf-to-word-real';
+
+      window.openStudioDrawer = () => {
+        const drawer = document.getElementById('studio-drawer');
+        if (drawer) {
+          drawer.classList.remove('drawer-closed');
+          drawer.classList.add('drawer-open');
+          renderDrawerGrid();
+        }
+      };
+
+      window.closeStudioDrawer = () => {
+        const drawer = document.getElementById('studio-drawer');
+        if (drawer) {
+          drawer.classList.remove('drawer-open');
+          drawer.classList.add('drawer-closed');
+        }
+      };
+
+      window.focusMechanisms = () => {
+        closeStudioDrawer();
+        const stage = document.getElementById('diorama-stage-wrapper');
+        if (stage) stage.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      window.selectDioramaTool = (toolId) => {
+        const meta = TOOL_METADATA.find(t => t.id === toolId);
+        if (!meta) return;
+        currentToolId = toolId;
+
+        // 1. Update Signboard
+        const modEl = document.getElementById('diorama-sign-mod');
+        const titleEl = document.getElementById('diorama-sign-title');
+        const descEl = document.getElementById('diorama-sign-desc');
+        if (modEl) modEl.innerText = meta.mod;
+        if (titleEl) titleEl.innerText = meta.title;
+        if (descEl) descEl.innerText = meta.desc;
+
+        // 2. Update Marquee Button
+        const marqueeEl = document.getElementById('diorama-marquee-btn');
+        if (marqueeEl) marqueeEl.innerText = meta.marquee;
+
+        // 3. Update Input Accept
+        const inputEl = document.getElementById('diorama-master-input');
+        if (inputEl) inputEl.accept = meta.accept;
+
+        // 4. Toggle Extra Controls (e.g. Password input)
+        const extraCtrl = document.getElementById('diorama-extra-controls');
+        if (extraCtrl) {
+          if (toolId === 'tool-password-protect') {
+            extraCtrl.classList.remove('hidden');
+          } else {
+            extraCtrl.classList.add('hidden');
+          }
+        }
+
+        // Reset file state on CRT screen
+        cancelActiveFile();
+
+        // Also activate the tool panel in background
+        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+        const targetPanel = document.getElementById(toolId);
+        if (targetPanel) targetPanel.classList.add('active');
+
+        closeStudioDrawer();
+      };
+
+      function renderDrawerGrid() {
+        const container = document.getElementById('drawer-tools-grid');
+        const sourceGrid = document.getElementById('tools-grid');
+        if (container && sourceGrid && container.children.length === 0) {
+          // Clone cards from tools-grid into drawer
+          Array.from(sourceGrid.children).forEach(child => {
+            const clone = child.cloneNode(true);
+            const origOnclick = clone.getAttribute('onclick');
+            if (origOnclick) {
+              const m = origOnclick.match(/openTool\('([^']+)'\)/);
+              if (m) {
+                const tid = m[1];
+                clone.onclick = () => window.selectDioramaTool(tid);
+              }
+            }
+            container.appendChild(clone);
+          });
+        }
+      }
+
+      window.triggerFileInput = () => {
+        const input = document.getElementById('diorama-master-input');
+        if (input) input.click();
+      };
+
+      window.handleDioramaFile = (input) => {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+
+        // Update CRT screen visuals
+        document.getElementById('diorama-empty-state').classList.add('hidden');
+        document.getElementById('diorama-loaded-state').classList.remove('hidden');
+        document.getElementById('diorama-cancel-btn').classList.remove('hidden');
+        document.getElementById('diorama-file-name').innerText = file.name;
+        document.getElementById('diorama-file-size').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+        document.getElementById('diorama-screen-status').innerText = 'Ready to convert';
+        document.getElementById('diorama-marquee-btn').disabled = false;
+
+        // Forward to the active tool panel's native file input
+        const meta = TOOL_METADATA.find(t => t.id === currentToolId);
+        if (meta && meta.inputId) {
+          const targetInput = document.getElementById(meta.inputId);
+          if (targetInput) {
+            try {
+              const dt = new DataTransfer();
+              dt.items.add(file);
+              targetInput.files = dt.files;
+              if (typeof targetInput.onchange === 'function') {
+                targetInput.onchange();
+              } else {
+                targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+              }
+            } catch (e) {
+              console.warn("File forwarding fallback", e);
+            }
+          }
+        }
+      };
+
+      window.cancelActiveFile = () => {
+        const emptyState = document.getElementById('diorama-empty-state');
+        const loadedState = document.getElementById('diorama-loaded-state');
+        const cancelBtn = document.getElementById('diorama-cancel-btn');
+        const statusEl = document.getElementById('diorama-screen-status');
+        const masterInput = document.getElementById('diorama-master-input');
+
+        if (emptyState) emptyState.classList.remove('hidden');
+        if (loadedState) loadedState.classList.add('hidden');
+        if (cancelBtn) cancelBtn.classList.add('hidden');
+        if (statusEl) statusEl.innerText = 'Awaiting file';
+        if (masterInput) masterInput.value = '';
+
+        const meta = TOOL_METADATA.find(t => t.id === currentToolId);
+        if (meta && meta.cancelId) {
+          const nativeCancel = document.getElementById(meta.cancelId);
+          if (nativeCancel) nativeCancel.click();
+        }
+      };
+
+      window.executeDioramaAction = () => {
+        const meta = TOOL_METADATA.find(t => t.id === currentToolId);
+        if (!meta) return;
+
+        // If password protect, sync password values
+        if (currentToolId === 'tool-password-protect') {
+          const pass = document.getElementById('diorama-pass-input').value;
+          if (pass) {
+            const userPass = document.getElementById('protect-user-pass');
+            const confPass = document.getElementById('protect-confirm-pass');
+            if (userPass) userPass.value = pass;
+            if (confPass) confPass.value = pass;
+          }
+        }
+
+        const nativeBtn = document.getElementById(meta.btnId);
+        if (nativeBtn) {
+          nativeBtn.click();
+        }
+      };
+
+      // Set up Drag and Drop on CRT Screen
+      window.addEventListener('DOMContentLoaded', () => {
+        const dropzone = document.getElementById('diorama-dropzone');
+        if (dropzone) {
+          ['dragenter', 'dragover'].forEach(name => {
+            dropzone.addEventListener(name, (e) => {
+              e.preventDefault();
+              dropzone.classList.add('bg-emerald-900/60');
+            });
+          });
+          ['dragleave', 'drop'].forEach(name => {
+            dropzone.addEventListener(name, (e) => {
+              e.preventDefault();
+              dropzone.classList.remove('bg-emerald-900/60');
+            });
+          });
+          dropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+              const input = document.getElementById('diorama-master-input');
+              if (input) {
+                input.files = e.dataTransfer.files;
+                handleDioramaFile(input);
+              }
+            }
+          });
+        }
+      });
+
+      // Update openTool so it also updates diorama
+      const origOpenTool = window.openTool;
+      window.openTool = (toolId) => {
+        window.selectDioramaTool(toolId);
+        if (origOpenTool) origOpenTool(toolId);
+      };
   </script>
 </body>
 </html>
