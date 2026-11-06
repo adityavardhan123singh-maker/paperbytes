@@ -295,6 +295,48 @@
       background-color: rgba(212, 175, 55, 0.3);
       color: #ffffff;
     }
+  
+    /* Strict Modal Display Isolation */
+    #privacy-modal:not(.active-modal),
+    #terms-modal:not(.active-modal),
+    #copyright-modal:not(.active-modal),
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    #privacy-modal.active-modal,
+    #terms-modal.active-modal,
+    #copyright-modal.active-modal {
+      display: flex !important;
+      pointer-events: auto !important;
+    }
+
+    /* Interactive Buttons & Cards */
+    .studio-plaque {
+      cursor: pointer !important;
+      position: relative !important;
+      z-index: 10 !important;
+    }
+    .studio-plaque * {
+      pointer-events: auto;
+    }
+    .engage-btn {
+      cursor: pointer !important;
+      z-index: 20 !important;
+      position: relative !important;
+    }
+    .filter-btn {
+      cursor: pointer !important;
+      position: relative !important;
+      z-index: 20 !important;
+    }
+    button, input, select {
+      cursor: pointer !important;
+    }
+    input[type="text"], input[type="password"], input[type="number"] {
+      cursor: text !important;
+    }
+
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-amber-500/20 selection:text-amber-300 watch-atelier-bg text-slate-100">
@@ -379,8 +421,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">PDF to Word DOCX</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Layout-preserving document extraction. Reconstructs text flows, alignments, and structured tables.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -393,8 +438,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Excel to PDF Tables</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -407,8 +455,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Rotate & Delete Pages</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Visual thumbnail management. Rotate individual orientations (90°/180°) and prune unwanted pages instantly.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -421,8 +472,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Protect with Password</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Enforce military-grade AES-256 encryption. PDF strictly requires password to view or print in any PDF reader.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -435,8 +489,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Diagonal Watermark</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Overlay custom identifiers with live angle, size, and opacity calibrations.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -449,8 +506,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Extract Images to ZIP</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Isolates all embedded graphics and figures from every page into a downloadable archive.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -463,8 +523,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Document Scanner FX</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Convert camera photos into high-contrast black-and-white flatbed scan PDFs.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -477,8 +540,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Passport Crop & Compress</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Aspect-ratio cropping with automated binary-search compression to satisfy strict portal file-size limits.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -491,8 +557,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Merge PDF Documents</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Combines multiple PDF files into a single ordered document without uploading to a third-party server.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -506,8 +575,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Split & Extract Ranges</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Extract custom page intervals (e.g. 1-3, 5, 8-10) into a single PDF or unpack all pages to a ZIP archive.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -520,8 +592,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Images to PDF</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF with custom margins.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -534,8 +609,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">PaperBytes Omni-Converter</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Dynamic universal converter. Drop images, spreadsheets, JSON, or Markdown and cross-convert in memory.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -548,8 +626,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Add Page Numbers</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Stamp sequential numbering, "Page X of Y", or legal Bates codes with custom placement and font sizes.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -562,8 +643,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Document Hash & Integrity</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Calculate tamper-proof SHA-256 and SHA-1 cryptographic checksums in browser memory to verify authenticity.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -577,8 +661,11 @@
             <h3 class="font-brand text-2xl font-bold group-hover:text-[#f5e6b8] transition tracking-tight text-[#f5f5f7] font-luxury">Word (.docx) to PDF</h3>
             <p class="text-xs text-[#a19e95] leading-relaxed font-light">Converts Microsoft Word documents into paginated vector PDFs with formatted headings, tables, and typography.</p>
           </div>
-          <div class="pt-5 mt-4 border-t border-[#d4af37]/15 flex items-center justify-between text-xs font-luxury font-semibold text-[#d4af37] group-hover:text-[#f5e6b8]">
-            <span>Engage Complication</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          <div class="pt-4 mt-4 border-t border-[#d4af37]/15">
+            <button type="button" class="engage-btn w-full py-2.5 px-4 rounded-xl border border-[#d4af37]/40 bg-[#161410] hover:bg-[#d4af37] hover:text-[#070709] text-[#f5e6b8] text-xs font-luxury font-bold tracking-wider uppercase transition-all duration-200 flex items-center justify-between shadow-md">
+              <span>Engage Complication</span>
+              <span class="text-sm font-sans">&rarr;</span>
+            </button>
           </div>
         </div>
 
@@ -623,7 +710,7 @@
             <span class="w-2 h-2 rounded-full bg-slate-300" id="pdf-status-indicator"></span>
             <span id="real-pdf-status" class="text-xs font-mono-code text-slate-500">Ready for document selection</span>
           </div>
-          <button id="real-pdf-btn" onclick="executePDFToWordSecure()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-8 py-3.5 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="real-pdf-btn" onclick="executePDFToWordSecure()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-8 py-3.5 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Convert to .DOCX
           </button>
         </div>
@@ -659,7 +746,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span id="excel-status" class="text-xs font-mono-code text-slate-500">Awaiting workbook...</span>
-          <button id="excel-convert-btn" onclick="executeExcelToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="excel-convert-btn" onclick="executeExcelToPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Render Vector PDF
           </button>
         </div>
@@ -690,7 +777,7 @@
         <div id="organize-pages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-2"></div>
         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
           <span id="organize-status" class="text-xs font-mono-code text-slate-500">Upload document to render pages</span>
-          <button id="save-organize-btn" onclick="executeSaveOrganizedPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="save-organize-btn" onclick="executeSaveOrganizedPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Export Modified PDF
           </button>
         </div>
@@ -731,7 +818,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span id="protect-status" class="text-xs font-mono-code text-slate-500">Provide document and password</span>
-          <button id="protect-btn" onclick="executePasswordProtect()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="protect-btn" onclick="executePasswordProtect()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Encrypt & Download
           </button>
         </div>
@@ -776,7 +863,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span id="watermark-status" class="text-xs font-mono-code text-slate-500">Awaiting document...</span>
-          <button id="watermark-btn" onclick="executeWatermark()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="watermark-btn" onclick="executeWatermark()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Stamp & Download
           </button>
         </div>
@@ -807,7 +894,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span id="extract-status" class="text-xs font-mono-code text-slate-500">Upload document to inspect graphics</span>
-          <button id="extract-btn" onclick="executeImageExtraction()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="extract-btn" onclick="executeImageExtraction()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Extract & Download ZIP
           </button>
         </div>
@@ -847,7 +934,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span id="scanner-status" class="text-xs font-mono-code text-slate-500">Provide photo to process</span>
-          <button id="scanner-btn" onclick="executeScannerDownload()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="scanner-btn" onclick="executeScannerDownload()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Save as Scanned PDF
           </button>
         </div>
@@ -907,7 +994,7 @@
         </div>
         <div class="flex items-center justify-between">
           <span id="portal-status" class="text-xs font-mono-code text-slate-500">Load photo to configure</span>
-          <button id="portal-btn" onclick="executePortalCrop()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="portal-btn" onclick="executePortalCrop()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Crop, Compress & Save
           </button>
         </div>
@@ -938,7 +1025,7 @@
         <div id="merge-files-list" class="space-y-2"></div>
         <div class="flex items-center justify-between">
           <span id="merge-status" class="text-xs font-mono-code text-slate-500">Awaiting multiple PDF documents</span>
-          <button id="merge-btn" onclick="executeMergePDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50" disabled>
+          <button id="merge-btn" onclick="executeMergePDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-brand text-xs font-bold px-6 py-3 rounded-full transition shadow-md shadow-indigo-600/20 disabled:opacity-50">
             Merge Documents
           </button>
         </div>
@@ -1286,7 +1373,7 @@
   </footer>
 
   <!-- Modals -->
-  <div id="privacy-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div id="privacy-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 items-center justify-center p-4 hidden" style="display: none;">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <h3 class="font-brand text-lg font-bold text-slate-900">Digital Personal Data Protection (DPDP) Notice</h3>
@@ -1304,7 +1391,7 @@
     </div>
   </div>
 
-  <div id="terms-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div id="terms-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 items-center justify-center p-4 hidden" style="display: none;">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <h3 class="font-brand text-lg font-bold text-slate-900">Terms of Use & Statutory Safe Harbor</h3>
@@ -1321,7 +1408,7 @@
     </div>
   </div>
 
-  <div id="copyright-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div id="copyright-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 items-center justify-center p-4 hidden" style="display: none;">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <h3 class="font-brand text-lg font-bold text-slate-900">Open License & Copyright Notice</h3>
@@ -1421,19 +1508,41 @@
       };
 
       // Modal Controls
-      window.openPrivacyModal = () => document.getElementById('privacy-modal').classList.remove('hidden');
-      window.openTermsModal = () => document.getElementById('terms-modal').classList.remove('hidden');
-      window.openCopyrightModal = () => document.getElementById('copyright-modal').classList.remove('hidden');
+      window.openPrivacyModal = () => {
+        const m = document.getElementById('privacy-modal');
+        m.classList.remove('hidden');
+        m.classList.add('active-modal');
+        m.style.display = 'flex';
+      };
+      window.openTermsModal = () => {
+        const m = document.getElementById('terms-modal');
+        m.classList.remove('hidden');
+        m.classList.add('active-modal');
+        m.style.display = 'flex';
+      };
+      window.openCopyrightModal = () => {
+        const m = document.getElementById('copyright-modal');
+        m.classList.remove('hidden');
+        m.classList.add('active-modal');
+        m.style.display = 'flex';
+      };
       window.closeModals = () => {
-        document.getElementById('privacy-modal').classList.add('hidden');
-        document.getElementById('terms-modal').classList.add('hidden');
-        document.getElementById('copyright-modal').classList.add('hidden');
+        ['privacy-modal', 'terms-modal', 'copyright-modal'].forEach(id => {
+          const m = document.getElementById(id);
+          m.classList.remove('active-modal');
+          m.classList.add('hidden');
+          m.style.display = 'none';
+        });
       };
 
       window.addEventListener('click', (e) => {
         ['privacy-modal', 'terms-modal', 'copyright-modal'].forEach(id => {
           const el = document.getElementById(id);
-          if (e.target === el) el.classList.add('hidden');
+          if (e.target === el) {
+            el.classList.remove('active-modal');
+            el.classList.add('hidden');
+            el.style.display = 'none';
+          }
         });
       });
 
@@ -1458,7 +1567,10 @@
       };
 
       window.executePDFToWordSecure = async () => {
-        if (!targetFile) return;
+        if (!targetFile) {
+          document.getElementById('real-pdf-input').click();
+          return;
+        }
         const btn = document.getElementById('real-pdf-btn');
         const status = document.getElementById('real-pdf-status');
         const ind = document.getElementById('pdf-status-indicator');
@@ -1631,7 +1743,10 @@
       };
 
       window.executeSaveOrganizedPDF = async () => {
-        if (!rawSourceBuffer) return;
+        if (!rawSourceBuffer) {
+          document.getElementById('organize-pdf-input').click();
+          return;
+        }
         const { PDFDocument, degrees } = PDFLib;
         const src = await PDFDocument.load(rawSourceBuffer);
         const out = await PDFDocument.create();
@@ -1671,6 +1786,7 @@
         const btn = document.getElementById('protect-btn');
 
         if (!pProtectFile) {
+          document.getElementById('protect-pdf-input').click();
           st.innerText = 'Please select a PDF document first.';
           return;
         }
@@ -2559,6 +2675,48 @@
       background-color: rgba(212, 175, 55, 0.3);
       color: #ffffff;
     }
+  
+    /* Strict Modal Display Isolation */
+    #privacy-modal:not(.active-modal),
+    #terms-modal:not(.active-modal),
+    #copyright-modal:not(.active-modal),
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    #privacy-modal.active-modal,
+    #terms-modal.active-modal,
+    #copyright-modal.active-modal {
+      display: flex !important;
+      pointer-events: auto !important;
+    }
+
+    /* Interactive Buttons & Cards */
+    .studio-plaque {
+      cursor: pointer !important;
+      position: relative !important;
+      z-index: 10 !important;
+    }
+    .studio-plaque * {
+      pointer-events: auto;
+    }
+    .engage-btn {
+      cursor: pointer !important;
+      z-index: 20 !important;
+      position: relative !important;
+    }
+    .filter-btn {
+      cursor: pointer !important;
+      position: relative !important;
+      z-index: 20 !important;
+    }
+    button, input, select {
+      cursor: pointer !important;
+    }
+    input[type="text"], input[type="password"], input[type="number"] {
+      cursor: text !important;
+    }
+
   </style></head><body>${htmlContent}</body></html>`;
               saveAs(new Blob([fullHtml], { type: 'text/html' }), `${baseName}.html`);
             } else if (target === 'pdf') {
