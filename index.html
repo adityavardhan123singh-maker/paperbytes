@@ -199,11 +199,11 @@
         <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-password-protect')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-04 &bull; AES-128</span>
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-04 &bull; AES-256 CORE</span>
               <span class="text-xs font-mono-code text-slate-400">ENCRYPT</span>
             </div>
             <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Protect with Password</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Enforce document permissions and standard encryption without passing unencrypted files over a network.</p>
+            <p class="text-xs text-slate-500 leading-relaxed">Enforce military-grade AES-256 encryption. PDF strictly requires password to view or print in any PDF reader.</p>
           </div>
           <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
             <span>Secure File</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
@@ -492,7 +492,7 @@
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
             <h2 class="font-brand text-3xl font-bold text-slate-900">Enforce Encryption & Access Password</h2>
-            <p class="text-sm text-slate-500 mt-1">Encrypt documents with user passwords in browser memory.</p>
+            <p class="text-sm text-slate-500 mt-1">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
           </div>
           <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
             <span>✕</span> Remove & Select Different File
@@ -1437,14 +1437,15 @@
         rawSourceBuffer = null;
       };
 
-      // Tool 4: Password Protect
-      let pProtectBuf = null;
+      // Tool 4: Password Protect (AES-256 via Zero-Retention Core)
+      let pProtectFile = null;
       window.handleProtectPDFSelection = async (input) => {
         if (input.files && input.files[0]) {
-          pProtectBuf = await input.files[0].arrayBuffer();
-          document.getElementById('protect-pdf-name').innerText = input.files[0].name;
+          pProtectFile = input.files[0];
+          document.getElementById('protect-pdf-name').innerText = pProtectFile.name;
           document.getElementById('protect-btn').disabled = false;
-        document.getElementById('protect-cancel-btn').classList.remove('hidden');
+          document.getElementById('protect-cancel-btn').classList.remove('hidden');
+          document.getElementById('protect-status').innerText = 'Ready to encrypt. Enter and confirm password.';
         }
       };
 
@@ -1452,17 +1453,63 @@
         const p1 = document.getElementById('protect-user-pass').value;
         const p2 = document.getElementById('protect-confirm-pass').value;
         const st = document.getElementById('protect-status');
-        if (!p1 || p1 !== p2) {
-          st.innerText = 'Passwords do not match or are blank.';
+        const btn = document.getElementById('protect-btn');
+
+        if (!pProtectFile) {
+          st.innerText = 'Please select a PDF document first.';
           return;
         }
-        st.innerText = 'Encrypting document in memory...';
-        const { PDFDocument } = window.PDFLib || PDFLib;
-        const pdf = await PDFDocument.load(pProtectBuf);
-        const bytes = await pdf.save();
-        saveAs(new Blob([bytes], { type: 'application/pdf' }), 'encrypted_document.pdf');
-        st.innerText = 'Document encrypted and saved.';
-        pProtectBuf = null;
+        if (!p1) {
+          st.innerText = 'Please enter a password.';
+          return;
+        }
+        if (p1 !== p2) {
+          st.innerText = 'Passwords do not match.';
+          return;
+        }
+
+        st.innerText = 'Encrypting with AES-256 (Zero-Retention Core)...';
+        btn.disabled = true;
+
+        try {
+          const formData = new FormData();
+          formData.append('file', pProtectFile);
+          formData.append('password', p1);
+
+          const response = await fetch(${GATEWAY_URL}/security/password-protect, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!response.ok) {
+            let errMsg = 'Encryption failed';
+            try {
+              const errJson = await response.json();
+              if (errJson && errJson.detail) errMsg = errJson.detail;
+            } catch (e) {}
+            throw new Error(errMsg);
+          }
+
+          const blob = await response.blob();
+          const cleanBase = pProtectFile.name.replace(/\.[^/.]+$/, '');
+          const safeBase = cleanBase.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'document';
+          const downloadName = protected_.pdf;
+
+          const dlUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = dlUrl;
+          a.download = downloadName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(dlUrl), 2000);
+
+          st.innerText = 'Document successfully encrypted with AES-256 and downloaded!';
+        } catch (err) {
+          st.innerText = 'Error: ' + (err.message || 'Encryption failed');
+        } finally {
+          btn.disabled = false;
+        }
       };
 
       // Tool 5: Watermark
@@ -2349,7 +2396,7 @@
       };
 
       window.clearProtectFile = () => {
-        pProtectBuf = null;
+        pProtectFile = null;
         document.getElementById('protect-pdf-input').value = '';
         document.getElementById('protect-pdf-name').innerText = '';
         document.getElementById('protect-user-pass').value = '';
