@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noarchive, nosnippet">
@@ -32,6 +36,506 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
   <style>
+
+    /* ========================================================
+       VOXEL MINECRAFT DIORAMA DESIGN SYSTEM
+       ======================================================== */
+    :root {
+      --voxel-stone-base: #b0a894;
+      --voxel-moss-green: #5b8a36;
+      --voxel-moss-dark: #3e6321;
+      --voxel-dirt-brown: #5c4530;
+      --voxel-oak-frame: #4a2e16;
+      --voxel-parchment: #dfd3b6;
+      --voxel-parchment-border: #9e8963;
+      --voxel-crt-chassis: #ded8c8;
+      --voxel-crt-bevel: #a39b88;
+      --voxel-screen-bg: #0c1412;
+      --voxel-led-green: #4ade80;
+      --voxel-redstone-red: #ef4444;
+    }
+
+    body {
+      background-color: #0b110e !important;
+      background-image: 
+        radial-gradient(circle at 50% 12%, rgba(30, 48, 36, 0.95) 0%, rgba(13, 22, 17, 0.98) 50%, #060907 100%) !important;
+      background-attachment: fixed !important;
+      color: #e2e8f0 !important;
+      font-family: 'Outfit', sans-serif !important;
+    }
+
+    .font-pixel-title {
+      font-family: 'Press Start 2P', monospace !important;
+    }
+    .font-pixel-ui {
+      font-family: 'Silkscreen', monospace !important;
+    }
+
+    /* Ambient Motion Canvas */
+    #ambient-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+    header, main, footer, .modal-backdrop, #privacy-modal, #terms-modal, #copyright-modal {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* 3D Mossy Stone Voxel Logo */
+    .voxel-brand-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ede6d4;
+      text-shadow: 
+        0 -3px 0 #5b8a36,
+        0 -6px 0 #3e6321,
+        2px 2px 0 #3a3227,
+        4px 4px 0 #231e17,
+        6px 6px 0 #14110d,
+        8px 8px 16px rgba(0,0,0,0.85);
+      letter-spacing: -1px;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+      transition: transform 0.12s ease;
+    }
+    .voxel-brand-text:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Top Navigation 3D Voxel Buttons */
+    .voxel-nav-pill {
+      font-family: 'Silkscreen', monospace;
+      font-size: 11px;
+      padding: 7px 16px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.12s ease;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .voxel-pill-studio {
+      background: #142017;
+      border: 3px solid #4ade80;
+      color: #bbf7d0;
+      box-shadow: inset 1px 1px 0 #86efac, inset -2px -2px 0 #166534, 0 3px 0 #14532d, 0 6px 12px rgba(0,0,0,0.4);
+    }
+    .voxel-pill-studio:hover {
+      transform: translateY(-1px);
+      box-shadow: inset 1px 1px 0 #bbf7d0, inset -2px -2px 0 #22c55e, 0 4px 0 #14532d, 0 8px 16px rgba(74,222,128,0.3);
+    }
+    .voxel-pill-mechanisms {
+      background: #241611;
+      border: 3px solid #f97316;
+      color: #fed7aa;
+      box-shadow: inset 1px 1px 0 #fdba74, inset -2px -2px 0 #9a3412, 0 3px 0 #7c2d12, 0 6px 12px rgba(0,0,0,0.4);
+    }
+    .voxel-pill-mechanisms:hover {
+      transform: translateY(-1px);
+      box-shadow: inset 1px 1px 0 #ffedd5, inset -2px -2px 0 #ea580c, 0 4px 0 #7c2d12, 0 8px 16px rgba(249,115,22,0.3);
+    }
+    .voxel-pill-privacy {
+      background: #0f172a;
+      border: 3px solid #3b82f6;
+      color: #bfdbfe;
+      box-shadow: inset 1px 1px 0 #93c5fd, inset -2px -2px 0 #1e40af, 0 3px 0 #1e3a8a, 0 6px 12px rgba(0,0,0,0.4);
+    }
+    .voxel-pill-privacy:hover {
+      transform: translateY(-1px);
+      box-shadow: inset 1px 1px 0 #dbeafe, inset -2px -2px 0 #2563eb, 0 4px 0 #1e3a8a, 0 8px 16px rgba(59,130,246,0.3);
+    }
+    .voxel-nav-pill:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.5) !important;
+    }
+
+    /* Voxel Diorama Showcase */
+    .voxel-diorama-frame {
+      border: 6px solid #3d2817;
+      background: #0f1411;
+      border-radius: 18px;
+      box-shadow: 
+        inset 3px 3px 0 #5c3e23,
+        inset -3px -3px 0 #21160d,
+        0 10px 0 #181009,
+        0 25px 60px rgba(0,0,0,0.85);
+      position: relative;
+    }
+
+    /* Wooden Signboard (Left Column) */
+    .voxel-signboard-wrapper {
+      position: relative;
+      padding-top: 14px;
+    }
+    .oak-posts-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .oak-post {
+      position: absolute;
+      bottom: -28px;
+      top: 0;
+      width: 22px;
+      background: repeating-linear-gradient(0deg, #4f331e 0px, #4f331e 6px, #402816 6px, #402816 12px);
+      border: 3px solid #28180c;
+      box-shadow: inset 2px 2px 0 #6e482c, inset -2px -2px 0 #1d1108, 0 8px 12px rgba(0,0,0,0.6);
+      border-radius: 3px;
+    }
+    .oak-post-left { left: 28px; }
+    .oak-post-right { right: 28px; }
+    .voxel-signboard {
+      position: relative;
+      z-index: 1;
+      background: #dfd3b6;
+      border: 5px solid #4a2e16;
+      border-radius: 10px;
+      box-shadow: 
+        inset 3px 3px 0 #fff2d1,
+        inset -3px -3px 0 #9e8963,
+        0 8px 0 #28180c,
+        0 16px 30px rgba(0,0,0,0.6);
+      padding: 22px;
+      color: #2b1c0e;
+    }
+    .voxel-sign-title {
+      font-family: 'Silkscreen', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: #23160a;
+      text-transform: uppercase;
+      line-height: 1.35;
+      letter-spacing: -0.5px;
+      text-shadow: 1px 1px 0 #fffaed;
+      margin-bottom: 10px;
+    }
+    .voxel-sign-desc {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4a3622;
+    }
+    .voxel-mod-tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      padding: 4px 8px;
+      background: #4a2e16;
+      color: #f7e6ca;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .voxel-ephemeral-tag {
+      font-family: 'Silkscreen', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      background: #15803d;
+      color: #dcfce7;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .voxel-sign-back-btn {
+      font-family: 'Silkscreen', monospace;
+      font-size: 11px;
+      padding: 8px 16px;
+      background: #4a2e16;
+      color: #fce7cf;
+      border: 2px solid #2b1809;
+      border-radius: 6px;
+      box-shadow: inset 1px 1px 0 #784c26, 0 3px 0 #1b0f05;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.1s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .voxel-sign-back-btn:hover {
+      background: #5c3b1d;
+      transform: translateY(-1px);
+      box-shadow: inset 1px 1px 0 #946033, 0 4px 0 #1b0f05;
+    }
+    .voxel-sign-back-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #1b0f05;
+    }
+
+    /* Retro Voxel CRT Computer (Right Column) */
+    .voxel-crt-chassis {
+      background: #ded8c8;
+      border: 5px solid #a39b88;
+      border-radius: 18px;
+      box-shadow: 
+        inset 4px 4px 0 #ffffff,
+        inset -5px -5px 0 #8c836e,
+        0 12px 0 #5c5545,
+        0 25px 50px rgba(0,0,0,0.7);
+      overflow: hidden;
+    }
+    .voxel-crt-vents {
+      background: #ded8c8;
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 10px 16px 4px 16px;
+    }
+    .voxel-crt-vents span {
+      display: inline-block;
+      width: 22px;
+      height: 5px;
+      background: #877f6f;
+      border-radius: 3px;
+      box-shadow: inset 1px 1px 0 #544f45;
+    }
+    .voxel-crt-monitor-bezel {
+      background: #232832;
+      border: 4px solid #141820;
+      border-radius: 14px;
+      margin: 10px 14px 14px 14px;
+      box-shadow: inset 3px 3px 0 #3a4252, inset -3px -3px 0 #0d1016, 0 4px 8px rgba(0,0,0,0.5);
+      padding: 14px;
+    }
+    .voxel-crt-screen {
+      background: radial-gradient(circle at 50% 35%, #15221e 0%, #0d1614 65%, #080f0d 100%);
+      border: 3px solid #080d0b;
+      border-radius: 10px;
+      box-shadow: inset 0 0 25px rgba(16, 185, 129, 0.12), inset 0 0 50px rgba(0, 0, 0, 0.85);
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+    }
+    .voxel-scanlines {
+      background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.18) 0px, rgba(0, 0, 0, 0.18) 2px, transparent 2px, transparent 4px);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .voxel-keyboard-deck {
+      background: #ccc4b0;
+      border-top: 3px solid #a89f89;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .voxel-keycap {
+      font-family: 'Silkscreen', monospace;
+      font-size: 9px;
+      padding: 4px 8px;
+      background: #ded8c8;
+      border: 2px solid #8f8674;
+      border-radius: 4px;
+      box-shadow: inset 1px 1px 0 #fff, 0 2px 0 #6e6655;
+      color: #423d33;
+      font-weight: 700;
+    }
+    .voxel-key-green {
+      background: #15803d;
+      border-color: #0d4a22;
+      color: #dcfce7;
+      box-shadow: inset 1px 1px 0 #4ade80, 0 2px 0 #052e16;
+    }
+    .voxel-key-red {
+      background: #b91c1c;
+      border-color: #6b0c0c;
+      color: #fee2e2;
+      box-shadow: inset 1px 1px 0 #f87171, 0 2px 0 #450a0a;
+    }
+    .voxel-key-yellow {
+      background: #d97706;
+      border-color: #78350f;
+      color: #fef3c7;
+      box-shadow: inset 1px 1px 0 #fde047, 0 2px 0 #451a03;
+    }
+    .voxel-key-orange {
+      background: #ea580c;
+      border-color: #7c2d12;
+      color: #ffedd5;
+      box-shadow: inset 1px 1px 0 #fb923c, 0 2px 0 #431407;
+    }
+
+    /* The Signature Glowing LED Marquee Action Button */
+    .voxel-marquee-btn,
+    .tool-panel button.bg-indigo-600,
+    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]):not(.voxel-sign-back-btn) {
+      font-family: 'Press Start 2P', monospace !important;
+      font-size: 12px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.8px !important;
+      color: #4ade80 !important;
+      background: #0f1a13 !important;
+      border: 4px solid #b8933b !important;
+      border-radius: 10px !important;
+      padding: 15px 26px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      box-shadow: 
+        inset 2px 2px 0 #ffd700,
+        inset -2px -2px 0 #614a14,
+        0 0 20px rgba(74, 222, 128, 0.4),
+        0 6px 0 #3d2f0d,
+        0 12px 20px rgba(0,0,0,0.6) !important;
+      text-shadow: 0 0 8px #22c55e, 0 0 16px #16a34a !important;
+      cursor: pointer !important;
+      transition: all 0.1s ease !important;
+      width: 100% !important;
+      text-align: center !important;
+    }
+    .voxel-marquee-btn:hover:not(:disabled),
+    .tool-panel button.bg-indigo-600:hover:not(:disabled),
+    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]):not(.voxel-sign-back-btn):hover:not(:disabled) {
+      transform: translateY(-2px) !important;
+      box-shadow: 
+        inset 2px 2px 0 #fff176,
+        inset -2px -2px 0 #856417,
+        0 0 30px rgba(74, 222, 128, 0.65),
+        0 8px 0 #3d2f0d,
+        0 16px 25px rgba(0,0,0,0.8) !important;
+    }
+    .voxel-marquee-btn:active:not(:disabled),
+    .tool-panel button.bg-indigo-600:active:not(:disabled),
+    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]):not(.voxel-sign-back-btn):active:not(:disabled) {
+      transform: translateY(3px) !important;
+      box-shadow: 
+        inset 2px 2px 0 #614a14,
+        0 0 15px rgba(74, 222, 128, 0.3),
+        0 2px 0 #3d2f0d !important;
+    }
+    .voxel-marquee-btn:disabled,
+    .tool-panel button.bg-indigo-600:disabled,
+    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]):not(.voxel-sign-back-btn):disabled {
+      opacity: 0.45 !important;
+      cursor: not-allowed !important;
+      color: #64748b !important;
+      text-shadow: none !important;
+      box-shadow: inset 1px 1px 0 #555, 0 3px 0 #222 !important;
+      border-color: #555 !important;
+    }
+
+    /* Redstone Cancel Switch / Cross Button */
+    .voxel-redstone-cancel,
+    button[id$="-cancel-btn"] {
+      font-family: 'Silkscreen', monospace !important;
+      font-size: 11px !important;
+      padding: 6px 14px !important;
+      background: #2a1114 !important;
+      border: 2px solid #ef4444 !important;
+      border-radius: 8px !important;
+      color: #fca5a5 !important;
+      box-shadow: inset 1px 1px 0 #f87171, inset -1px -1px 0 #7f1d1d, 0 0 12px rgba(239, 68, 68, 0.4), 0 3px 0 #450a0a !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      cursor: pointer !important;
+      font-weight: 700 !important;
+      transition: all 0.1s ease !important;
+    }
+    .voxel-redstone-cancel:hover,
+    button[id$="-cancel-btn"]:hover {
+      background: #3f151a !important;
+      color: #ffffff !important;
+      box-shadow: inset 1px 1px 0 #fca5a5, inset -1px -1px 0 #991b1b, 0 0 20px rgba(239, 68, 68, 0.7), 0 4px 0 #450a0a !important;
+      transform: translateY(-1px) !important;
+    }
+    .voxel-redstone-cancel:active,
+    button[id$="-cancel-btn"]:active {
+      transform: translateY(2px) !important;
+      box-shadow: 0 1px 0 #450a0a !important;
+    }
+
+    /* Studio Plaques (15 Tools Grid) */
+    .studio-plaque {
+      background: #141b16 !important;
+      border: 3px solid #2a382c !important;
+      box-shadow: inset 2px 2px 0 #3e5241, inset -2px -2px 0 #0e1410, 0 8px 0 #080c09, 0 16px 25px rgba(0,0,0,0.6) !important;
+      border-radius: 14px !important;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      color: #f1f5f9 !important;
+    }
+    .studio-plaque:hover {
+      transform: translateY(-4px) !important;
+      border-color: #55a843 !important;
+      box-shadow: inset 2px 2px 0 #7dd35e, inset -2px -2px 0 #1b3815, 0 12px 0 #080c09, 0 20px 35px rgba(34,197,94,0.25) !important;
+    }
+    .studio-plaque h3 {
+      font-family: 'Silkscreen', monospace !important;
+      font-size: 15px !important;
+      color: #ffffff !important;
+    }
+    .studio-plaque p {
+      color: #94a3b8 !important;
+    }
+
+    /* Dashed Dropzones inside CRT */
+    .border-dashed {
+      border: 2px dashed rgba(74, 222, 128, 0.4) !important;
+      background: rgba(15, 23, 42, 0.6) !important;
+      border-radius: 14px !important;
+      transition: all 0.2s ease !important;
+    }
+    .border-dashed:hover {
+      border-color: #4ade80 !important;
+      background: rgba(20, 40, 30, 0.5) !important;
+      box-shadow: 0 0 25px rgba(74, 222, 128, 0.25) !important;
+    }
+
+    /* Form Inputs inside CRT */
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    select,
+    textarea {
+      background: #0d1413 !important;
+      border: 2px solid #243b35 !important;
+      color: #4ade80 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      border-radius: 8px !important;
+      box-shadow: inset 1px 1px 3px rgba(0,0,0,0.8) !important;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4ade80 !important;
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.4) !important;
+      outline: none !important;
+    }
+
+    /* Parchment Privacy Modal */
+    #privacy-modal > div,
+    #terms-modal > div,
+    #copyright-modal > div {
+      background: #dfd3b6 !important;
+      border: 6px solid #4a2e16 !important;
+      border-radius: 14px !important;
+      box-shadow: 
+        inset 3px 3px 0 #fff2d1,
+        inset -3px -3px 0 #9e8963,
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(0, 0, 0, 0.8) !important;
+      color: #2b1c0e !important;
+    }
+    #privacy-modal h3, #terms-modal h3, #copyright-modal h3 {
+      font-family: 'Silkscreen', monospace !important;
+      color: #23160a !important;
+    }
+    #privacy-modal p, #terms-modal p, #copyright-modal p {
+      color: #4a3622 !important;
+    }
+
+
     :root {
       --brand-primary: #4f46e5;
       --brand-secondary: #3b82f6;
@@ -293,47 +797,60 @@
   <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
 
   <!-- Header -->
-  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200/80 px-5 sm:px-10 py-3.5">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0d1612]/92 border-b border-[#243b2c] px-4 sm:px-8 py-3 shadow-2xl">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Brand & Voxel 3D Title (Matching User Reference Image 1:1) -->
       <div class="flex items-center gap-3 cursor-pointer select-none" onclick="showDashboard()">
-        <span class="font-brand text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 hover:text-indigo-600 transition">
-          paper<span class="text-indigo-600">bytes</span><span class="text-indigo-500 text-xl leading-none">.</span>
-        </span>
-        <span class="hidden md:inline-block font-mono-code text-[10px] tracking-wider uppercase bg-slate-900 text-indigo-300 px-2.5 py-0.5 rounded-full font-semibold">
-          Client Engine v2.5 &bull; DPDPA 2023
+        <span class="voxel-brand-text">PaperBytes</span>
+        <span class="hidden xl:inline-block font-pixel-ui text-[9px] uppercase bg-[#18261c] text-emerald-300 border border-emerald-600/40 px-2 py-0.5 rounded shadow-sm">
+          Client Engine &bull; DPDPA 2023
         </span>
       </div>
 
-      <!-- Search Input -->
-      <div class="relative flex-1 max-w-md mx-2">
-        <div class="search-container flex items-center bg-slate-50 border border-slate-200 focus-within:border-indigo-600 rounded-full px-4 py-2 transition shadow-sm">
-          <svg class="w-3.5 h-3.5 text-slate-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-          <input 
-            type="text" 
-            id="tool-search-input" 
-            placeholder="Search tools (e.g. word, merge, crop, watermark)..." 
-            class="w-full bg-transparent text-xs text-slate-900 placeholder-slate-400 focus:outline-none"
-            oninput="handleSearch(this.value)"
-          />
-        </div>
-
-        <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl overflow-hidden hidden z-50">
-          <div id="search-list" class="divide-y divide-slate-100 max-h-72 overflow-y-auto"></div>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <button id="theme-toggle-btn" onclick="toggleLuxuryTheme()" class="font-mono-code text-[11px] px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 transition flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
-          <span id="theme-toggle-label">Obsidian Live</span>
+      <!-- Top Navigation 3 Voxel Buttons (The Studio, Mechanisms, Privacy Craft) -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="showDashboard(); scrollToStudio()" class="voxel-nav-pill voxel-pill-studio" title="Jump to The Studio Crafting Gallery">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>The Studio</span>
         </button>
-        <div class="hidden sm:flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="font-mono-code text-[11px] text-slate-400 font-medium">Sandbox Active</span>
+        <button onclick="openTool('tool-pdf-to-word-real')" class="voxel-nav-pill voxel-pill-mechanisms" title="Active Restoration Mechanism">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span>Mechanisms</span>
+        </button>
+        <button onclick="openPrivacyModal()" class="voxel-nav-pill voxel-pill-privacy" title="DPDPA 2023 & Ephemeral In-Memory Privacy Craft">
+          <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+          <span>Privacy Craft</span>
+        </button>
+      </div>
+
+      <!-- Search Input & Redstone Sandbox Lamp -->
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <div class="relative flex-1 md:w-60">
+          <div class="search-container flex items-center bg-[#131c17] border border-[#2d4233] focus-within:border-emerald-500 rounded-full px-3.5 py-1.5 transition shadow-inner">
+            <svg class="w-3.5 h-3.5 text-emerald-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input 
+              type="text" 
+              id="tool-search-input" 
+              placeholder="Search tools..." 
+              class="w-full bg-transparent text-xs text-emerald-100 placeholder-slate-400 focus:outline-none font-mono-code"
+              oninput="handleSearch(this.value)"
+            />
+          </div>
+
+          <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-[#121c16]/95 backdrop-blur-xl border border-emerald-500/30 rounded-xl shadow-2xl overflow-hidden hidden z-50">
+            <div id="search-list" class="divide-y divide-emerald-900/40 max-h-72 overflow-y-auto"></div>
+          </div>
+        </div>
+
+        <div class="hidden lg:flex items-center gap-2 bg-[#142018] border border-emerald-600/30 px-3 py-1.5 rounded-full shadow-inner">
+          <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444] animate-pulse"></span>
+          <span class="font-pixel-ui text-[10px] text-emerald-300 font-bold uppercase tracking-wider">Redstone Sandbox</span>
         </div>
       </div>
+
     </div>
   </header>
 
@@ -342,31 +859,61 @@
 
     <!-- Dashboard View -->
     <div id="dashboard-view" class="space-y-10">
-      <section class="pt-6 pb-2">
-        <div class="max-w-3xl space-y-3">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-slate-600 font-mono-code shadow-sm">
-            <span class="text-indigo-600 font-bold">&bull;</span> Zero Third-Party Storage &bull; Ephemeral Execution
-          </div>
-          <h1 class="font-brand text-4xl sm:text-6xl font-extrabold tracking-tight hero-gradient">
-            Engineered Document Precision.
-          </h1>
-          <p class="text-slate-600 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
-            Format transformations, portal resizing routines, and security tools running privately inside local browser memory.
-          </p>
-        </div>
+      <!-- 3D Voxel Floating Island Diorama Showcase (Matching Reference Image 1:1) -->
+      <section class="pt-2 pb-2">
+        <div class="voxel-diorama-frame overflow-hidden relative group">
+          <img src="paperbytes-voxel-hero.jpg" alt="PaperBytes 3D Voxel Diorama" class="w-full h-auto object-cover max-h-[540px] block transition duration-700 ease-out group-hover:scale-[1.01]" />
+          
+          <!-- Atmospheric lighting overlay gradient -->
+          <div class="absolute inset-0 bg-gradient-to-t from-[#09100d] via-transparent to-black/20 pointer-events-none"></div>
 
-        <!-- Filter Buttons -->
-        <div class="flex flex-wrap items-center gap-2 pt-6">
-          <button onclick="filterGallery('all')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-900 bg-slate-900 text-white font-medium transition shadow-sm">All Tools (15)</button>
-          <button onclick="filterGallery('convert')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Conversion (6)</button>
-          <button onclick="filterGallery('organize')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Organization (4)</button>
-          <button onclick="filterGallery('security')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Security (3)</button>
-          <button onclick="filterGallery('utility')" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-900 font-medium transition">Utilities (2)</button>
+          <!-- Interactive Action Floating Dock on Diorama -->
+          <div class="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 bg-[#121c17]/92 backdrop-blur-md p-3 sm:p-4 rounded-xl border-2 border-[#2b4231] shadow-2xl">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 rounded-sm bg-emerald-400 shadow-[0_0_10px_#34d399] animate-pulse"></span>
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 uppercase tracking-wider font-bold">Voxel Diorama Station Active</p>
+                <p class="text-[11px] sm:text-xs text-slate-300">Reconstructing paragraph flow, vector alignments, and tabular formatting block by block.</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="openTool('tool-pdf-to-word-real')" class="voxel-nav-pill voxel-pill-mechanisms text-xs">
+                <span>⚡ Open Mechanisms Terminal</span>
+              </button>
+              <button onclick="scrollToStudio()" class="voxel-nav-pill voxel-pill-studio text-xs">
+                <span>🔨 The Studio (15 Tools)</span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Tool Cards Grid -->
-      <section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- The Studio Crafting Gallery Header -->
+      <div id="studio-section-anchor" class="pt-4 pb-2">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#25382b] pb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#16251b] border border-emerald-600/40 text-[10px] text-emerald-300 font-pixel-ui shadow-inner">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> THE CRAFTING INVENTORY &bull; 15 TOOLS
+            </div>
+            <h2 class="font-pixel-title text-lg sm:text-2xl font-bold text-white mt-2 tracking-tight">
+              The Studio Mechanisms
+            </h2>
+            <p class="text-slate-400 text-xs sm:text-sm mt-1">
+              Select a restoration plaque below to load its dedicated mechanism into the retro computer.
+            </p>
+          </div>
+
+          <!-- Category Filter Buttons -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="filterGallery('all')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-emerald-500 bg-[#192b1e] text-emerald-200 font-bold transition shadow-sm active">All (15)</button>
+            <button onclick="filterGallery('convert')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Conversion (6)</button>
+            <button onclick="filterGallery('organize')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Organization (4)</button>
+            <button onclick="filterGallery('security')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Security (3)</button>
+            <button onclick="filterGallery('utility')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Utilities (2)</button>
+          </div>
+        </div>
+      </div>
+<section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
           <div class="space-y-4">
@@ -584,25 +1131,77 @@
     </div>
 
     <!-- TOOL 1: PDF TO WORD -->
-    <div id="tool-pdf-to-word-real" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-01: PDF to Word</span>
-      </div>
+    <div <div id="tool-pdf-to-word-real" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-01: PDF to Word</span>
+  </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">PDF to Microsoft Word (.docx)</h2>
-            <p class="text-sm text-slate-500 mt-1">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
+      </div>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-01: PDF to Word</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">PDF to Microsoft Word (.docx)</h2>
+        <p class="voxel-sign-desc">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="real-pdf-cancel-btn" onclick="clearPDFToWordFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-12 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="real-pdf-cancel-btn" onclick="clearPDFToWordFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-12 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="real-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePDFToWordSelection(this)" />
           <div class="space-y-3">
             <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
@@ -625,27 +1224,102 @@
             Convert to .DOCX
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 2: EXCEL TO PDF -->
-    <div id="tool-excel-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-02: Excel to PDF</span>
+  </div>
+</div>
+<div id="tool-excel-to-pdf" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-02: Excel to PDF</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Spreadsheet to Formatted PDF Table</h2>
-            <p class="text-sm text-slate-500 mt-1">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-02: Excel to PDF</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Spreadsheet to Formatted PDF Table</h2>
+        <p class="voxel-sign-desc">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="excel-cancel-btn" onclick="clearExcelFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="excel-cancel-btn" onclick="clearExcelFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="excel-file-input" accept=".xlsx,.xls,.csv" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExcelSelection(this)" />
           <div class="space-y-2">
             <p class="font-brand font-bold text-slate-800 text-sm">Select Excel or CSV Spreadsheet</p>
@@ -661,27 +1335,102 @@
             Render Vector PDF
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 3: ROTATE & DELETE -->
-    <div id="tool-rotate-delete" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-03: Rotate & Delete</span>
+  </div>
+</div>
+<div id="tool-rotate-delete" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-03: Rotate & Delete</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Page Arranger & Orientator</h2>
-            <p class="text-sm text-slate-500 mt-1">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-03: Rotate & Delete</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Page Arranger & Orientator</h2>
+        <p class="voxel-sign-desc">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="organize-cancel-btn" onclick="clearOrganizeFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="organize-cancel-btn" onclick="clearOrganizeFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="organize-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOrganizePDF(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Select PDF to Reorganize Pages</p>
         </div>
@@ -692,27 +1441,102 @@
             Export Modified PDF
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 4: PASSWORD PROTECT -->
-    <div id="tool-password-protect" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-04: Password Protect</span>
+  </div>
+</div>
+<div id="tool-password-protect" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-04: Password Protect</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Enforce Encryption & Access Password</h2>
-            <p class="text-sm text-slate-500 mt-1">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-04: Password Protect</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Enforce Encryption & Access Password</h2>
+        <p class="voxel-sign-desc">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="protect-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleProtectPDFSelection(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Choose PDF to Encrypt</p>
           <p id="protect-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
@@ -733,27 +1557,102 @@
             Encrypt & Download
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 5: WATERMARK -->
-    <div id="tool-watermark" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-05: Watermark</span>
+  </div>
+</div>
+<div id="tool-watermark" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-05: Watermark</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Diagonal Watermark Overlay</h2>
-            <p class="text-sm text-slate-500 mt-1">Stamp identifiers across every page of your PDF.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-05: Watermark</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Diagonal Watermark Overlay</h2>
+        <p class="voxel-sign-desc">Stamp identifiers across every page of your PDF.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="watermark-cancel-btn" onclick="clearWatermarkFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="watermark-cancel-btn" onclick="clearWatermarkFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="watermark-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWatermarkSelection(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Select Document to Stamp</p>
           <p id="watermark-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
@@ -778,27 +1677,102 @@
             Stamp & Download
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 6: EXTRACT IMAGES -->
-    <div id="tool-extract-images" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-06: Extract Graphics</span>
+  </div>
+</div>
+<div id="tool-extract-images" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-06: Extract Graphics</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Extract Embedded Graphics to ZIP</h2>
-            <p class="text-sm text-slate-500 mt-1">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-06: Extract Graphics</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Extract Embedded Graphics to ZIP</h2>
+        <p class="voxel-sign-desc">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="extract-cancel-btn" onclick="clearExtractFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="extract-cancel-btn" onclick="clearExtractFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="extract-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExtractSelection(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Drop PDF Document</p>
           <p id="extract-pdf-name" class="text-xs font-mono-code text-indigo-600 font-semibold mt-1"></p>
@@ -809,27 +1783,102 @@
             Extract & Download ZIP
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 7: SCANNER FX -->
-    <div id="tool-scanner-effect" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-07: Scanner Filter</span>
+  </div>
+</div>
+<div id="tool-scanner-effect" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-07: Scanner Filter</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Document Scanner Filters</h2>
-            <p class="text-sm text-slate-500 mt-1">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-07: Scanner Filter</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Document Scanner Filters</h2>
+        <p class="voxel-sign-desc">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="scanner-cancel-btn" onclick="clearScannerPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different Photo
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="scanner-cancel-btn" onclick="clearScannerPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different Photo
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="scanner-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleScannerSelection(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Select Raw Camera Document Image</p>
         </div>
@@ -849,27 +1898,102 @@
             Save as Scanned PDF
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 8: PORTAL CROP -->
-    <div id="tool-portal-crop" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-08: Portal Optimization</span>
+  </div>
+</div>
+<div id="tool-portal-crop" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-08: Portal Optimization</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Portal Photo Cropper & Strict Size Target</h2>
-            <p class="text-sm text-slate-500 mt-1">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-08: Portal Optimization</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Portal Photo Cropper & Strict Size Target</h2>
+        <p class="voxel-sign-desc">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="portal-cancel-btn" onclick="clearPortalPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
-            <span>✕</span> Remove & Select Different Photo
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="portal-cancel-btn" onclick="clearPortalPhoto()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+            <span>✕</span> Remove & Select Different Photo
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label class="block text-xs font-medium text-slate-700 mb-1">Preset Aspect Ratio</label>
             <select id="portal-preset" onchange="applyCropPreset(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-medium">
@@ -909,27 +2033,102 @@
             Crop, Compress & Save
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 9: MERGE PDF -->
-    <div id="tool-merge-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-09: Unify Documents</span>
+  </div>
+</div>
+<div id="tool-merge-pdf" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-09: Unify Documents</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Merge Multiple PDF Documents</h2>
-            <p class="text-sm text-slate-500 mt-1">Combine two or more separate PDFs into a single file directly in browser memory.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-09: Unify Documents</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Merge Multiple PDF Documents</h2>
+        <p class="voxel-sign-desc">Combine two or more separate PDFs into a single file directly in browser memory.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="merge-cancel-btn" onclick="clearMergeFiles()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Clear All Files
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="merge-cancel-btn" onclick="clearMergeFiles()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Clear All Files
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="merge-files-input" accept="application/pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleMergeFilesSelection(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Select Two or More PDF Files</p>
         </div>
@@ -940,30 +2139,102 @@
             Merge Documents
           </button>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
+  </div>
+</div>
+<div id="tool-split-pdf" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-10: Split & Extract</span>
+  </div>
 
-    <!-- TOOL 10: SPLIT PDF / EXTRACT RANGES -->
-    <div id="tool-split-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-10: Split & Extract</span>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Split PDF / Extract Page Ranges</h2>
-            <p class="text-sm text-slate-500 mt-1">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-10: Split & Extract</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Split PDF / Extract Page Ranges</h2>
+        <p class="voxel-sign-desc">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="split-cancel-btn" onclick="clearSplitFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="split-cancel-btn" onclick="clearSplitFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="split-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleSplitPDFSelection(this)" />
           <div class="space-y-2">
             <p id="split-pdf-filename" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a PDF File to Split</p>
@@ -998,29 +2269,102 @@
             </button>
           </div>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 11: IMAGES TO PDF -->
-    <div id="tool-images-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-11: Images to PDF</span>
-      </div>
+  </div>
+</div>
+<div id="tool-images-to-pdf" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-11: Images to PDF</span>
+  </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Images to PDF Document</h2>
-            <p class="text-sm text-slate-500 mt-1">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
+      </div>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-11: Images to PDF</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Images to PDF Document</h2>
+        <p class="voxel-sign-desc">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="images-pdf-cancel-btn" onclick="clearAllImagesPdf()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Clear All Photos
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="images-pdf-cancel-btn" onclick="clearAllImagesPdf()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Clear All Photos
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="images-pdf-input" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleImagesToPDFSelection(this)" />
           <p class="font-brand font-bold text-slate-800 text-sm">Select or Drop One or More Images</p>
           <p class="text-xs text-slate-400 mt-1 font-mono-code">PNG, JPG, JPEG, WEBP supported</p>
@@ -1054,29 +2398,102 @@
             </button>
           </div>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 12: OMNI CONVERTER -->
-    <div id="tool-omni-convert" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-12: Omni-Converter</span>
-      </div>
+  </div>
+</div>
+<div id="tool-omni-convert" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-12: Omni-Converter</span>
+  </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">PaperBytes Omni-Converter</h2>
-            <p class="text-sm text-slate-500 mt-1">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
+      </div>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-12: Omni-Converter</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">PaperBytes Omni-Converter</h2>
+        <p class="voxel-sign-desc">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="omni-cancel-btn" onclick="clearOmniFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
-            <span>✕</span> Remove File & Select Another
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="omni-cancel-btn" onclick="clearOmniFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+            <span>✕</span> Remove File & Select Another
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="omni-file-input" accept=".png,.jpg,.jpeg,.webp,.svg,.bmp,.xlsx,.csv,.json,.md,.txt" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOmniSelection(this)" />
           <div class="space-y-2">
             <p id="omni-file-label" class="font-brand font-bold text-slate-800 text-sm">Drop Any Supported File Here</p>
@@ -1103,29 +2520,102 @@
             </button>
           </div>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 13: PAGE NUMBERS -->
-    <div id="tool-page-numbers" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-13: Page Numbers</span>
-      </div>
+  </div>
+</div>
+<div id="tool-page-numbers" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-13: Page Numbers</span>
+  </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Add Page Numbers & Bates Stamping</h2>
-            <p class="text-sm text-slate-500 mt-1">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
+      </div>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-13: Page Numbers</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Add Page Numbers & Bates Stamping</h2>
+        <p class="voxel-sign-desc">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="pagenum-cancel-btn" onclick="clearPageNumFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="pagenum-cancel-btn" onclick="clearPageNumFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="pagenum-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePageNumSelection(this)" />
           <p id="pagenum-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a PDF File</p>
           <p class="text-xs text-slate-400 mt-1 font-mono-code">In-browser vector stamping</p>
@@ -1164,29 +2654,102 @@
             </button>
           </div>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- TOOL 14: HASH VERIFIER -->
-    <div id="tool-hash-verifier" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-14: Hash Verifier</span>
-      </div>
+  </div>
+</div>
+<div id="tool-hash-verifier" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-14: Hash Verifier</span>
+  </div>
 
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Document Cryptographic Checksum & Integrity</h2>
-            <p class="text-sm text-slate-500 mt-1">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
+      </div>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-14: Hash Verifier</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Document Cryptographic Checksum & Integrity</h2>
+        <p class="voxel-sign-desc">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="hash-cancel-btn" onclick="clearHashFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="hash-cancel-btn" onclick="clearHashFile()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold shadow-sm">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-8 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="hash-file-input" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleHashFileSelection(this)" />
           <p id="hash-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop Any Document or File</p>
           <p class="text-xs text-slate-400 mt-1 font-mono-code">Zero network transmission &bull; Hardware Web Crypto</p>
@@ -1217,30 +2780,102 @@
             <div id="hash-compare-status" class="text-xs font-mono-code text-slate-500"></div>
           </div>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
+  </div>
+</div>
+<div id="tool-word-to-pdf" class="tool-panel space-y-6">
+  <!-- Top Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
+    <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
+      <span>&larr;</span> The Studio
+    </button>
+    <span>/</span>
+    <span class="text-emerald-300 font-mono-code">MOD-15: Word to PDF</span>
+  </div>
 
-    <!-- TOOL 15: WORD TO PDF -->
-    <div id="tool-word-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs text-slate-500">
-        <button onclick="showDashboard()" class="hover:text-slate-900 transition flex items-center gap-1 font-semibold">&larr; Studio Dashboard</button>
-        <span>/</span>
-        <span class="font-mono-code text-indigo-600">MOD-15: Word to PDF</span>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- LEFT COLUMN: The Wooden Signboard (Matching User Image 1:1) -->
+    <div class="lg:col-span-5 voxel-signboard-wrapper">
+      <div class="oak-posts-container">
+        <div class="oak-post oak-post-left"></div>
+        <div class="oak-post oak-post-right"></div>
       </div>
-
-      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <div>
-            <h2 class="font-brand text-3xl font-bold text-slate-900">Word (.docx) to Formatted PDF</h2>
-            <p class="text-sm text-slate-500 mt-1">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
+      <div class="voxel-signboard">
+        <div class="flex items-center justify-between mb-3">
+          <span class="voxel-mod-tag">MOD-15: Word to PDF</span>
+          <span class="voxel-ephemeral-tag">SANDBOX READY</span>
+        </div>
+        <h2 class="voxel-sign-title">Word (.docx) to Formatted PDF</h2>
+        <p class="voxel-sign-desc">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
+        
+        <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-col gap-3">
+          <div class="flex items-center gap-2 text-[11px] text-[#4a3622] font-mono-code">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Zero Server Storage &bull; DPDPA 2023</span>
           </div>
-          <button id="word-cancel-btn" onclick="clearWordDocument()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
-            <span>✕</span> Remove & Select Different File
+          <button onclick="showDashboard()" class="voxel-sign-back-btn self-start">
+            <span>&larr;</span> Back to The Studio
           </button>
         </div>
+      </div>
+    </div>
 
-        <div id="word-dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
+    <!-- RIGHT COLUMN: The Retro Voxel CRT Computer (Matching User Image 1:1) -->
+    <div class="lg:col-span-7">
+      <div class="voxel-crt-chassis">
+        <!-- Top Cooling Vents -->
+        <div class="voxel-crt-vents">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Monitor Bezel & CRT Screen -->
+        <div class="voxel-crt-monitor-bezel">
+          <div class="voxel-crt-screen">
+            <div class="voxel-scanlines"></div>
+            
+            <!-- CRT Screen Header -->
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-500/20 relative z-20">
+              <div>
+                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 font-bold uppercase tracking-wider">
+                  Gentle Deposit of Your Document
+                </p>
+                <p class="text-[10px] text-emerald-400/70 font-mono-code">
+                  Direct layout reconstruction &bull; Ephemeral conversion
+                </p>
+              </div>
+              <div>
+                <button id="word-cancel-btn" onclick="clearWordDocument()" class="hidden text-xs font-mono-code text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-full transition flex items-center gap-1.5 font-semibold">
+            <span>✕</span> Remove & Select Different File
+          </button>
+              </div>
+            </div>
+
+            <!-- Tool Body inside CRT screen -->
+            <div class="relative z-20 space-y-4">
+              <div id="word-dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-3xl p-10 text-center bg-slate-50/60 cursor-pointer relative transition">
           <input type="file" id="word-file-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWordSelection(this)" />
           <div class="space-y-2">
             <p id="word-file-label" class="font-brand font-bold text-slate-800 text-sm">Select or Drop a Word (.docx) Document</p>
@@ -1263,10 +2898,32 @@
             </button>
           </div>
         </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard Deck -->
+        <div class="voxel-keyboard-deck">
+          <div class="flex items-center gap-1.5">
+            <span class="voxel-keycap voxel-key-green">F1</span>
+            <span class="voxel-keycap voxel-key-red">F2</span>
+            <span class="voxel-keycap voxel-key-yellow">F3</span>
+            <span class="voxel-keycap voxel-key-orange">F4</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="voxel-keycap">ESC</span>
+            <span class="voxel-keycap">TAB</span>
+            <span class="voxel-keycap">CTRL</span>
+            <span class="voxel-keycap">READY</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-  </main>
+  </div>
+</div>
+</main>
 
   <!-- Footer -->
   <footer class="mt-16 border-t border-slate-200/80 py-8 px-5 sm:px-10 text-center">
@@ -1344,6 +3001,12 @@
       const GATEWAY_URL = 'https://convertx-backend-a9il.onrender.com';
 
       // Navigation Handlers
+      
+      window.scrollToStudio = () => {
+        const el = document.getElementById('studio-section-anchor') || document.getElementById('tools-grid');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      };
+
       window.showDashboard = () => {
         document.getElementById('dashboard-view').style.display = 'block';
         document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
@@ -2727,7 +4390,12 @@
       // ========================================================
       // ULTRA LUXURY LIVE ENVIRONMENT MOTION ENGINE (60 FPS)
       // ========================================================
-      (function initLuxuryEnvironment() {
+      
+      // ========================================================
+      // VOXEL LIVE ENVIRONMENT MOTION ENGINE (60 FPS)
+      // Torches Embers, Alchemical Potion Bubbles & Redstone Sparks
+      // ========================================================
+      (function initVoxelEnvironment() {
         const canvas = document.getElementById('ambient-canvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -2742,225 +4410,184 @@
         const mouse = {
           x: -1000,
           y: -1000,
-          targetX: -1000,
-          targetY: -1000,
-          radius: 190,
           active: false
         };
 
         window.addEventListener('mousemove', (e) => {
-          mouse.targetX = e.clientX;
-          mouse.targetY = e.clientY;
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
           mouse.active = true;
-
-          // Update dynamic spotlight gradient on studio plaques
-          document.querySelectorAll('.studio-plaque').forEach((card) => {
-            const rect = card.getBoundingClientRect();
-            if (
-              e.clientX >= rect.left - 60 &&
-              e.clientX <= rect.right + 60 &&
-              e.clientY >= rect.top - 60 &&
-              e.clientY <= rect.bottom + 60
-            ) {
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              card.style.setProperty('--mouse-x', `${x}px`);
-              card.style.setProperty('--mouse-y', `${y}px`);
-            }
-          });
         }, { passive: true });
 
         window.addEventListener('mouseleave', () => {
           mouse.active = false;
-          mouse.targetX = -1000;
-          mouse.targetY = -1000;
+          mouse.x = -1000;
+          mouse.y = -1000;
         });
 
-        // 1. Organic Radiant Plasma Orbs (Volumetric Background Glow)
-        const orbs = [
-          { x: 0.25, y: 0.22, r: 440, baseR: 440, color: 'rgba(79, 70, 229, 0.14)', vx: 0.0003, vy: 0.0002, phase: 0 },
-          { x: 0.75, y: 0.28, r: 480, baseR: 480, color: 'rgba(59, 130, 246, 0.12)', vx: -0.0002, vy: 0.0003, phase: 2 },
-          { x: 0.45, y: 0.75, r: 460, baseR: 460, color: 'rgba(168, 85, 247, 0.10)', vx: 0.0002, vy: -0.0002, phase: 4 },
-          { x: 0.85, y: 0.82, r: 400, baseR: 400, color: 'rgba(236, 72, 153, 0.07)', vx: -0.0003, vy: -0.0002, phase: 1 }
-        ];
-
-        // 2. Interactive Constellation Stardust Particles
-        const particleCount = window.innerWidth < 768 ? 40 : 75;
-        const particles = [];
-
-        function resetParticles() {
-          particles.length = 0;
-          for (let i = 0; i < particleCount; i++) {
-            particles.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vx: (Math.random() - 0.5) * 0.45,
-              vy: (Math.random() - 0.5) * 0.45,
-              size: Math.random() * 1.8 + 0.8,
-              alpha: Math.random() * 0.5 + 0.2,
-              baseAlpha: Math.random() * 0.5 + 0.2,
-              pulseSpeed: Math.random() * 0.02 + 0.01,
-              pulsePhase: Math.random() * Math.PI * 2
-            });
-          }
+        // 1. Torch Embers (Golden/Amber sparks)
+        const embers = [];
+        const EMBER_COUNT = 45;
+        function resetEmber(p, init = false) {
+          p.x = Math.random() * width;
+          p.y = init ? Math.random() * height : height + 10 + Math.random() * 20;
+          p.size = (Math.random() * 2.5 + 1.2);
+          p.vy = -(Math.random() * 1.2 + 0.6);
+          p.phase = Math.random() * Math.PI * 2;
+          p.swaySpeed = Math.random() * 0.03 + 0.015;
+          p.swayAmp = Math.random() * 1.5 + 0.5;
+          p.color = Math.random() > 0.4 ? 'rgba(251, 191, 36,' : 'rgba(249, 115, 22,';
+          p.baseAlpha = Math.random() * 0.55 + 0.35;
         }
 
-        // 3. Upward Floating Cosmic Micro-Sparks
-        const sparkCount = window.innerWidth < 768 ? 15 : 30;
-        const sparks = [];
-        function resetSparks() {
-          sparks.length = 0;
-          for (let i = 0; i < sparkCount; i++) {
-            sparks.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vy: -(Math.random() * 0.35 + 0.15),
-              swaySpeed: Math.random() * 0.02 + 0.01,
-              swayAmp: Math.random() * 1.2 + 0.4,
-              phase: Math.random() * Math.PI * 2,
-              size: Math.random() * 1.2 + 0.5,
-              alpha: Math.random() * 0.4 + 0.1
-            });
-          }
+        // 2. Alchemical Potion Bubbles (Cyan/Aquamarine translucent spheres)
+        const bubbles = [];
+        const BUBBLE_COUNT = 25;
+        function resetBubble(b, init = false) {
+          // Bubbles spawn around lower center / left of screen (alchemical apparatus)
+          b.x = width * 0.2 + Math.random() * (width * 0.6);
+          b.y = init ? Math.random() * height : height + 20 + Math.random() * 30;
+          b.size = Math.random() * 5 + 3;
+          b.vy = -(Math.random() * 1.0 + 0.4);
+          b.phase = Math.random() * Math.PI * 2;
+          b.wobbleSpeed = Math.random() * 0.04 + 0.02;
+          b.alpha = Math.random() * 0.45 + 0.25;
+        }
+
+        // 3. Redstone Sparks (Crimson particles)
+        const redstone = [];
+        const REDSTONE_COUNT = 30;
+        function resetRedstone(r, init = false) {
+          r.x = Math.random() * width;
+          r.y = init ? Math.random() * height : height + 10;
+          r.size = Math.random() * 2 + 1;
+          r.vy = -(Math.random() * 0.8 + 0.3);
+          r.phase = Math.random() * Math.PI * 2;
+          r.pulseSpeed = Math.random() * 0.05 + 0.02;
         }
 
         function resize() {
           width = window.innerWidth;
           height = window.innerHeight;
-          dpr = Math.min(window.devicePixelRatio || 1, 2);
           canvas.width = Math.floor(width * dpr);
           canvas.height = Math.floor(height * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          resetParticles();
-          resetSparks();
+          canvas.style.width = width + 'px';
+          canvas.style.height = height + 'px';
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.scale(dpr, dpr);
+
+          embers.length = 0;
+          for (let i = 0; i < EMBER_COUNT; i++) {
+            const p = {};
+            resetEmber(p, true);
+            embers.push(p);
+          }
+
+          bubbles.length = 0;
+          for (let i = 0; i < BUBBLE_COUNT; i++) {
+            const b = {};
+            resetBubble(b, true);
+            bubbles.push(b);
+          }
+
+          redstone.length = 0;
+          for (let i = 0; i < REDSTONE_COUNT; i++) {
+            const r = {};
+            resetRedstone(r, true);
+            redstone.push(r);
+          }
         }
-        window.addEventListener('resize', resize, { passive: true });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(resize, 100);
+        });
+
         resize();
 
-        let lastTime = performance.now();
-
-        function render(now) {
+        function render() {
           if (!isRunning) return;
-          lastTime = now;
-
-          mouse.x += (mouse.targetX - mouse.x) * 0.1;
-          mouse.y += (mouse.targetY - mouse.y) * 0.1;
-
           ctx.clearRect(0, 0, width, height);
 
-          // LAYER 1: Radiant Plasma Orbs with Soft Volumetric Glow
-          ctx.globalCompositeOperation = 'screen';
-          orbs.forEach((orb) => {
-            orb.phase += 0.008;
-            orb.x += orb.vx;
-            orb.y += orb.vy;
+          // 1. Render Alchemical Potion Bubbles
+          for (let i = 0; i < bubbles.length; i++) {
+            const b = bubbles[i];
+            b.y += b.vy;
+            b.phase += b.wobbleSpeed;
+            b.x += Math.sin(b.phase) * 0.6;
 
-            if (orb.x < 0.1 || orb.x > 0.9) orb.vx *= -1;
-            if (orb.y < 0.1 || orb.y > 0.9) orb.vy *= -1;
+            if (b.y < height * 0.1) {
+              resetBubble(b);
+            }
 
-            const px = orb.x * width;
-            const py = orb.y * height;
-            const dynamicRadius = orb.baseR + Math.sin(orb.phase) * 35;
-
-            const grad = ctx.createRadialGradient(px, py, 0, px, py, dynamicRadius);
-            grad.addColorStop(0, orb.color);
-            grad.addColorStop(0.5, orb.color.replace(/[\d\.]+\)$/, '0.04)'));
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-            ctx.fillStyle = grad;
+            // Outer bubble glow
             ctx.beginPath();
-            ctx.arc(px, py, dynamicRadius, 0, Math.PI * 2);
+            ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(56, 189, 248, ${b.alpha * 0.3})`;
             ctx.fill();
-          });
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = `rgba(125, 211, 252, ${b.alpha * 0.8})`;
+            ctx.stroke();
 
-          // LAYER 2: Constellation Network & Crystalline Connections
-          ctx.globalCompositeOperation = 'lighter';
+            // Inner shine dot
+            ctx.beginPath();
+            ctx.arc(b.x - b.size * 0.3, b.y - b.size * 0.3, b.size * 0.25, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${b.alpha * 0.7})`;
+            ctx.fill();
+          }
 
-          for (let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            p.x += p.vx;
+          // 2. Render Torch Embers (Golden Sparks)
+          for (let i = 0; i < embers.length; i++) {
+            const p = embers[i];
             p.y += p.vy;
+            p.phase += p.swaySpeed;
+            p.x += Math.sin(p.phase) * p.swayAmp;
 
-            if (p.x < 0) p.x = width;
-            if (p.x > width) p.x = 0;
-            if (p.y < 0) p.y = height;
-            if (p.y > height) p.y = 0;
-
+            // Cursor interactive sway
             if (mouse.active) {
               const dx = p.x - mouse.x;
               const dy = p.y - mouse.y;
               const dist = Math.sqrt(dx * dx + dy * dy);
-              if (dist < mouse.radius && dist > 0) {
-                const force = (1 - dist / mouse.radius) * 1.5;
-                p.x += (dx / dist) * force;
-                p.y += (dy / dist) * force;
-                p.alpha = Math.min(1, p.baseAlpha + (1 - dist / mouse.radius) * 0.5);
-              } else {
-                p.alpha += (p.baseAlpha - p.alpha) * 0.05;
+              if (dist < 140) {
+                p.x += (dx / dist) * 1.5;
+                p.y += (dy / dist) * 1.5;
               }
-            } else {
-              p.pulsePhase += p.pulseSpeed;
-              p.alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.15;
             }
 
-            ctx.fillStyle = `rgba(199, 210, 254, ${p.alpha})`;
+            if (p.y < -10) {
+              resetEmber(p);
+            }
+
+            const flicker = Math.sin(p.phase * 3) * 0.15;
+            const currentAlpha = Math.max(0.1, Math.min(1, p.baseAlpha + flicker));
+
+            ctx.fillStyle = `${p.color} ${currentAlpha})`;
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fill();
-
-            for (let j = i + 1; j < particles.length; j++) {
-              const p2 = particles[j];
-              const dx = p.x - p2.x;
-              const dy = p.y - p2.y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              const maxDist = 110;
-
-              if (dist < maxDist) {
-                const lineAlpha = (1 - dist / maxDist) * 0.12 * Math.min(p.alpha, p2.alpha);
-                ctx.strokeStyle = `rgba(165, 180, 252, ${lineAlpha})`;
-                ctx.lineWidth = 0.75;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.stroke();
-              }
-            }
-
-            if (mouse.active) {
-              const mdx = p.x - mouse.x;
-              const mdy = p.y - mouse.y;
-              const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-              if (mdist < 130) {
-                const mouseAlpha = (1 - mdist / 130) * 0.22;
-                ctx.strokeStyle = `rgba(129, 140, 248, ${mouseAlpha})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-              }
-            }
           }
 
-          // LAYER 3: Cosmic Micro-Sparks Drifting Upward
-          for (let i = 0; i < sparks.length; i++) {
-            const s = sparks[i];
-            s.y += s.vy;
-            s.phase += s.swaySpeed;
-            s.x += Math.sin(s.phase) * s.swayAmp * 0.3;
+          // 3. Render Redstone Sparks (Crimson particles)
+          for (let i = 0; i < redstone.length; i++) {
+            const r = redstone[i];
+            r.y += r.vy;
+            r.phase += r.pulseSpeed;
+            r.x += Math.cos(r.phase) * 0.4;
 
-            if (s.y < -10) {
-              s.y = height + 10;
-              s.x = Math.random() * width;
+            if (r.y < -10) {
+              resetRedstone(r);
             }
 
-            ctx.fillStyle = `rgba(224, 231, 255, ${s.alpha})`;
+            const pulse = (Math.sin(r.phase) + 1) * 0.5; // 0 to 1
+            const alpha = 0.3 + pulse * 0.5;
+
+            ctx.fillStyle = `rgba(239, 68, 68, ${alpha})`;
             ctx.beginPath();
-            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.arc(r.x, r.y, r.size, 0, Math.PI * 2);
             ctx.fill();
           }
 
-          ctx.globalCompositeOperation = 'source-over';
           animId = requestAnimationFrame(render);
         }
 
@@ -2972,13 +4599,12 @@
             if (animId) cancelAnimationFrame(animId);
           } else {
             isRunning = true;
-            lastTime = performance.now();
             animId = requestAnimationFrame(render);
           }
         });
       })();
 
-      // Luxury Theme Controller
+
       window.toggleLuxuryTheme = () => {
         const isDark = document.body.classList.toggle('luxury-dark');
         const label = document.getElementById('theme-toggle-label');
