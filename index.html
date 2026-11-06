@@ -789,7 +789,33 @@
     body.luxury-dark footer {
       border-color: rgba(255, 255, 255, 0.08) !important;
     }
-  </style>
+  
+
+    /* Voxel Navigation Pill Active States */
+    .voxel-nav-pill.active {
+      transform: translateY(2px) !important;
+      border-width: 3px !important;
+    }
+    .voxel-pill-studio.active {
+      background: #1e3a24 !important;
+      border-color: #86efac !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.7), inset 0 2px 4px rgba(0,0,0,0.5) !important;
+    }
+    .voxel-pill-mechanisms.active {
+      background: #3d1d11 !important;
+      border-color: #fdba74 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.7), inset 0 2px 4px rgba(0,0,0,0.5) !important;
+    }
+    .voxel-pill-privacy.active {
+      background: #172554 !important;
+      border-color: #93c5fd !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.7), inset 0 2px 4px rgba(0,0,0,0.5) !important;
+    }
+
+</style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500/20 selection:text-indigo-600 studio-room-bg luxury-dark">
 
@@ -800,25 +826,25 @@
   <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0d1612]/92 border-b border-[#243b2c] px-4 sm:px-8 py-3 shadow-2xl">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       
-      <!-- Brand & Voxel 3D Title (Matching User Reference Image 1:1) -->
-      <div class="flex items-center gap-3 cursor-pointer select-none" onclick="showDashboard()">
+      <!-- Brand & Voxel 3D Title -->
+      <div class="flex items-center gap-3 cursor-pointer select-none" onclick="switchMainTab('mechanisms')">
         <span class="voxel-brand-text">PaperBytes</span>
         <span class="hidden xl:inline-block font-pixel-ui text-[9px] uppercase bg-[#18261c] text-emerald-300 border border-emerald-600/40 px-2 py-0.5 rounded shadow-sm">
           Client Engine &bull; DPDPA 2023
         </span>
       </div>
 
-      <!-- Top Navigation 3 Voxel Buttons (The Studio, Mechanisms, Privacy Craft) -->
+      <!-- Top Navigation 3 Voxel Buttons (Fully Interactive 3-Tab Architecture) -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <button onclick="showDashboard(); scrollToStudio()" class="voxel-nav-pill voxel-pill-studio" title="Jump to The Studio Crafting Gallery">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <button id="nav-btn-studio" onclick="switchMainTab('studio')" class="voxel-nav-pill voxel-pill-studio" title="Open The Studio (15 Tools)">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
           <span>The Studio</span>
         </button>
-        <button onclick="openTool('tool-pdf-to-word-real')" class="voxel-nav-pill voxel-pill-mechanisms" title="Active Restoration Mechanism">
-          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        <button id="nav-btn-mechanisms" onclick="switchMainTab('mechanisms')" class="voxel-nav-pill voxel-pill-mechanisms active" title="Active Voxel Converter Workstation">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
           <span>Mechanisms</span>
         </button>
-        <button onclick="openPrivacyModal()" class="voxel-nav-pill voxel-pill-privacy" title="DPDPA 2023 & Ephemeral In-Memory Privacy Craft">
+        <button id="nav-btn-privacy" onclick="switchMainTab('privacy')" class="voxel-nav-pill voxel-pill-privacy" title="DPDPA 2023 & Ephemeral In-Memory Privacy Craft">
           <span class="w-2 h-2 rounded-full bg-blue-400"></span>
           <span>Privacy Craft</span>
         </button>
@@ -857,281 +883,25 @@
   <!-- Main Container -->
   <main class="flex-1 max-w-7xl mx-auto w-full px-5 sm:px-10 py-8 relative">
 
-    <!-- Dashboard View -->
-    <div id="dashboard-view" class="space-y-10">
-      <!-- 3D Voxel Floating Island Diorama Showcase (Matching Reference Image 1:1) -->
-      <section class="pt-2 pb-2">
-        <div class="voxel-diorama-frame overflow-hidden relative group">
-          <img src="paperbytes-voxel-hero.jpg" alt="PaperBytes 3D Voxel Diorama" class="w-full h-auto object-cover max-h-[540px] block transition duration-700 ease-out group-hover:scale-[1.01]" />
-          
-          <!-- Atmospheric lighting overlay gradient -->
-          <div class="absolute inset-0 bg-gradient-to-t from-[#09100d] via-transparent to-black/20 pointer-events-none"></div>
-
-          <!-- Interactive Action Floating Dock on Diorama -->
-          <div class="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 bg-[#121c17]/92 backdrop-blur-md p-3 sm:p-4 rounded-xl border-2 border-[#2b4231] shadow-2xl">
-            <div class="flex items-center gap-3">
-              <span class="w-3 h-3 rounded-sm bg-emerald-400 shadow-[0_0_10px_#34d399] animate-pulse"></span>
-              <div>
-                <p class="font-pixel-ui text-xs sm:text-sm text-emerald-300 uppercase tracking-wider font-bold">Voxel Diorama Station Active</p>
-                <p class="text-[11px] sm:text-xs text-slate-300">Reconstructing paragraph flow, vector alignments, and tabular formatting block by block.</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="openTool('tool-pdf-to-word-real')" class="voxel-nav-pill voxel-pill-mechanisms text-xs">
-                <span>⚡ Open Mechanisms Terminal</span>
-              </button>
-              <button onclick="scrollToStudio()" class="voxel-nav-pill voxel-pill-studio text-xs">
-                <span>🔨 The Studio (15 Tools)</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- The Studio Crafting Gallery Header -->
-      <div id="studio-section-anchor" class="pt-4 pb-2">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#25382b] pb-4">
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#16251b] border border-emerald-600/40 text-[10px] text-emerald-300 font-pixel-ui shadow-inner">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> THE CRAFTING INVENTORY &bull; 15 TOOLS
-            </div>
-            <h2 class="font-pixel-title text-lg sm:text-2xl font-bold text-white mt-2 tracking-tight">
-              The Studio Mechanisms
-            </h2>
-            <p class="text-slate-400 text-xs sm:text-sm mt-1">
-              Select a restoration plaque below to load its dedicated mechanism into the retro computer.
-            </p>
-          </div>
-
-          <!-- Category Filter Buttons -->
-          <div class="flex flex-wrap items-center gap-2">
-            <button onclick="filterGallery('all')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-emerald-500 bg-[#192b1e] text-emerald-200 font-bold transition shadow-sm active">All (15)</button>
-            <button onclick="filterGallery('convert')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Conversion (6)</button>
-            <button onclick="filterGallery('organize')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Organization (4)</button>
-            <button onclick="filterGallery('security')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Security (3)</button>
-            <button onclick="filterGallery('utility')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Utilities (2)</button>
-          </div>
-        </div>
+  <!-- ========================================================
+       VIEW 1: MECHANISMS (The Live Voxel Diorama Workstation)
+       Active by default on initial page load
+       ======================================================== -->
+  <div id="view-mechanisms" class="main-view space-y-6">
+    <!-- Notice Banner Linking to The Studio -->
+    <div class="flex items-center justify-between flex-wrap gap-3 bg-[#131d17]/85 border-2 border-[#2b4030] rounded-xl px-4 py-2.5 shadow-lg">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-sm bg-amber-400 shadow-[0_0_8px_#f59e0b] animate-pulse"></span>
+        <span class="font-pixel-ui text-[11px] text-amber-200 uppercase tracking-wide font-bold">Active Mechanism Station</span>
+        <span class="text-xs text-slate-400 hidden sm:inline">&bull; Drop document on the CRT screen to process</span>
       </div>
-<section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-01 &bull; Stateless Core</span>
-              <span class="text-xs font-mono-code text-slate-400">PDF &rarr; DOCX</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PDF to Word DOCX</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Layout-preserving document extraction. Reconstructs text flows, alignments, and structured tables.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Launch Engine</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-excel-to-pdf')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-02 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">XLSX &rarr; PDF</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Excel to PDF Tables</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Generate Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-rotate-delete')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-03 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">PAGINATION</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Rotate & Delete Pages</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Visual thumbnail management. Rotate individual orientations (90°/180°) and prune unwanted pages instantly.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Organize Pages</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-password-protect')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-04 &bull; AES-256 CORE</span>
-              <span class="text-xs font-mono-code text-slate-400">ENCRYPT</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Protect with Password</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Enforce military-grade AES-256 encryption. PDF strictly requires password to view or print in any PDF reader.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Secure File</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-watermark')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-05 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">STAMP</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Diagonal Watermark</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Overlay custom identifiers with live angle, size, and opacity calibrations.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Apply Stamp</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-extract-images')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full uppercase">MOD-06 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">ZIP BUNDLE</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Extract Images to ZIP</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Isolates all embedded graphics and figures from every page into a downloadable archive.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Unpack Graphics</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-scanner-effect')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-07 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">CANVAS FX</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Scanner FX</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Convert camera photos into high-contrast black-and-white flatbed scan PDFs.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Process Scan</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-portal-crop')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-08 &bull; Binary Search</span>
-              <span class="text-xs font-mono-code text-slate-400">&le; 50KB TARGET</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Passport Crop & Compress</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Aspect-ratio cropping with automated binary-search compression to satisfy strict portal file-size limits.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Prepare Photo</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-merge-pdf')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-09 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">UNIFY</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Merge PDF Documents</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Combines multiple PDF files into a single ordered document without uploading to a third-party server.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Merge Files</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-split-pdf')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-10 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">EXTRACT</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Split & Extract Ranges</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Extract custom page intervals (e.g. 1-3, 5, 8-10) into a single PDF or unpack all pages to a ZIP archive.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Split Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-images-to-pdf')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-11 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">IMG &rarr; PDF</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Images to PDF</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF with custom margins.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Compile Images</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-omni-convert')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-12 &bull; Universal</span>
-              <span class="text-xs font-mono-code text-slate-400">OMNI MATRIX</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PaperBytes Omni-Converter</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Dynamic universal converter. Drop images, spreadsheets, JSON, or Markdown and cross-convert in memory.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Launch Matrix</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-page-numbers')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-13 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">BATES / PAGINATE</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Add Page Numbers</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Stamp sequential numbering, "Page X of Y", or legal Bates codes with custom placement and font sizes.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Stamp Numbers</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-hash-verifier')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-14 &bull; Web Crypto</span>
-              <span class="text-xs font-mono-code text-slate-400">SHA-256</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Hash & Integrity</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Calculate tamper-proof SHA-256 and SHA-1 cryptographic checksums in browser memory to verify authenticity.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Verify Integrity</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-
-        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-word-to-pdf')">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-15 &bull; In-Browser</span>
-              <span class="text-xs font-mono-code text-slate-400">DOCX &rarr; PDF</span>
-            </div>
-            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Word (.docx) to PDF</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">Converts Microsoft Word documents into paginated vector PDFs with formatted headings, tables, and typography.</p>
-          </div>
-          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
-            <span>Convert Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
-          </div>
-        </div>
-
-      </section>
+      <button onclick="switchMainTab('studio')" class="font-pixel-ui text-[10px] text-emerald-300 hover:text-white bg-[#192b1e] border border-emerald-500/40 hover:border-emerald-400 px-3 py-1 rounded-md transition shadow-sm flex items-center gap-1.5 font-bold">
+        <span>🔨 Switch Mechanism (15 Available) &rarr;</span>
+      </button>
     </div>
 
-    <!-- TOOL 1: PDF TO WORD -->
-    <div <div id="tool-pdf-to-word-real" class="tool-panel space-y-6">
+    <!-- Active Tool Workstations -->
+    <div id="tool-pdf-to-word-real" class="tool-panel active space-y-6">
   <!-- Top Breadcrumb -->
   <div class="flex items-center gap-2 text-xs font-pixel-ui text-emerald-400">
     <button onclick="showDashboard()" class="hover:text-emerald-200 transition flex items-center gap-1.5 font-bold">
@@ -2923,6 +2693,316 @@
 
   </div>
 </div>
+  </div>
+
+  <!-- ========================================================
+       VIEW 2: THE STUDIO (The 15 Tools Crafting Catalog)
+       ======================================================== -->
+  <div id="view-studio" class="main-view space-y-6" style="display: none;">
+    
+    <!-- Studio Header & Filters -->
+    <div class="voxel-signboard p-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#4a2e16] text-[10px] text-[#f7e6ca] font-pixel-ui shadow-inner">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> THE CRAFTING INVENTORY &bull; 15 TOOLS
+          </div>
+          <h2 class="voxel-sign-title text-xl sm:text-2xl mt-2 mb-1">
+            The Studio Crafting Gallery
+          </h2>
+          <p class="voxel-sign-desc text-xs sm:text-sm">
+            Select any digital restoration plaque below to load its dedicated mechanism into the Retro Computer Workstation.
+          </p>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="filterGallery('all')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-emerald-500 bg-[#192b1e] text-emerald-200 font-bold transition shadow-sm active">All (15)</button>
+          <button onclick="filterGallery('convert')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Conversion (6)</button>
+          <button onclick="filterGallery('organize')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Organization (4)</button>
+          <button onclick="filterGallery('security')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Security (3)</button>
+          <button onclick="filterGallery('utility')" class="filter-btn font-pixel-ui text-[10px] px-3.5 py-1.5 rounded-lg border-2 border-[#2b3d30] bg-[#121c17] text-slate-300 hover:border-emerald-500 font-medium transition">Utilities (2)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- The 15 Tool Cards Grid -->
+    <section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-01 &bull; Stateless Core</span>
+              <span class="text-xs font-mono-code text-slate-400">PDF &rarr; DOCX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PDF to Word DOCX</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Layout-preserving document extraction. Reconstructs text flows, alignments, and structured tables.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Launch Engine</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-excel-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-02 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">XLSX &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Excel to PDF Tables</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Generate Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-rotate-delete')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-03 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">PAGINATION</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Rotate & Delete Pages</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Visual thumbnail management. Rotate individual orientations (90°/180°) and prune unwanted pages instantly.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Organize Pages</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-password-protect')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-04 &bull; AES-256 CORE</span>
+              <span class="text-xs font-mono-code text-slate-400">ENCRYPT</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Protect with Password</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Enforce military-grade AES-256 encryption. PDF strictly requires password to view or print in any PDF reader.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Secure File</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-watermark')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-05 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">STAMP</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Diagonal Watermark</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Overlay custom identifiers with live angle, size, and opacity calibrations.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Apply Stamp</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-extract-images')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-amber-600 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-full uppercase">MOD-06 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">ZIP BUNDLE</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Extract Images to ZIP</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Isolates all embedded graphics and figures from every page into a downloadable archive.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Unpack Graphics</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-scanner-effect')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-07 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">CANVAS FX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Scanner FX</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Convert camera photos into high-contrast black-and-white flatbed scan PDFs.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Process Scan</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="utility" onclick="openTool('tool-portal-crop')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-08 &bull; Binary Search</span>
+              <span class="text-xs font-mono-code text-slate-400">&le; 50KB TARGET</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Passport Crop & Compress</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Aspect-ratio cropping with automated binary-search compression to satisfy strict portal file-size limits.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Prepare Photo</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-merge-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-09 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">UNIFY</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Merge PDF Documents</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Combines multiple PDF files into a single ordered document without uploading to a third-party server.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Merge Files</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-split-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-10 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">EXTRACT</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Split & Extract Ranges</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Extract custom page intervals (e.g. 1-3, 5, 8-10) into a single PDF or unpack all pages to a ZIP archive.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Split Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-images-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full uppercase">MOD-11 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">IMG &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Images to PDF</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF with custom margins.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Compile Images</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-omni-convert')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-12 &bull; Universal</span>
+              <span class="text-xs font-mono-code text-slate-400">OMNI MATRIX</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">PaperBytes Omni-Converter</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Dynamic universal converter. Drop images, spreadsheets, JSON, or Markdown and cross-convert in memory.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Launch Matrix</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="organize" onclick="openTool('tool-page-numbers')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-13 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">BATES / PAGINATE</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Add Page Numbers</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Stamp sequential numbering, "Page X of Y", or legal Bates codes with custom placement and font sizes.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Stamp Numbers</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="security" onclick="openTool('tool-hash-verifier')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-full uppercase">MOD-14 &bull; Web Crypto</span>
+              <span class="text-xs font-mono-code text-slate-400">SHA-256</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Document Hash & Integrity</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Calculate tamper-proof SHA-256 and SHA-1 cryptographic checksums in browser memory to verify authenticity.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Verify Integrity</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+
+        <div class="studio-plaque rounded-3xl p-6 flex flex-col justify-between cursor-pointer group" data-category="convert" onclick="openTool('tool-word-to-pdf')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="font-mono-code text-[11px] font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full uppercase">MOD-15 &bull; In-Browser</span>
+              <span class="text-xs font-mono-code text-slate-400">DOCX &rarr; PDF</span>
+            </div>
+            <h3 class="font-brand text-2xl font-bold group-hover:text-indigo-600 transition tracking-tight text-slate-900">Word (.docx) to PDF</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Converts Microsoft Word documents into paginated vector PDFs with formatted headings, tables, and typography.</p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-brand font-bold text-indigo-600">
+            <span>Convert Document</span><span class="group-hover:translate-x-1 transition">&rarr;</span>
+          </div>
+        </div>
+
+      </section>
+  </div>
+
+  <!-- ========================================================
+       VIEW 3: PRIVACY CRAFT (DPDPA 2023 Parchment Scroll)
+       ======================================================== -->
+  <div id="view-privacy" class="main-view max-w-4xl mx-auto space-y-6" style="display: none;">
+    <div class="voxel-signboard p-6 sm:p-8">
+      <div class="flex items-center justify-between border-b border-[#9e8963]/60 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="voxel-mod-tag">ARCHITECTURE</span>
+          <span class="voxel-ephemeral-tag">DPDPA 2023 ZERO RETENTION</span>
+        </div>
+        <button onclick="switchMainTab('mechanisms')" class="voxel-sign-back-btn">
+          <span>&larr;</span> Back to Mechanisms
+        </button>
+      </div>
+
+      <h2 class="voxel-sign-title text-2xl sm:text-3xl">PRIVACY CRAFT &amp; SECURITY PROTOCOLS</h2>
+      <p class="voxel-sign-desc text-sm sm:text-base mb-6">
+        PaperBytes operates on strict zero-retention principles compliant with the Digital Personal Data Protection Act (DPDPA), 2023 of the Republic of India.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+        <div class="p-4 bg-[#cebe96] border-2 border-[#5c4530] rounded-lg">
+          <p class="font-pixel-ui text-xs font-bold text-[#2b1c0e] mb-1">⚡ In-Memory Browser Execution</p>
+          <p class="text-xs text-[#4a3622]">14 of the 15 tools run 100% locally inside your browser's isolated JavaScript/WebAssembly memory sandbox. No document bytes ever leave your device.</p>
+        </div>
+
+        <div class="p-4 bg-[#cebe96] border-2 border-[#5c4530] rounded-lg">
+          <p class="font-pixel-ui text-xs font-bold text-[#2b1c0e] mb-1">🛡️ Obsidian Vault AES-256</p>
+          <p class="text-xs text-[#4a3622]">Document encryption employs military-grade 256-bit AES cipher standards, protecting confidential files against unauthorized decryption or inspection.</p>
+        </div>
+
+        <div class="p-4 bg-[#cebe96] border-2 border-[#5c4530] rounded-lg">
+          <p class="font-pixel-ui text-xs font-bold text-[#2b1c0e] mb-1">🗑️ Ephemeral RAM Destruction</p>
+          <p class="text-xs text-[#4a3622]">Server-assisted conversion pipelines (PDF to Word) operate purely in temporary RAM and execute immediate cryptographic destruction upon transmission.</p>
+        </div>
+
+        <div class="p-4 bg-[#cebe96] border-2 border-[#5c4530] rounded-lg">
+          <p class="font-pixel-ui text-xs font-bold text-[#2b1c0e] mb-1">📜 Section 30 Rights &amp; Non-Commercial</p>
+          <p class="text-xs text-[#4a3622]">Compliant with Section 30 of the IT Act, 2000. Provided free of charge for non-commercial educational and personal document productivity.</p>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-[#9e8963]/60 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-xs font-mono-code text-[#4a3622]">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
+          <span>Local Memory Sandbox: ACTIVE &amp; SECURE</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="switchMainTab('studio')" class="voxel-sign-back-btn">
+            <span>🔨 Browse All 15 Tools</span>
+          </button>
+          <button onclick="switchMainTab('mechanisms')" class="voxel-nav-pill voxel-pill-mechanisms text-xs">
+            <span>⚡ Launch Converter</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
   <!-- Footer -->
@@ -3002,25 +3082,57 @@
 
       // Navigation Handlers
       
-      window.scrollToStudio = () => {
-        const el = document.getElementById('studio-section-anchor') || document.getElementById('tools-grid');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      };
+      
+      // 3-Tab Main Navigation Controller
+      window.switchMainTab = (tab) => {
+        // 1. Update button states
+        ['studio', 'mechanisms', 'privacy'].forEach(t => {
+          const btn = document.getElementById('nav-btn-' + t);
+          if (btn) {
+            if (t === tab) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          }
+        });
 
-      window.showDashboard = () => {
-        document.getElementById('dashboard-view').style.display = 'block';
-        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+        // 2. Toggle view visibility
+        const studioView = document.getElementById('view-studio');
+        const mechanismsView = document.getElementById('view-mechanisms');
+        const privacyView = document.getElementById('view-privacy');
+
+        if (studioView) studioView.style.display = (tab === 'studio') ? 'block' : 'none';
+        if (mechanismsView) mechanismsView.style.display = (tab === 'mechanisms') ? 'block' : 'none';
+        if (privacyView) privacyView.style.display = (tab === 'privacy') ? 'block' : 'none';
+
+        // 3. If mechanisms tab, ensure active tool exists
+        if (tab === 'mechanisms') {
+          let activeTool = document.querySelector('.tool-panel.active');
+          if (!activeTool) {
+            const defaultTool = document.getElementById('tool-pdf-to-word-real');
+            if (defaultTool) defaultTool.classList.add('active');
+          }
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
       window.openTool = (toolId) => {
-        document.getElementById('dashboard-view').style.display = 'none';
         document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
         const target = document.getElementById(toolId);
         if (target) {
           target.classList.add('active');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        window.switchMainTab('mechanisms');
+      };
+
+      window.showDashboard = () => {
+        window.switchMainTab('studio');
+      };
+
+      window.scrollToStudio = () => {
+        window.switchMainTab('studio');
       };
 
       window.filterGallery = (category) => {
