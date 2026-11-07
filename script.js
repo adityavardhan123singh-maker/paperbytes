@@ -476,53 +476,6 @@
     }
   });
 
-  // Cloud Link Buttons
-  document.getElementById('pasteLinkBtn').addEventListener('click', e => {
-    e.stopPropagation();
-    openGenericModal('Paste a Document URL', `
-      <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 12px;">Enter a direct public URL to any document:</p>
-      <input type="url" id="linkInput" placeholder="https://example.com/document.pdf" class="modal-input" />
-      <button type="button" id="importLinkBtn" class="btn-lime" style="width: 100%; margin-top: 14px;">Fetch & Convert</button>
-    `);
-
-    setTimeout(() => {
-      const impBtn = document.getElementById('importLinkBtn');
-      if (impBtn) {
-        impBtn.addEventListener('click', () => {
-          const val = document.getElementById('linkInput').value.trim();
-          if (val) {
-            closeGenericModal();
-            // Simulate fetching document from URL
-            const urlName = val.split('/').pop().split('?')[0] || 'remote_document.pdf';
-            const fakeFile = new File(['Simulated content'], urlName, { type: 'application/pdf' });
-            handleFiles([fakeFile]);
-          }
-        });
-      }
-    }, 50);
-  });
-
-  document.getElementById('googleDriveBtn').addEventListener('click', e => {
-    e.stopPropagation();
-    openGenericModal('Google Drive Connection', `
-      <p style="color: var(--text-muted); font-size: 0.9375rem; line-height: 1.6;">
-        <!-- TODO: Integrate Google Drive Picker API Client -->
-        Connect your Google Drive account to import files directly without downloading them to your machine.
-      </p>
-      <button type="button" class="btn-lime" style="width: 100%; margin-top: 16px;" onclick="document.getElementById('genericModal').classList.remove('open')">Connect Google Drive</button>
-    `);
-  });
-
-  document.getElementById('dropboxBtn').addEventListener('click', e => {
-    e.stopPropagation();
-    openGenericModal('Dropbox Connection', `
-      <p style="color: var(--text-muted); font-size: 0.9375rem; line-height: 1.6;">
-        <!-- TODO: Integrate Dropbox Chooser API Client -->
-        Connect your Dropbox to securely select and batch-convert documents directly in memory.
-      </p>
-      <button type="button" class="btn-lime" style="width: 100%; margin-top: 16px;" onclick="document.getElementById('genericModal').classList.remove('open')">Connect to Dropbox</button>
-    `);
-  });
 
   // Mobile Navigation Drawer Toggle
   mobileMenuBtn.addEventListener('click', () => {
