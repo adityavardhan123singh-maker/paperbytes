@@ -1648,6 +1648,17 @@
     (() => {
       'use strict';
 
+      // HTML Sanitizer for user-uploaded document previews
+      function escapeHTML(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+      window.escapeHTML = escapeHTML;
+
       // Live Render Microservice Gateway
       const GATEWAY_URL = 'https://convertx-backend-a9il.onrender.com';
 
@@ -1867,8 +1878,8 @@
             if (sheetData.length > 0) {
               const preview = document.getElementById('excel-table-preview');
               preview.innerHTML = sheetData.slice(0, 5).map((r, i) => `
-                <tr class="${i === 0 ? 'bg-slate-100 font-bold' : ''}">
-                  ${r.map(c => `<td class="px-3 py-1.5 border border-slate-200">${c !== undefined ? c : ''}</td>`).join('')}
+                <tr class="${i === 0 ? 'bg-[#181612] text-[#f5e6b8] font-bold' : 'text-[#d8d5cd]'}">
+                  ${r.map(c => `<td class="px-3 py-1.5 border border-[#d4af37]/20 font-mono-code text-[11px]">${escapeHTML(c !== undefined ? c : '')}</td>`).join('')}
                 </tr>
               `).join('');
               document.getElementById('excel-preview-box').classList.remove('hidden');
@@ -2021,6 +2032,14 @@
         st.innerText = 'Encrypting with AES-256 (Zero-Retention Core)...';
         btn.disabled = true;
 
+        let secondsWaiting = 0;
+        const progressTimer = setInterval(() => {
+          secondsWaiting += 2;
+          if (secondsWaiting > 4) {
+            st.innerText = `Waking up free cloud container... (${secondsWaiting}s elapsed)`;
+          }
+        }, 2000);
+
         try {
           const formData = new FormData();
           formData.append('file', pProtectFile);
@@ -2028,8 +2047,11 @@
 
           const response = await fetch(`${GATEWAY_URL}/security/password-protect`, {
             method: 'POST',
-            body: formData
+            body: formData,
+            credentials: 'omit'
           });
+
+          clearInterval(progressTimer);
 
           if (!response.ok) {
             let errMsg = 'Encryption failed';
@@ -2043,7 +2065,7 @@
           const blob = await response.blob();
           const cleanBase = pProtectFile.name.replace(/\.[^/.]+$/, '');
           const safeBase = cleanBase.replace(/[^a-zA-Z0-9_\-\s]/g, '').trim() || 'document';
-          const downloadName = protected_.pdf;
+          const downloadName = `protected_${safeBase}.pdf`;
 
           const dlUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
@@ -2056,8 +2078,10 @@
 
           st.innerText = 'Document successfully encrypted with AES-256 and downloaded!';
         } catch (err) {
+          clearInterval(progressTimer);
           st.innerText = 'Error: ' + (err.message || 'Encryption failed');
         } finally {
+          clearInterval(progressTimer);
           btn.disabled = false;
         }
       };
@@ -3158,14 +3182,7 @@
       };
 
 
-      function escapeHTML(str) {
-        return String(str || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#039;');
-      }
+      
 
 
       // Tool 15: Word to PDF Logic
