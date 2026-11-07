@@ -7,6 +7,7 @@ from collections import defaultdict
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, HTTPException, Request, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from starlette.concurrency import run_in_threadpool
 from pdf2docx import Converter
 import fitz  # PyMuPDF
 
@@ -28,7 +29,7 @@ app.add_middleware(
         "http://127.0.0.1:8000",
         "http://localhost:3000"
     ],
-    allow_origin_regex=r"https://.*\.github\.io.*",
+    allow_origin_regex=r"^https://[a-zA-Z0-9-]+\.github\.io$",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -45,10 +46,14 @@ MAX_REQUESTS_PER_WINDOW = 10
 request_history = defaultdict(list)
 
 def get_client_ip(request: Request) -> str:
-    """Extract real client IP behind Render/Cloudflare reverse proxies."""
+    """Extract real client IP behind reverse proxies (Render / Cloudflare)."""
+    render_ip = request.headers.get("x-render-client-ip")
+    if render_ip:
+        return render_ip.strip()
     forwarded_for = request.headers.get("x-forwarded-for")
     if forwarded_for:
-        return forwarded_for.split(",")[0].strip()
+        # Outermost proxy appends real client IP as the last entry
+        return forwarded_for.split(",")[-1].strip()
     return request.client.host if request.client else "unknown"
 
 @app.middleware("http")
@@ -62,6 +67,12 @@ async def security_and_rate_limit_middleware(request: Request, call_next):
         request_history[client_ip] = [
             ts for ts in request_history[client_ip] if now - ts < RATE_LIMIT_WINDOW
         ]
+
+        # Prevent gradual memory leak: prune empty or stale IP records when map grows
+        if len(request_history) > 500:
+            stale = [ip for ip, tss in request_history.items() if not tss or now - tss[-1] > RATE_LIMIT_WINDOW]
+            for ip in stale:
+                request_history.pop(ip, None)
 
         if len(request_history[client_ip]) >= MAX_REQUESTS_PER_WINDOW:
             return JSONResponse(
@@ -193,9 +204,9 @@ async def convert_pdf_to_docx(
                 detail="Corrupted PDF structure detected."
             )
 
-        # Perform layout reconstruction
+        # Perform layout reconstruction asynchronously in threadpool
         cv = Converter(input_path)
-        cv.convert(output_path, start=0, end=None)
+        await run_in_threadpool(cv.convert, output_path, start=0, end=None)
         cv.close()
 
         if not os.path.exists(output_path):
@@ -311,7 +322,8 @@ async def password_protect_pdf(
                 | fitz.PDF_PERM_PRINT
                 | fitz.PDF_PERM_COPY
             )
-            doc.save(
+            await run_in_threadpool(
+                doc.save,
                 output_path,
                 encryption=fitz.PDF_ENCRYPT_AES_256,
                 owner_pw=password,
