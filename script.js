@@ -509,7 +509,7 @@
         <!-- TODO: Integrate Google Drive Picker API Client -->
         Connect your Google Drive account to import files directly without downloading them to your machine.
       </p>
-      <button type="button" class="btn-lime" style="width: 100%; margin-top: 16px;" onclick="document.getElementById('genericModal').classList.remove('open')">Sign in with Google</button>
+      <button type="button" class="btn-lime" style="width: 100%; margin-top: 16px;" onclick="document.getElementById('genericModal').classList.remove('open')">Connect Google Drive</button>
     `);
   });
 
