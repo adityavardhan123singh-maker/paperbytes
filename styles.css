@@ -491,34 +491,7 @@ a {
   transform: none;
 }
 
-/* Cloud / Alternative Upload Links */
-.cloud-links {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 4px;
-}
 
-.cloud-link-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding: 0 8px;
-  transition: var(--transition-fast);
-}
-
-.cloud-link-btn:hover {
-  color: var(--accent-lime);
-}
 
 /* Hidden File Input */
 .hidden-file-input {
