@@ -66,9 +66,7 @@
   const downloadBigBtn = document.getElementById('downloadBigBtn');
   const convertAnotherBtn = document.getElementById('convertAnotherBtn');
 
-  // Modals & Mobile Menu
-  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-  const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+  // Modals
   const genericModal = document.getElementById('genericModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalBody = document.getElementById('modalBody');
@@ -477,11 +475,7 @@
   });
 
 
-  // Mobile Navigation Drawer Toggle
-  mobileMenuBtn.addEventListener('click', () => {
-    const isOpen = mobileNavDrawer.classList.toggle('open');
-    mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
-  });
+
 
   // Initialize Default State
   renderFileQueue();
