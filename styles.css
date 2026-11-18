@@ -1,373 +1,309 @@
+/* ==========================================================================
+   PaperBytes — Direction 01: Obsidian Titanium (Apple Pro & Leica Hardware)
+   Clean, Understated Architectural Precision · Ephemeral Client Runtime
+   ========================================================================== */
+
 :root {
-      --gold-primary: #d4af37;
-      --gold-light: #f5e6b8;
-      --gold-champagne: #e8d5b5;
-      --gold-dark: #aa8222;
-      --bg-dark: #08080a;
-      --bg-atelier: #0d0d12;
-      --border-gold: rgba(212, 175, 55, 0.22);
-      --border-gold-hover: rgba(212, 175, 55, 0.7);
-    }
+  --bg-obsidian: #08090d;
+  --bg-titanium: #12151e;
+  --bg-titanium-elevated: #161a26;
+  --bg-card: rgba(18, 21, 30, 0.85);
+  --border-specular: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(59, 130, 246, 0.45);
+  --accent-blue: #3b82f6;
+  --accent-blue-glow: rgba(59, 130, 246, 0.25);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background-color: var(--bg-dark);
-      color: #e5e5ea;
-      background-image: 
-        radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.14) 0%, rgba(13, 13, 18, 0.5) 45%, transparent 75%),
-        radial-gradient(circle at 90% 80%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 10% 45%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
-        radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
-      background-attachment: fixed;
-    }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #08090d;
+  color: #f8fafc;
+  background-image: 
+    radial-gradient(circle at 50% -10%, rgba(30, 41, 59, 0.4) 0%, rgba(8, 9, 13, 0.95) 50%, #08090d 100%),
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 24px 24px;
+  background-attachment: fixed;
+}
 
-    .font-luxury { font-family: 'Cinzel', serif; }
-    .font-editorial { font-family: 'Cormorant Garamond', serif; }
-    .font-brand { font-family: 'Cinzel', serif; }
-    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+.font-space { font-family: 'Space Grotesk', -apple-system, sans-serif; }
+.font-brand { font-family: 'Space Grotesk', sans-serif; }
+.font-luxury { font-family: 'Space Grotesk', sans-serif; }
+.font-editorial { font-family: 'Inter', sans-serif; }
+.font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
-    .tool-panel { display: none; }
-    .tool-panel.active { display: block; }
+.tool-panel { display: none; }
+.tool-panel.active { display: block; }
 
-    /* Custom Watchmaker Scrollbar */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #08080b; }
-    ::-webkit-scrollbar-thumb { background: #332b1b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.25); }
-    ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+/* Custom Precision Titanium Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #08090d; }
+::-webkit-scrollbar-thumb { background: #1e2333; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.08); }
+::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
 
-    /* Text & Metallic Shimmers */
-    .hero-gold-gradient {
-      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 30%, #d4af37 65%, #9e7d3b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.01em;
-    }
+/* Selection Colors */
+::selection {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: #ffffff;
+}
 
-    .gold-foil-text {
-      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #aa8222 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+/* Specular Chamfered Bento Cards */
+.bento-card {
+  background: linear-gradient(165deg, rgba(18, 21, 30, 0.95) 0%, rgba(10, 12, 17, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 16px 36px -10px rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(20px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+}
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.06), transparent 60%);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.bento-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    0 24px 50px -12px rgba(0, 0, 0, 0.9),
+    0 0 30px -5px rgba(59, 130, 246, 0.2);
+}
 
-    /* Bento Cards with Chamfered Watch Bezel Aesthetic */
-    .bento-card {
-      background: linear-gradient(165deg, rgba(20, 20, 26, 0.94) 0%, rgba(10, 10, 14, 0.98) 100%);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        inset 0 0 20px rgba(0, 0, 0, 0.7),
-        0 14px 34px -8px rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(20px);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-      border-radius: 1.5rem;
-    }
-    .bento-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 65%);
-      border-radius: inherit;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-    }
-    .bento-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(212, 175, 55, 0.65);
-      box-shadow: 
-        inset 0 1px 1px rgba(255, 255, 255, 0.18),
-        0 22px 50px -10px rgba(0, 0, 0, 0.95),
-        0 0 35px -5px rgba(212, 175, 55, 0.22);
-    }
+/* Category Filter Tabs */
+.filter-btn {
+  background: rgba(18, 21, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+.filter-btn:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #ffffff;
+  background: rgba(26, 32, 48, 0.9);
+}
+.filter-btn.active-filter {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  border-color: #60a5fa !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4) !important;
+}
 
-    /* Calibre corner rivets */
-    .bezel-rivet {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #aa8222;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      position: absolute;
-      opacity: 0.5;
-    }
+/* Workbench Panels (Inside Tools) */
+.tool-panel > div,
+.atelier-workbench {
+  background: linear-gradient(165deg, rgba(18, 21, 30, 0.97) 0%, rgba(10, 12, 17, 0.99) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 60px rgba(0, 0, 0, 0.9) !important;
+  color: #f8fafc !important;
+  border-radius: 1.25rem !important;
+}
+.tool-panel h2 {
+  font-family: 'Space Grotesk', sans-serif !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+.tool-panel p {
+  color: #94a3b8 !important;
+}
 
-    /* Filter buttons */
-    .filter-btn {
-      background: rgba(16, 16, 22, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      color: #dfba73;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-    }
-    .filter-btn:hover {
-      border-color: rgba(212, 175, 55, 0.6);
-      color: #ffffff;
-      box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
-    }
-    .filter-btn.active-filter {
-      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 45%, #aa8222 100%) !important;
-      color: #070709 !important;
-      border-color: #f5e6b8 !important;
-      font-weight: 700 !important;
-      box-shadow: 0 0 22px rgba(212, 175, 55, 0.4) !important;
-    }
+/* Workbench Drop Zones */
+.tool-panel .border-dashed,
+.atelier-dropzone {
+  background: rgba(10, 12, 18, 0.8) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.12) !important;
+  border-radius: 1rem !important;
+  transition: all 0.25s ease !important;
+  position: relative !important;
+}
+.tool-panel .border-dashed:hover,
+.atelier-dropzone:hover {
+  border-color: #3b82f6 !important;
+  background: rgba(18, 24, 38, 0.9) !important;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.15) !important;
+}
 
-    /* Watchmaker Workbench Panels (Inside Tools) */
-    .tool-panel > div {
-      background: linear-gradient(165deg, rgba(18, 18, 25, 0.96) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
-      border: 1px solid rgba(212, 175, 55, 0.28) !important;
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 28px 65px rgba(0, 0, 0, 0.92),
-        0 0 45px -10px rgba(212, 175, 55, 0.12) !important;
-      color: #f1f1f4 !important;
-      border-radius: 1.5rem !important;
-    }
-    .tool-panel h2 {
-      font-family: 'Cinzel', serif !important;
-      color: #ffffff !important;
-      letter-spacing: 0.02em !important;
-    }
-    .tool-panel p {
-      color: #9e9a8f !important;
-    }
+/* Tactile Workbench Inputs & Selects */
+.tool-panel input[type="text"],
+.tool-panel input[type="password"],
+.tool-panel input[type="number"],
+.tool-panel select,
+.atelier-input,
+.atelier-select {
+  background-color: #0b0d14 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+  border-radius: 0.625rem !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  transition: all 0.2s ease !important;
+}
+.tool-panel input:focus,
+.tool-panel select:focus,
+.atelier-input:focus,
+.atelier-select:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  outline: none !important;
+}
+.tool-panel label {
+  color: #94a3b8 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
 
-    /* Watchmaker Mat Drop Zone */
-    .tool-panel .border-dashed {
-      background: rgba(11, 11, 16, 0.85) !important;
-      border: 2px dashed rgba(212, 175, 55, 0.3) !important;
-      border-radius: 1.5rem !important;
-      transition: all 0.3s ease !important;
-      position: relative !important;
-    }
-    .tool-panel .border-dashed:hover {
-      border-color: rgba(212, 175, 55, 0.8) !important;
-      background: rgba(18, 18, 26, 0.95) !important;
-      box-shadow: 0 0 32px rgba(212, 175, 55, 0.22) !important;
-    }
+/* Primary Action Buttons (Precision Ice Blue) */
+.tool-panel button.bg-indigo-600,
+.tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
+.atelier-btn,
+#real-pdf-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
+#watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
+#merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
+#hash-btn, #docx-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 6px 20px rgba(37, 99, 235, 0.35) !important;
+  transition: all 0.2s ease !important;
+  border-radius: 0.625rem !important;
+  cursor: pointer !important;
+}
+.tool-panel button.bg-indigo-600:hover,
+.tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]),
+.atelier-btn:hover {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 8px 25px rgba(59, 130, 246, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+.tool-panel button:active {
+  transform: translateY(1px) !important;
+}
 
-    /* Tactile Workbench Inputs */
-    .tool-panel input[type="text"],
-    .tool-panel input[type="password"],
-    .tool-panel input[type="number"],
-    .tool-panel select {
-      background-color: #08080c !important;
-      border: 1px solid rgba(212, 175, 55, 0.25) !important;
-      color: #f5f5f7 !important;
-      border-radius: 0.75rem !important;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
-    }
-    .tool-panel input:focus,
-    .tool-panel select:focus {
-      border-color: #d4af37 !important;
-      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
-      outline: none !important;
-    }
-    .tool-panel label {
-      color: #dfba73 !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.15em !important;
-      font-size: 10px !important;
-      font-weight: 600 !important;
-      font-family: 'Cinzel', serif !important;
-    }
+/* Cancel / Reset Buttons (Tactile Dark Slate) */
+button[id$="-cancel-btn"],
+.atelier-cancel-btn {
+  background: rgba(24, 27, 38, 0.8) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 0.02em !important;
+  backdrop-filter: blur(8px) !important;
+  border-radius: 0.625rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+button[id$="-cancel-btn"]:hover,
+.atelier-cancel-btn:hover {
+  background: rgba(40, 20, 24, 0.9) !important;
+  color: #f87171 !important;
+  border-color: rgba(248, 113, 113, 0.3) !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.15) !important;
+}
 
-    /* 18k Brushed Gold Crown Action Buttons */
-    .tool-panel button.bg-indigo-600,
-    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
-    #real-pdf-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
-    #watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
-    #merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
-    #hash-btn, #docx-btn {
-      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 80%, #7d5e16 100%) !important;
-      color: #070709 !important;
-      font-family: 'Cinzel', serif !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.12em !important;
-      text-transform: uppercase !important;
-      border: 1px solid rgba(255, 255, 255, 0.5) !important;
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        0 6px 22px rgba(212, 175, 55, 0.35) !important;
-      transition: all 0.25s ease !important;
-      cursor: pointer !important;
-    }
-    .tool-panel button.bg-indigo-600:hover,
-    .tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]) {
-      filter: brightness(1.15) !important;
-      transform: translateY(-1px) !important;
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.7),
-        0 10px 32px rgba(212, 175, 55, 0.5) !important;
-    }
-    .tool-panel button:active {
-      transform: translateY(1px) !important;
-    }
+/* Breadcrumb Navigation */
+.tool-panel button[onclick="showDashboard()"] {
+  color: #94a3b8 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  cursor: pointer !important;
+  transition: color 0.15s ease !important;
+}
+.tool-panel button[onclick="showDashboard()"]:hover {
+  color: #3b82f6 !important;
+}
 
-    /* Cancel Buttons (Ruby Jewel Bearing Style) */
-    button[id$="-cancel-btn"] {
-      background: rgba(30, 12, 16, 0.9) !important;
-      color: #fca5a5 !important;
-      border: 1px solid rgba(239, 68, 68, 0.35) !important;
-      font-family: 'JetBrains Mono', monospace !important;
-      letter-spacing: 0.04em !important;
-      backdrop-filter: blur(8px) !important;
-      cursor: pointer !important;
-    }
-    button[id$="-cancel-btn"]:hover {
-      background: rgba(50, 18, 25, 0.95) !important;
-      border-color: rgba(239, 68, 68, 0.6) !important;
-      box-shadow: 0 0 15px rgba(239, 68, 68, 0.25) !important;
-    }
+/* Status Lines */
+span[id$="-status"], p[id$="-status"] {
+  color: #3b82f6 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
 
-    /* Breadcrumbs */
-    .tool-panel button[onclick="showDashboard()"] {
-      color: #dfba73 !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.15em !important;
-      font-family: 'Cinzel', serif !important;
-      cursor: pointer !important;
-    }
-    .tool-panel button[onclick="showDashboard()"]:hover {
-      color: #ffffff !important;
-      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5) !important;
-    }
+/* Strict Modal Display Isolation */
+#privacy-modal:not(.active-modal),
+#terms-modal:not(.active-modal),
+#copyright-modal:not(.active-modal),
+.hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+#privacy-modal.active-modal,
+#terms-modal.active-modal,
+#copyright-modal.active-modal {
+  display: flex !important;
+  pointer-events: auto !important;
+}
 
-    /* Status Lines */
-    span[id$="-status"], p[id$="-status"] {
-      color: #dfba73 !important;
-      font-family: 'JetBrains Mono', monospace !important;
-    }
+/* Modals (Titanium Vault Dialog Style) */
+#privacy-modal > div,
+#terms-modal > div,
+#copyright-modal > div {
+  background: linear-gradient(165deg, #12151e 0%, #08090d 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  color: #f8fafc !important;
+  border-radius: 1.25rem !important;
+}
+#privacy-modal h3,
+#terms-modal h3,
+#copyright-modal h3 {
+  font-family: 'Space Grotesk', sans-serif !important;
+  color: #ffffff !important;
+}
+#privacy-modal p,
+#terms-modal p,
+#copyright-modal p {
+  color: #94a3b8 !important;
+}
+#privacy-modal button,
+#terms-modal button,
+#copyright-modal button {
+  background: #1e2433 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 600 !important;
+  border-radius: 0.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+#privacy-modal button:hover,
+#terms-modal button:hover,
+#copyright-modal button:hover {
+  background: #3b82f6 !important;
+  border-color: #60a5fa !important;
+}
 
-    /* Strict Modal Display Isolation */
-    #privacy-modal:not(.active-modal),
-    #terms-modal:not(.active-modal),
-    #copyright-modal:not(.active-modal),
-    .hidden {
-      display: none !important;
-      pointer-events: none !important;
-    }
-    #privacy-modal.active-modal,
-    #terms-modal.active-modal,
-    #copyright-modal.active-modal {
-      display: flex !important;
-      pointer-events: auto !important;
-    }
-
-    /* Modals (Swiss Chronometer Certificate Style) */
-    #privacy-modal > div,
-    #terms-modal > div,
-    #copyright-modal > div {
-      background: linear-gradient(165deg, #121217 0%, #0a0a0d 100%) !important;
-      border: 1px solid rgba(212, 175, 55, 0.35) !important;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(212, 175, 55, 0.2) !important;
-      color: #dfdfdf !important;
-    }
-    #privacy-modal h3,
-    #terms-modal h3,
-    #copyright-modal h3 {
-      font-family: 'Cinzel', serif !important;
-      color: #f5e6b8 !important;
-    }
-    #privacy-modal p,
-    #terms-modal p,
-    #copyright-modal p {
-      color: #a5a198 !important;
-    }
-    #privacy-modal button,
-    #terms-modal button,
-    #copyright-modal button {
-      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 100%) !important;
-      color: #070709 !important;
-      font-family: 'Cinzel', serif !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.1em !important;
-      cursor: pointer !important;
-    }
-
-    /* Selection Colors */
-    ::selection {
-      background-color: rgba(212, 175, 55, 0.3);
-      color: #ffffff;
-    }
-
-    /* Atelier Workbench & Tool Panel Haute Horlogerie Styling */
-    .atelier-workbench {
-      background: linear-gradient(165deg, rgba(18, 18, 24, 0.97) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
-      border: 1px solid rgba(212, 175, 55, 0.28) !important;
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 0 35px rgba(0, 0, 0, 0.8),
-        0 24px 60px -12px rgba(0, 0, 0, 0.95) !important;
-      backdrop-filter: blur(24px) !important;
-      position: relative !important;
-    }
-    
-    .atelier-dropzone {
-      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.05) 0%, rgba(10, 10, 14, 0.95) 75%) !important;
-      border: 1px dashed rgba(212, 175, 55, 0.35) !important;
-      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.9) !important;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    .atelier-dropzone:hover {
-      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.1) 0%, rgba(16, 16, 22, 0.98) 75%) !important;
-      border-color: rgba(212, 175, 55, 0.75) !important;
-      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.15) !important;
-    }
-
-    .atelier-input, .atelier-select {
-      background: #09090d !important;
-      border: 1px solid rgba(212, 175, 55, 0.3) !important;
-      color: #f5e6b8 !important;
-      border-radius: 0.75rem !important;
-      font-family: 'Space Mono', monospace !important;
-      transition: all 0.2s ease !important;
-    }
-    .atelier-input:focus, .atelier-select:focus {
-      border-color: #d4af37 !important;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.25) !important;
-      outline: none !important;
-    }
-
-    .atelier-btn {
-      background: linear-gradient(135deg, #d4af37 0%, #f5e6b8 50%, #aa8222 100%) !important;
-      color: #070709 !important;
-      font-family: 'Cinzel', serif !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.12em !important;
-      text-transform: uppercase !important;
-      border-radius: 0.75rem !important;
-      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35) !important;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      cursor: pointer !important;
-    }
-    .atelier-btn:hover {
-      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #f5e6b8 100%) !important;
-      box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6) !important;
-      transform: translateY(-1px) scale(1.01) !important;
-    }
-    .atelier-btn:active {
-      transform: translateY(1px) scale(0.99) !important;
-    }
-
-    .atelier-cancel-btn {
-      background: #1f0e12 !important;
-      border: 1px solid rgba(244, 63, 94, 0.45) !important;
-      color: #fca5a5 !important;
-      border-radius: 0.75rem !important;
-      font-family: 'Space Mono', monospace !important;
-      font-size: 0.75rem !important;
-      letter-spacing: 0.05em !important;
-      transition: all 0.25s ease !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
-      cursor: pointer !important;
-    }
-    .atelier-cancel-btn:hover {
-      background: #3b1119 !important;
-      border-color: rgba(244, 63, 94, 0.8) !important;
-      color: #ffffff !important;
-      box-shadow: 0 0 15px rgba(244, 63, 94, 0.35) !important;
-    }
+/* Progress Bars */
+.progress-bar-fill {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
