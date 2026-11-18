@@ -6,12 +6,12 @@
   <meta name="robots" content="noarchive, nosnippet">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>PaperBytes — Precision Document Engineering &amp; In-Browser Tools</title>
+  <title>PaperBytes — In-Browser Document Tools &amp; Converter</title>
 
-    <!-- Google Fonts: Obsidian Titanium Typography -->
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,47 +33,47 @@
 
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="min-h-screen flex flex-col antialiased text-slate-100 bg-[#08090D] selection:bg-blue-500/30 selection:text-white">
+<body class="min-h-screen flex flex-col antialiased text-slate-800 bg-[#FDFBF7] selection:bg-[#FF7A59]/20 selection:text-[#D94826]">
 
     <!-- Header -->
-  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#08090D]/85 border-b border-white/10 px-5 sm:px-10 py-3.5 shadow-2xl">
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/90 border-b border-slate-200/80 px-4 sm:px-8 py-3.5 shadow-sm">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       <div class="flex items-center gap-3 cursor-pointer select-none" onclick="showDashboard()">
-        <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center font-bold text-white text-xs font-mono-code shadow-sm">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF7A59] to-[#FF5A36] text-white font-extrabold flex items-center justify-center text-xs font-mono-code shadow-md shadow-orange-500/20">
           PB
         </div>
-        <span class="font-space text-xl sm:text-2xl font-bold tracking-tight text-white hover:text-blue-400 transition">
-          Paper<span class="text-blue-400">Bytes</span>
+        <span class="font-space text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 hover:text-[#FF7A59] transition">
+          Paper<span class="text-[#FF7A59]">Bytes</span>
         </span>
-        <span class="hidden lg:inline-block font-mono-code text-[10px] tracking-wider uppercase bg-white/5 text-zinc-400 border border-white/10 px-2.5 py-0.5 rounded-md font-semibold">
-          15 IN-BROWSER ENGINES
+        <span class="hidden lg:inline-block font-mono-code text-[10px] tracking-wider uppercase bg-[#FFF2ED] text-[#D94826] border border-[#FFD4C7] px-2.5 py-0.5 rounded-full font-bold">
+          15 IN-BROWSER TOOLS
         </span>
       </div>
 
       <!-- Search Input -->
       <div class="relative flex-1 max-w-md mx-2">
-        <div class="flex items-center bg-[#12151E] border border-white/10 focus-within:border-blue-500/60 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.25)] rounded-xl px-4 py-2 transition shadow-inner">
-          <svg class="w-3.5 h-3.5 text-zinc-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center bg-slate-100/90 border border-slate-200/80 focus-within:border-[#00A8B5] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#00A8B5]/20 rounded-xl px-4 py-2 transition shadow-inner">
+          <svg class="w-3.5 h-3.5 text-slate-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input 
             type="text" 
             id="tool-search-input" 
-            placeholder="Search engines (word, protect, crop, split)..." 
-            class="w-full bg-transparent text-xs text-white placeholder-zinc-500 focus:outline-none font-mono-code"
+            placeholder="Search tools (Word, Protect, Crop, Split)..." 
+            class="w-full bg-transparent text-xs text-slate-800 placeholder-slate-400 focus:outline-none font-mono-code"
             oninput="handleSearch(this.value)"
           />
         </div>
 
-        <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-[#12151E] backdrop-blur-2xl border border-white/15 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden hidden z-50">
-          <div id="search-list" class="divide-y divide-white/5 max-h-72 overflow-y-auto"></div>
+        <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white backdrop-blur-2xl border border-slate-200 rounded-xl shadow-xl overflow-hidden hidden z-50">
+          <div id="search-list" class="divide-y divide-slate-100 max-h-72 overflow-y-auto"></div>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="font-mono-code text-[11px] font-semibold tracking-wider uppercase hidden sm:inline">SANDBOX ACTIVE</span>
+        <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6F7F8] border border-[#B2EBF2] text-[#008E9B]">
+          <span class="w-2 h-2 rounded-full bg-[#00A8B5] animate-pulse"></span>
+          <span class="font-mono-code text-[11px] font-bold tracking-wider uppercase hidden sm:inline">SANDBOX ACTIVE</span>
         </div>
       </div>
     </div>
@@ -85,67 +85,65 @@
     <!-- Dashboard View -->
     <div id="dashboard-view" class="space-y-10">
       
-      <!-- Obsidian Titanium Hardware Showcase Hero -->
+      <!-- Warm Coral & Teal Responsive Hero -->
       <section class="pt-6 pb-4 space-y-6">
         <div class="space-y-3">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs text-blue-400 font-mono-code">
-            <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-            <span class="tracking-wider uppercase text-[10px] font-semibold">OBSIDIAN PRECISION RUNTIME &bull; ZERO SERVER LOGS</span>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF2ED] border border-[#FFD4C7] text-xs text-[#D94826] font-mono-code font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FF7A59]"></span>
+            <span class="tracking-wider uppercase text-[10px]">100% PRIVATE CLIENT-SIDE ENGINE &bull; ZERO SERVER UPLOADS</span>
           </div>
-          <h1 class="font-space text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
-            High-Performance Document Engineering.
+          <h1 class="font-space text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            High-Performance In-Browser Document Tools.
           </h1>
-          <p class="text-zinc-400 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
-            Confidential in-browser transformations, layout conversions, and security hardening. 100% ephemeral memory execution with zero server retention.
+          <p class="text-slate-600 text-sm sm:text-base max-w-2xl font-normal leading-relaxed">
+            Confidential document transformations, format conversions, and security hardening. Process sensitive files locally in browser memory with absolute privacy.
           </p>
         </div>
 
-        
-
-        <!-- Filter Sub-dials -->
-        <div class="flex flex-wrap items-center gap-2 pt-2">
-          <button onclick="filterGallery('all', this)" class="filter-btn active-filter font-mono-code text-xs px-4 py-2 rounded-xl font-medium">All Engines (15)</button>
-          <button onclick="filterGallery('convert', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-medium">Conversions (6)</button>
-          <button onclick="filterGallery('organize', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-medium">Organization (4)</button>
-          <button onclick="filterGallery('security', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-medium">Security Vault (3)</button>
-          <button onclick="filterGallery('utility', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-medium">Utility Engines (2)</button>
+        <!-- Filter Sub-dials (Touch-friendly & horizontally scrollable on mobile) -->
+        <div class="flex items-center gap-2 pt-1 overflow-x-auto pb-1 filter-container">
+          <button onclick="filterGallery('all', this)" class="filter-btn active-filter font-mono-code text-xs px-4 py-2 rounded-xl font-bold shrink-0">All Tools (15)</button>
+          <button onclick="filterGallery('convert', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-bold shrink-0">Conversions (6)</button>
+          <button onclick="filterGallery('organize', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-bold shrink-0">Organization (4)</button>
+          <button onclick="filterGallery('security', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-bold shrink-0">Security Vault (3)</button>
+          <button onclick="filterGallery('utility', this)" class="filter-btn font-mono-code text-xs px-4 py-2 rounded-xl font-bold shrink-0">Utilities (2)</button>
         </div>
       </section>
 
       <section id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <!-- CARD 1: PDF TO WORD -->
-        <div class="bento-card md:col-span-2 p-7 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
+        <div class="bento-card md:col-span-2 p-6 sm:p-7 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-pdf-to-word-real')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)] animate-pulse"></span>
-                <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-01 &bull; CORE ENGINE</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-01 &bull; CORE ENGINE</span>
               </div>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">PDF &rarr; DOCX</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">PDF &rarr; DOCX</span>
             </div>
             <div>
-              <h3 class="font-space text-2xl sm:text-3xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">PDF to Microsoft Word (.docx)</h3>
-              <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal mt-1.5 max-w-xl">Deep architectural layout reconstruction. Faithfully reconstitutes flowing paragraph vectors, column geometry, and tabular structures without server retention.</p>
+              <h3 class="font-space text-2xl sm:text-3xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">PDF to Microsoft Word (.docx)</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mt-1.5 max-w-xl">Deep architectural layout reconstruction. Reconstitutes flowing paragraph vectors, column geometry, and tabular structures without data retention.</p>
             </div>
             
-            <div class="grid grid-cols-3 gap-3 py-3 px-4 rounded-xl bg-[#090B10] border border-white/10 font-mono-code text-[10px] shadow-inner">
+            <div class="grid grid-cols-3 gap-3 py-3 px-4 rounded-xl bg-slate-50 border border-slate-200/80 font-mono-code text-[10px]">
               <div class="text-center">
-                <span class="text-zinc-500 block text-[9px] uppercase tracking-wider">LATENCY</span>
-                <span class="text-white font-bold text-xs">~1.5s Stream</span>
+                <span class="text-slate-400 block text-[9px] uppercase tracking-wider font-semibold">LATENCY</span>
+                <span class="text-slate-900 font-bold text-xs">~1.5s Stream</span>
               </div>
-              <div class="text-center border-x border-white/10">
-                <span class="text-zinc-500 block text-[9px] uppercase tracking-wider">HARD LIMIT</span>
-                <span class="text-white font-bold text-xs">30 Pages Max</span>
+              <div class="text-center border-x border-slate-200">
+                <span class="text-slate-400 block text-[9px] uppercase tracking-wider font-semibold">PAGE CAP</span>
+                <span class="text-slate-900 font-bold text-xs">30 Pages Max</span>
               </div>
               <div class="text-center">
-                <span class="text-zinc-500 block text-[9px] uppercase tracking-wider">RECONSTRUCTION</span>
-                <span class="text-white font-bold text-xs">Tables & Vectors</span>
+                <span class="text-slate-400 block text-[9px] uppercase tracking-wider font-semibold">LAYOUT</span>
+                <span class="text-slate-900 font-bold text-xs">Tables & Vectors</span>
               </div>
             </div>
           </div>
-          <div class="pt-5 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -154,16 +152,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-excel-to-pdf')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-02 &bull; RUNTIME</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">XLSX &rarr; PDF</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-02 &bull; RUNTIME</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">XLSX &rarr; PDF</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Excel to PDF Tables</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Excel to PDF Tables</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Parses spreadsheets in memory and paginates readable vector tables with auto-pagination.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -172,16 +170,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-rotate-delete')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-03 &bull; RUNTIME</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">ORGANIZE</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-03 &bull; RUNTIME</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">ORGANIZE</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Rotate & Delete Pages</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Visual grid canvas to reorder, rotate 90&deg;/180&deg;, or prune unnecessary pages instantly.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Rotate & Delete Pages</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Visual grid canvas to reorder, rotate 90&deg;/180&deg;, or prune unnecessary pages instantly.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -190,16 +188,16 @@
         <div class="bento-card md:col-span-1 p-6 flex flex-col justify-between cursor-pointer group relative" data-category="security" onclick="openTool('tool-password-protect')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-04 &bull; VAULT</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">AES-128</span>
+              <span class="font-mono-code text-[10px] font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-04 &bull; VAULT</span>
+              <span class="text-[10px] font-mono-code text-rose-600 font-bold tracking-wider uppercase">AES-128</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Protect with Password</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Locks documents with client-side AES-128 encryption. No key escrow or remote logging.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Protect with Password</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Locks documents with client-side AES-128 encryption. No key escrow or remote logging.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -208,16 +206,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="security" onclick="openTool('tool-watermark')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-05 &bull; VAULT</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">STAMP</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-05 &bull; VAULT</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">STAMP</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Diagonal Watermark</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Imprint semi-transparent vectors with calibrated opacity, color, and angle across all pages.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Diagonal Watermark</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Imprint semi-transparent vectors with calibrated opacity, color, and angle across all pages.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -226,16 +224,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="utility" onclick="openTool('tool-extract-images')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-06 &bull; EXTRACT</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">ZIP &bull; RAW</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-06 &bull; EXTRACT</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">ZIP &bull; RAW</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Extract Images to ZIP</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Traverses binary streams, extracts embedded JPG/PNG streams, and bundles them into a ZIP archive.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Extract Images to ZIP</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Traverses binary streams, extracts embedded JPG/PNG photos, and bundles them into a ZIP archive.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -244,16 +242,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="utility" onclick="openTool('tool-scanner-effect')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-07 &bull; SCANNER</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">CANVAS FX</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-07 &bull; SCANNER</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">CANVAS FX</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Document Scanner FX</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Transforms phone camera snapshots into crisp, black-and-white scanned PDF documents.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Document Scanner FX</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Transforms phone camera snapshots into crisp, high-contrast scanned PDF documents.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -262,16 +260,16 @@
         <div class="bento-card md:col-span-1 p-6 flex flex-col justify-between cursor-pointer group relative" data-category="utility" onclick="openTool('tool-portal-crop')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-08 &bull; COMPRESS</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">50KB / 20KB</span>
+              <span class="font-mono-code text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-08 &bull; COMPRESS</span>
+              <span class="text-[10px] font-mono-code text-amber-700 font-bold tracking-wider uppercase">50KB / 20KB</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Passport Crop & Compress</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Precise 3.5x4.5cm aspect ratio crop with iterative compression for strict portal upload caps.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Passport Crop & Compress</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Precise 3.5x4.5cm aspect ratio crop with iterative compression for strict portal upload caps.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -280,16 +278,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-merge-pdf')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-09 &bull; MERGE</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">MULTI-PDF</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-09 &bull; MERGE</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">MULTI-PDF</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Merge PDF Documents</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Concatenate multiple PDF files into one clean document with drag-and-drop sequencing.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Merge PDF Documents</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Concatenate multiple PDF files into one clean document with drag-and-drop sequencing.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -298,16 +296,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-split-pdf')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-10 &bull; SPLIT</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">INTERVALS</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-10 &bull; SPLIT</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">INTERVALS</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Split & Extract Ranges</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Carve out specific page spans (e.g. 1-3, 5) or burst every page into a standalone document in ZIP.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Split & Extract Ranges</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Carve out specific page spans (e.g. 1-3, 5) or burst every page into a standalone document in ZIP.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -316,40 +314,40 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-images-to-pdf')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-11 &bull; BOOK</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">PHOTOS &rarr; PDF</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-11 &bull; BOOK</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">PHOTOS &rarr; PDF</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Images to PDF Document</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Compile JPG, PNG, and WebP collections into a cohesive PDF with customizable margins and orientations.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Images to PDF Document</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Compile JPG, PNG, and WebP collections into a cohesive PDF with customizable margins and orientations.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
 
         <!-- CARD 12: OMNI CONVERTER -->
-        <div class="bento-card md:col-span-2 p-7 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-omni-convert')">
+        <div class="bento-card md:col-span-2 p-6 sm:p-7 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-omni-convert')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-12 &bull; UNIVERSAL MATRIX</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">MULTI-FORMAT RUNTIME</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#008E9B] bg-[#E6F7F8] border border-[#B2EBF2] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-12 &bull; UNIVERSAL MATRIX</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">MULTI-FORMAT RUNTIME</span>
             </div>
             <div>
-              <h3 class="font-space text-2xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">PaperBytes Omni-Converter Matrix</h3>
-              <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal mt-1.5 max-w-xl">Universal client-side transposition engine. Cross-converts Markdown, HTML, CSV, TXT, and PDF with dynamic syntax recognition and live parsing.</p>
+              <h3 class="font-space text-2xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">PaperBytes Omni-Converter Matrix</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal mt-1.5 max-w-xl">Universal client-side transposition engine. Cross-converts Markdown, HTML, CSV, TXT, and PDF with dynamic syntax recognition and live parsing.</p>
             </div>
             <div class="flex flex-wrap gap-2 pt-1 font-mono-code text-[10px]">
-              <span class="px-2.5 py-1 rounded bg-[#090B10] border border-white/10 text-zinc-300">MD &rarr; HTML/PDF/TXT</span>
-              <span class="px-2.5 py-1 rounded bg-[#090B10] border border-white/10 text-zinc-300">HTML &rarr; PDF/MD/TXT</span>
-              <span class="px-2.5 py-1 rounded bg-[#090B10] border border-white/10 text-zinc-300">CSV &rarr; PDF/JSON/HTML</span>
-              <span class="px-2.5 py-1 rounded bg-[#090B10] border border-white/10 text-zinc-300">TXT &rarr; PDF</span>
+              <span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200 text-slate-700">MD &rarr; HTML/PDF/TXT</span>
+              <span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200 text-slate-700">HTML &rarr; PDF/MD/TXT</span>
+              <span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200 text-slate-700">CSV &rarr; PDF/JSON/HTML</span>
+              <span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200 text-slate-700">TXT &rarr; PDF</span>
             </div>
           </div>
-          <div class="pt-5 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -358,16 +356,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="organize" onclick="openTool('tool-page-numbers')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-13 &bull; PAGINATE</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">BATES STAMP</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-13 &bull; PAGINATE</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">BATES STAMP</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Add Page Numbers & Bates</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Stamp sequential page numbers or Bates indexing at 6 precise anchor positions.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Add Page Numbers & Bates</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Stamp sequential page numbers or Bates indexing at 6 precise anchor positions.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -376,16 +374,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="security" onclick="openTool('tool-hash-verifier')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-14 &bull; INTEGRITY</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">SHA-256</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-14 &bull; INTEGRITY</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">SHA-256</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Cryptographic Hash & Integrity</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Hardware Web Crypto checksum calculator. Generates tamper-proof SHA-256 and SHA-1 hashes.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Cryptographic Hash & Integrity</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Hardware Web Crypto checksum calculator. Generates tamper-proof SHA-256 and SHA-1 hashes.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -394,16 +392,16 @@
         <div class="bento-card p-6 flex flex-col justify-between cursor-pointer group relative" data-category="convert" onclick="openTool('tool-word-to-pdf')">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <span class="font-mono-code text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-15 &bull; DOCX</span>
-              <span class="text-[10px] font-mono-code text-zinc-500 tracking-wider uppercase">DOCX &rarr; PDF</span>
+              <span class="font-mono-code text-[10px] font-bold text-[#D94826] bg-[#FFF2ED] border border-[#FFD4C7] px-2.5 py-0.5 rounded-md uppercase tracking-wider">MOD-15 &bull; DOCX</span>
+              <span class="text-[10px] font-mono-code text-[#008E9B] font-bold tracking-wider uppercase">DOCX &rarr; PDF</span>
             </div>
             <div>
-              <h3 class="font-space text-xl font-bold group-hover:text-blue-400 transition tracking-tight text-white">Word (.docx) to PDF</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed font-normal mt-1">Converts Word documents to clean vector PDF files entirely in-browser with live layout preview.</p>
+              <h3 class="font-space text-xl font-extrabold group-hover:text-[#FF7A59] transition tracking-tight text-slate-900">Word (.docx) to PDF</h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal mt-1">Converts Word documents to clean vector PDF files entirely in-browser with live layout preview.</p>
             </div>
           </div>
-          <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono-code text-blue-400 font-semibold">
-            <span>INITIALIZE ENGINE</span>
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-space text-[#FF7A59] font-bold uppercase tracking-wider">
+            <span>Open Engine</span>
             <span class="group-hover:translate-x-1.5 transition-transform duration-200">&rarr;</span>
           </div>
         </div>
@@ -413,17 +411,17 @@
 
     <!-- TOOL 1: PDF TO WORD -->
     <div id="tool-pdf-to-word-real" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-01: PDF to Word</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-01: PDF to Word</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">PDF to Microsoft Word (.docx)</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">PDF to Microsoft Word (.docx)</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Reconstructs paragraph flow, vector alignments, and tabular formatting.</p>
           </div>
           <button id="real-pdf-cancel-btn" onclick="clearPDFToWordFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -433,21 +431,21 @@
         <div class="atelier-dropzone rounded-3xl p-10 sm:p-12 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="real-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePDFToWordSelection(this)" />
           <div class="space-y-3">
-            <div class="w-14 h-14 rounded-2xl bg-[#12151E] text-blue-400 border border-white/10 flex items-center justify-center mx-auto shadow-md group-hover:scale-105 transition">
+            <div class="w-14 h-14 rounded-2xl bg-[#FFF9F7] text-[#FF7A59] border border-slate-200 flex items-center justify-center mx-auto shadow-md group-hover:scale-105 transition">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <div>
               <p class="font-luxury font-bold text-white text-base tracking-wide">Select or Drop Your PDF Document</p>
-              <p class="text-xs text-zinc-500 font-light mt-1">Direct layout reconstruction &bull; Ephemeral conversion</p>
+              <p class="text-xs text-slate-500 font-light mt-1">Direct layout reconstruction &bull; Ephemeral conversion</p>
             </div>
-            <p id="real-pdf-filename" class="text-xs font-mono-code text-blue-400 font-bold bg-[#12151E] px-4 py-1.5 rounded-lg border border-white/10 inline-block shadow-inner"></p>
+            <p id="real-pdf-filename" class="text-xs font-mono-code text-[#FF7A59] font-bold bg-[#FFF9F7] px-4 py-1.5 rounded-lg border border-slate-200 inline-block shadow-inner"></p>
           </div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
           <div class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" id="pdf-status-indicator"></span>
-            <span id="real-pdf-status" class="text-xs font-mono-code text-zinc-400">Ready for document selection</span>
+            <span id="real-pdf-status" class="text-xs font-mono-code text-slate-600">Ready for document selection</span>
           </div>
           <button id="real-pdf-btn" onclick="executePDFToWordSecure()" class="w-full sm:w-auto atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all disabled:opacity-50">
             Convert to .DOCX
@@ -458,33 +456,33 @@
 
     <!-- TOOL 2: EXCEL TO PDF -->
     <div id="tool-excel-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-02: Excel to PDF</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-02: Excel to PDF</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Spreadsheet to Formatted PDF Table</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Spreadsheet to Formatted PDF Table</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Converts .xlsx spreadsheets into paginated PDF tables directly in browser memory.</p>
           </div>
           <button id="excel-cancel-btn" onclick="clearExcelFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
-        <div class="border-2 border-dashed border-white/10 hover:border-indigo-500 rounded-3xl p-10 text-center bg-[#0D0F17]/60 cursor-pointer relative transition">
+        <div class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-3xl p-10 text-center bg-white/60 cursor-pointer relative transition">
           <input type="file" id="excel-file-input" accept=".xlsx,.xls,.csv" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExcelSelection(this)" />
           <div class="space-y-2">
-            <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Excel or CSV Spreadsheet</p>
-            <p id="excel-filename" class="text-xs font-mono-code text-blue-400 font-bold bg-[#12151E] px-4 py-1.5 rounded-lg border border-white/10 inline-block shadow-inner"></p>
+            <p class="font-brand font-bold text-slate-900 text-sm">Select Excel or CSV Spreadsheet</p>
+            <p id="excel-filename" class="text-xs font-mono-code text-[#FF7A59] font-bold bg-[#FFF9F7] px-4 py-1.5 rounded-lg border border-slate-200 inline-block shadow-inner"></p>
           </div>
         </div>
-        <div id="excel-preview-box" class="max-h-60 overflow-auto border border-white/10 rounded-2xl hidden">
+        <div id="excel-preview-box" class="max-h-60 overflow-auto border border-slate-200 rounded-2xl hidden">
           <table id="excel-table-preview" class="min-w-full divide-y divide-slate-200 text-xs"></table>
         </div>
         <div class="flex items-center justify-between">
-          <span id="excel-status" class="text-xs font-mono-code text-zinc-400">Awaiting workbook...</span>
+          <span id="excel-status" class="text-xs font-mono-code text-slate-600">Awaiting workbook...</span>
           <button id="excel-convert-btn" onclick="executeExcelToPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Render Vector PDF
           </button>
@@ -494,16 +492,16 @@
 
     <!-- TOOL 3: ROTATE & DELETE -->
     <div id="tool-rotate-delete" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-03: Rotate & Delete</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-03: Rotate & Delete</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Page Arranger & Orientator</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Page Arranger & Orientator</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Rotate sideways pages or discard unnecessary pages from your PDF.</p>
           </div>
           <button id="organize-cancel-btn" onclick="clearOrganizeFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -511,11 +509,11 @@
         </div>
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="organize-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOrganizePDF(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select PDF to Reorganize Pages</p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Select PDF to Reorganize Pages</p>
         </div>
         <div id="organize-pages-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 pt-2"></div>
         <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-          <span id="organize-status" class="text-xs font-mono-code text-zinc-400">Upload document to render pages</span>
+          <span id="organize-status" class="text-xs font-mono-code text-slate-600">Upload document to render pages</span>
           <button id="save-organize-btn" onclick="executeSaveOrganizedPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Export Modified PDF
           </button>
@@ -525,16 +523,16 @@
 
     <!-- TOOL 4: PASSWORD PROTECT -->
     <div id="tool-password-protect" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-04: Password Protect</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-04: Password Protect</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Enforce Encryption & Access Password</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Enforce Encryption & Access Password</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Enforce military-grade AES-256 encryption. Zero retention & ephemeral destruction.</p>
           </div>
           <button id="protect-cancel-btn" onclick="clearProtectFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -542,21 +540,21 @@
         </div>
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="protect-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleProtectPDFSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Choose PDF to Encrypt</p>
-          <p id="protect-pdf-name" class="text-xs font-mono-code text-blue-400 font-bold bg-[#12151E] px-4 py-1.5 rounded-lg border border-white/10 inline-block shadow-inner mt-1"></p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Choose PDF to Encrypt</p>
+          <p id="protect-pdf-name" class="text-xs font-mono-code text-[#FF7A59] font-bold bg-[#FFF9F7] px-4 py-1.5 rounded-lg border border-slate-200 inline-block shadow-inner mt-1"></p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Set Password</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Set Password</label>
             <input type="password" id="protect-user-pass" placeholder="Enter password" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-mono-code" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Confirm Password</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Confirm Password</label>
             <input type="password" id="protect-confirm-pass" placeholder="Re-enter password" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-mono-code" />
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span id="protect-status" class="text-xs font-mono-code text-zinc-400">Provide document and password</span>
+          <span id="protect-status" class="text-xs font-mono-code text-slate-600">Provide document and password</span>
           <button id="protect-btn" onclick="executePasswordProtect()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Encrypt & Download
           </button>
@@ -566,16 +564,16 @@
 
     <!-- TOOL 5: WATERMARK -->
     <div id="tool-watermark" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-05: Watermark</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-05: Watermark</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Diagonal Watermark Overlay</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Stamp identifiers across every page of your PDF.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Diagonal Watermark Overlay</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Stamp identifiers across every page of your PDF.</p>
           </div>
           <button id="watermark-cancel-btn" onclick="clearWatermarkFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -583,25 +581,25 @@
         </div>
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="watermark-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWatermarkSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Document to Stamp</p>
-          <p id="watermark-pdf-name" class="text-xs font-mono-code text-blue-400 font-bold bg-[#12151E] px-4 py-1.5 rounded-lg border border-white/10 inline-block shadow-inner mt-1"></p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Select Document to Stamp</p>
+          <p id="watermark-pdf-name" class="text-xs font-mono-code text-[#FF7A59] font-bold bg-[#FFF9F7] px-4 py-1.5 rounded-lg border border-slate-200 inline-block shadow-inner mt-1"></p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Watermark Text</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Watermark Text</label>
             <input type="text" id="watermark-text" value="CONFIDENTIAL" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-brand font-bold" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Font Size (pt)</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Font Size (pt)</label>
             <input type="number" id="watermark-size" value="48" min="16" max="120" class="w-full atelier-input px-4 py-2.5 text-xs focus:outline-none font-mono-code" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Opacity</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Opacity</label>
             <input type="range" id="watermark-opacity" min="0.05" max="0.6" step="0.05" value="0.25" class="w-full mt-2 accent-indigo-600" />
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span id="watermark-status" class="text-xs font-mono-code text-zinc-400">Awaiting document...</span>
+          <span id="watermark-status" class="text-xs font-mono-code text-slate-600">Awaiting document...</span>
           <button id="watermark-btn" onclick="executeWatermark()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Stamp & Download
           </button>
@@ -611,16 +609,16 @@
 
     <!-- TOOL 6: EXTRACT IMAGES -->
     <div id="tool-extract-images" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-06: Extract Graphics</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-06: Extract Graphics</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Extract Embedded Graphics to ZIP</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Extract Embedded Graphics to ZIP</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Extracts high-resolution embedded figures into a downloadable ZIP archive.</p>
           </div>
           <button id="extract-cancel-btn" onclick="clearExtractFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -628,11 +626,11 @@
         </div>
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="extract-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleExtractSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Drop PDF Document</p>
-          <p id="extract-pdf-name" class="text-xs font-mono-code text-blue-400 font-bold bg-[#12151E] px-4 py-1.5 rounded-lg border border-white/10 inline-block shadow-inner mt-1"></p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Drop PDF Document</p>
+          <p id="extract-pdf-name" class="text-xs font-mono-code text-[#FF7A59] font-bold bg-[#FFF9F7] px-4 py-1.5 rounded-lg border border-slate-200 inline-block shadow-inner mt-1"></p>
         </div>
         <div class="flex items-center justify-between">
-          <span id="extract-status" class="text-xs font-mono-code text-zinc-400">Upload document to inspect graphics</span>
+          <span id="extract-status" class="text-xs font-mono-code text-slate-600">Upload document to inspect graphics</span>
           <button id="extract-btn" onclick="executeImageExtraction()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Extract & Download ZIP
           </button>
@@ -642,16 +640,16 @@
 
     <!-- TOOL 7: SCANNER FX -->
     <div id="tool-scanner-effect" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-07: Scanner Filter</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-07: Scanner Filter</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Document Scanner Filters</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Document Scanner Filters</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Converts camera captures into clean high-contrast flatbed scan PDFs.</p>
           </div>
           <button id="scanner-cancel-btn" onclick="clearScannerPhoto()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different Photo
@@ -659,20 +657,20 @@
         </div>
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="scanner-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleScannerSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Raw Camera Document Image</p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Select Raw Camera Document Image</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="text-center p-3 border border-white/10 rounded-2xl bg-[#0D0F17]">
-            <p class="text-xs font-mono-code text-zinc-400 mb-2">Original Capture</p>
+          <div class="text-center p-3 border border-slate-200 rounded-2xl bg-white">
+            <p class="text-xs font-mono-code text-slate-600 mb-2">Original Capture</p>
             <img id="scanner-raw-preview" class="max-h-48 mx-auto rounded shadow-sm hidden" />
           </div>
-          <div class="text-center p-3 border border-white/10 rounded-2xl bg-[#0D0F17]">
-            <p class="text-xs font-mono-code text-zinc-400 mb-2">Processed Scan Preview</p>
+          <div class="text-center p-3 border border-slate-200 rounded-2xl bg-white">
+            <p class="text-xs font-mono-code text-slate-600 mb-2">Processed Scan Preview</p>
             <canvas id="scanner-canvas" class="max-h-48 mx-auto rounded shadow-sm hidden"></canvas>
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span id="scanner-status" class="text-xs font-mono-code text-zinc-400">Provide photo to process</span>
+          <span id="scanner-status" class="text-xs font-mono-code text-slate-600">Provide photo to process</span>
           <button id="scanner-btn" onclick="executeScannerDownload()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Save as Scanned PDF
           </button>
@@ -682,16 +680,16 @@
 
     <!-- TOOL 8: PORTAL CROP -->
     <div id="tool-portal-crop" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-08: Portal Optimization</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-08: Portal Optimization</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Portal Photo Cropper & Strict Size Target</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Portal Photo Cropper & Strict Size Target</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Crop to aspect ratio and compress iteratively to satisfy strict portal file-size limits.</p>
           </div>
           <button id="portal-cancel-btn" onclick="clearPortalPhoto()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different Photo
@@ -699,7 +697,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Preset Aspect Ratio</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Preset Aspect Ratio</label>
             <select id="portal-preset" onchange="applyCropPreset(this.value)" class="w-full atelier-select px-4 py-2.5 text-xs font-medium">
               <option value="passport">Passport Photo (3.5 x 4.5 ratio)</option>
               <option value="square">Square Identity (1:1)</option>
@@ -708,7 +706,7 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Target Max File Size</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Target Max File Size</label>
             <select id="portal-max-kb" class="w-full atelier-select px-4 py-2.5 text-xs font-medium">
               <option value="50">Strictly under 50 KB (Gov/Exam Portals)</option>
               <option value="20">Strictly under 20 KB (Signatures)</option>
@@ -717,22 +715,22 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-[#e2e0d8] mb-1">Output Format</label>
+            <label class="block text-xs font-medium text-slate-800 mb-1">Output Format</label>
             <select id="portal-format" class="w-full atelier-select px-4 py-2.5 text-xs font-medium">
               <option value="image/jpeg">JPEG (.jpg)</option>
               <option value="image/png">PNG (.png)</option>
             </select>
           </div>
         </div>
-        <div class="border-2 border-dashed border-white/10 hover:border-indigo-500 rounded-3xl p-6 text-center bg-[#0D0F17]/60 cursor-pointer relative transition">
+        <div class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-3xl p-6 text-center bg-white/60 cursor-pointer relative transition">
           <input type="file" id="portal-image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePortalImageSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Image to Crop & Compress</p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Select Image to Crop & Compress</p>
         </div>
-        <div class="max-h-96 overflow-hidden rounded-2xl border border-white/10 hidden" id="cropper-wrapper">
+        <div class="max-h-96 overflow-hidden rounded-2xl border border-slate-200 hidden" id="cropper-wrapper">
           <img id="cropper-target" class="max-w-full" />
         </div>
         <div class="flex items-center justify-between">
-          <span id="portal-status" class="text-xs font-mono-code text-zinc-400">Load photo to configure</span>
+          <span id="portal-status" class="text-xs font-mono-code text-slate-600">Load photo to configure</span>
           <button id="portal-btn" onclick="executePortalCrop()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Crop, Compress & Save
           </button>
@@ -742,16 +740,16 @@
 
     <!-- TOOL 9: MERGE PDF -->
     <div id="tool-merge-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-09: Unify Documents</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-09: Unify Documents</span>
       </div>
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Merge Multiple PDF Documents</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Combine two or more separate PDFs into a single file directly in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Merge Multiple PDF Documents</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Combine two or more separate PDFs into a single file directly in browser memory.</p>
           </div>
           <button id="merge-cancel-btn" onclick="clearMergeFiles()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Clear All Files
@@ -759,11 +757,11 @@
         </div>
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="merge-files-input" accept="application/pdf" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleMergeFilesSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select Two or More PDF Files</p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Select Two or More PDF Files</p>
         </div>
         <div id="merge-files-list" class="space-y-2"></div>
         <div class="flex items-center justify-between">
-          <span id="merge-status" class="text-xs font-mono-code text-zinc-400">Awaiting multiple PDF documents</span>
+          <span id="merge-status" class="text-xs font-mono-code text-slate-600">Awaiting multiple PDF documents</span>
           <button id="merge-btn" onclick="executeMergePDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all" disabled>
             Merge Documents
           </button>
@@ -774,17 +772,17 @@
 
     <!-- TOOL 10: SPLIT PDF / EXTRACT RANGES -->
     <div id="tool-split-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-10: Split & Extract</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-10: Split & Extract</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Split PDF / Extract Page Ranges</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Split PDF / Extract Page Ranges</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Extract specific page subsets or unpack every single page into separate documents in memory.</p>
           </div>
           <button id="split-cancel-btn" onclick="clearSplitFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -794,33 +792,33 @@
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="split-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleSplitPDFSelection(this)" />
           <div class="space-y-2">
-            <p id="split-pdf-filename" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop a PDF File to Split</p>
-            <p id="split-pdf-info" class="text-[10px] font-mono-code text-zinc-500 tracking-widest uppercase">Pure in-browser memory extraction</p>
+            <p id="split-pdf-filename" class="font-brand font-bold text-slate-900 text-sm">Select or Drop a PDF File to Split</p>
+            <p id="split-pdf-info" class="text-[10px] font-mono-code text-slate-500 tracking-widest uppercase">Pure in-browser memory extraction</p>
           </div>
         </div>
 
         <div id="split-controls" class="space-y-4 hidden">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="border border-white/10 rounded-2xl p-4 bg-[#0D0F17]/50">
-              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-[#f5f5f7]">
-                <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode(this.value)" class="text-blue-400" />
+            <div class="border border-slate-200 rounded-2xl p-4 bg-white/50">
+              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-slate-900">
+                <input type="radio" name="split-mode" value="range" checked onchange="toggleSplitMode(this.value)" class="text-[#FF7A59]" />
                 <span>Extract Custom Range</span>
               </label>
-              <p class="text-xs text-zinc-400 mt-1">Combine selected pages into a single new PDF.</p>
+              <p class="text-xs text-slate-600 mt-1">Combine selected pages into a single new PDF.</p>
               <input type="text" id="split-range-input" placeholder="e.g. 1-3, 5, 8-10" class="mt-3 w-full atelier-input px-3 py-2 text-xs font-mono-code focus:outline-none" />
             </div>
 
-            <div class="border border-white/10 rounded-2xl p-4 bg-[#0D0F17]/50">
-              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-[#f5f5f7]">
-                <input type="radio" name="split-mode" value="zip" onchange="toggleSplitMode(this.value)" class="text-blue-400" />
+            <div class="border border-slate-200 rounded-2xl p-4 bg-white/50">
+              <label class="flex items-center gap-2 cursor-pointer font-brand font-bold text-sm text-slate-900">
+                <input type="radio" name="split-mode" value="zip" onchange="toggleSplitMode(this.value)" class="text-[#FF7A59]" />
                 <span>Extract All to Separate PDFs (ZIP)</span>
               </label>
-              <p class="text-xs text-zinc-400 mt-1">Saves each page as page_1.pdf, page_2.pdf in an archive.</p>
+              <p class="text-xs text-slate-600 mt-1">Saves each page as page_1.pdf, page_2.pdf in an archive.</p>
             </div>
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="split-status" class="text-xs font-mono-code text-zinc-400">Document analyzed. Ready to extract.</span>
+            <span id="split-status" class="text-xs font-mono-code text-slate-600">Document analyzed. Ready to extract.</span>
             <button id="split-btn" onclick="executeSplitPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Extract & Download
             </button>
@@ -831,17 +829,17 @@
 
     <!-- TOOL 11: IMAGES TO PDF -->
     <div id="tool-images-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-11: Images to PDF</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-11: Images to PDF</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Images to PDF Document</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Images to PDF Document</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Compile photos, homework notes, or receipts (JPG, PNG, WebP) into an organized PDF in browser RAM.</p>
           </div>
           <button id="images-pdf-cancel-btn" onclick="clearAllImagesPdf()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Clear All Photos
@@ -850,8 +848,8 @@
 
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="images-pdf-input" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleImagesToPDFSelection(this)" />
-          <p class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop One or More Images</p>
-          <p class="text-xs text-zinc-500 font-light mt-1 font-mono-code">PNG, JPG, JPEG, WEBP supported</p>
+          <p class="font-brand font-bold text-slate-900 text-sm">Select or Drop One or More Images</p>
+          <p class="text-xs text-slate-500 font-light mt-1 font-mono-code">PNG, JPG, JPEG, WEBP supported</p>
         </div>
 
         <div id="images-pdf-list" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-60 overflow-y-auto p-1"></div>
@@ -859,16 +857,16 @@
         <div id="images-pdf-controls" class="space-y-4 hidden">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-mono-code text-zinc-400 mb-1">Page Format</label>
-              <select id="images-pdf-format" class="w-full bg-[#0D0F17] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-slate-600 mb-1">Page Format</label>
+              <select id="images-pdf-format" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="a4-portrait">A4 (Portrait)</option>
                 <option value="a4-landscape">A4 (Landscape)</option>
                 <option value="fit">Fit to Image Size</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-mono-code text-zinc-400 mb-1">Page Margins</label>
-              <select id="images-pdf-margin" class="w-full bg-[#0D0F17] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-slate-600 mb-1">Page Margins</label>
+              <select id="images-pdf-margin" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="none">No Margin (0 mm)</option>
                 <option value="small">Small Margin (10 mm)</option>
               </select>
@@ -876,7 +874,7 @@
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="images-pdf-status" class="text-xs font-mono-code text-zinc-400">Ready to compile</span>
+            <span id="images-pdf-status" class="text-xs font-mono-code text-slate-600">Ready to compile</span>
             <button id="images-pdf-btn" onclick="executeImagesToPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Compile & Save PDF
             </button>
@@ -887,45 +885,45 @@
 
     <!-- TOOL 12: OMNI CONVERTER -->
     <div id="tool-omni-convert" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-12: Omni-Converter</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-12: Omni-Converter</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">PaperBytes Omni-Converter</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">PaperBytes Omni-Converter</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Universal cross-format conversion matrix running 100% locally in browser memory.</p>
           </div>
           <button id="omni-cancel-btn" onclick="clearOmniFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove File & Select Another
           </button>
         </div>
 
-        <div class="border-2 border-dashed border-white/10 hover:border-indigo-500 rounded-3xl p-10 text-center bg-[#0D0F17]/60 cursor-pointer relative transition">
+        <div class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-3xl p-10 text-center bg-white/60 cursor-pointer relative transition">
           <input type="file" id="omni-file-input" accept=".png,.jpg,.jpeg,.webp,.svg,.bmp,.xlsx,.csv,.json,.md,.txt" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleOmniSelection(this)" />
           <div class="space-y-2">
-            <p id="omni-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Drop Any Supported File Here</p>
-            <p class="text-xs text-zinc-500 font-mono-code">Images, Spreadsheets, JSON, Markdown, or Text</p>
+            <p id="omni-file-label" class="font-brand font-bold text-slate-900 text-sm">Drop Any Supported File Here</p>
+            <p class="text-xs text-slate-500 font-mono-code">Images, Spreadsheets, JSON, Markdown, or Text</p>
           </div>
         </div>
 
         <div id="omni-controls" class="space-y-4 hidden">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-[#0D0F17] border border-white/10">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-slate-200">
             <div>
-              <span class="text-[10px] font-mono-code uppercase font-semibold text-zinc-500">Source Detection</span>
-              <p id="omni-detected-badge" class="font-brand font-bold text-[#f5f5f7] text-sm mt-0.5">Detecting...</p>
+              <span class="text-[10px] font-mono-code uppercase font-semibold text-slate-500">Source Detection</span>
+              <p id="omni-detected-badge" class="font-brand font-bold text-slate-900 text-sm mt-0.5">Detecting...</p>
             </div>
             <div class="w-full sm:w-auto flex items-center gap-3">
-              <span class="text-xs font-mono-code text-zinc-400 whitespace-nowrap">Convert To:</span>
+              <span class="text-xs font-mono-code text-slate-600 whitespace-nowrap">Convert To:</span>
               <select id="omni-target-format" class="atelier-select px-4 py-2 text-xs font-mono-code font-bold focus:outline-none"></select>
             </div>
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="omni-status" class="text-xs font-mono-code text-zinc-400">Ready to transform</span>
+            <span id="omni-status" class="text-xs font-mono-code text-slate-600">Ready to transform</span>
             <button id="omni-btn" onclick="executeOmniConversion()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Convert Now
             </button>
@@ -936,17 +934,17 @@
 
     <!-- TOOL 13: PAGE NUMBERS -->
     <div id="tool-page-numbers" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-13: Page Numbers</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-13: Page Numbers</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Add Page Numbers & Bates Stamping</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Add Page Numbers & Bates Stamping</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Stamp sequential page numbers or custom pagination onto any PDF with precise placement.</p>
           </div>
           <button id="pagenum-cancel-btn" onclick="clearPageNumFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -955,15 +953,15 @@
 
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="pagenum-pdf-input" accept="application/pdf" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handlePageNumSelection(this)" />
-          <p id="pagenum-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop a PDF File</p>
-          <p class="text-xs text-zinc-500 font-light mt-1 font-mono-code">In-browser vector stamping</p>
+          <p id="pagenum-file-label" class="font-brand font-bold text-slate-900 text-sm">Select or Drop a PDF File</p>
+          <p class="text-xs text-slate-500 font-light mt-1 font-mono-code">In-browser vector stamping</p>
         </div>
 
         <div id="pagenum-controls" class="space-y-4 hidden">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label class="block text-xs font-mono-code text-zinc-400 mb-1">Format Pattern</label>
-              <select id="pagenum-format" class="w-full bg-[#0D0F17] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-slate-600 mb-1">Format Pattern</label>
+              <select id="pagenum-format" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="page_of">Page {n} of {total}</option>
                 <option value="simple">{n}</option>
                 <option value="page_prefix">Page {n}</option>
@@ -971,8 +969,8 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-mono-code text-zinc-400 mb-1">Position</label>
-              <select id="pagenum-position" class="w-full bg-[#0D0F17] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono-code">
+              <label class="block text-xs font-mono-code text-slate-600 mb-1">Position</label>
+              <select id="pagenum-position" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code">
                 <option value="bottom-center">Bottom Center</option>
                 <option value="bottom-right">Bottom Right</option>
                 <option value="top-right">Top Right</option>
@@ -980,13 +978,13 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-mono-code text-zinc-400 mb-1">Font Size</label>
-              <input type="number" id="pagenum-fontsize" value="10" min="6" max="24" class="w-full bg-[#0D0F17] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono-code" />
+              <label class="block text-xs font-mono-code text-slate-600 mb-1">Font Size</label>
+              <input type="number" id="pagenum-fontsize" value="10" min="6" max="24" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono-code" />
             </div>
           </div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="pagenum-status" class="text-xs font-mono-code text-zinc-400">Ready to stamp</span>
+            <span id="pagenum-status" class="text-xs font-mono-code text-slate-600">Ready to stamp</span>
             <button id="pagenum-btn" onclick="executeAddPageNumbers()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Apply Numbers & Save
             </button>
@@ -997,17 +995,17 @@
 
     <!-- TOOL 14: HASH VERIFIER -->
     <div id="tool-hash-verifier" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-14: Hash Verifier</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-14: Hash Verifier</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Document Cryptographic Checksum & Integrity</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Document Cryptographic Checksum & Integrity</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Generate tamper-proof cryptographic signatures using hardware-accelerated Web Crypto API.</p>
           </div>
           <button id="hash-cancel-btn" onclick="clearHashFile()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
@@ -1016,33 +1014,33 @@
 
         <div class="atelier-dropzone rounded-3xl p-8 text-center cursor-pointer relative transition group shadow-inner">
           <input type="file" id="hash-file-input" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleHashFileSelection(this)" />
-          <p id="hash-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop Any Document or File</p>
-          <p class="text-xs text-zinc-500 font-light mt-1 font-mono-code">Zero network transmission &bull; Hardware Web Crypto</p>
+          <p id="hash-file-label" class="font-brand font-bold text-slate-900 text-sm">Select or Drop Any Document or File</p>
+          <p class="text-xs text-slate-500 font-light mt-1 font-mono-code">Zero network transmission &bull; Hardware Web Crypto</p>
         </div>
 
         <div id="hash-results" class="space-y-4 hidden">
           <div class="space-y-3">
-            <div class="p-3 bg-[#0D0F17] border border-white/10 rounded-2xl">
-              <div class="flex items-center justify-between text-xs font-mono-code text-zinc-400 mb-1">
+            <div class="p-3 bg-white border border-slate-200 rounded-2xl">
+              <div class="flex items-center justify-between text-xs font-mono-code text-slate-600 mb-1">
                 <span>SHA-256 (Industry Standard)</span>
-                <button onclick="copyHashText('hash-sha256-val')" class="text-blue-400 hover:underline">Copy</button>
+                <button onclick="copyHashText('hash-sha256-val')" class="text-[#FF7A59] hover:underline">Copy</button>
               </div>
-              <p id="hash-sha256-val" class="font-mono-code text-xs text-[#f5f5f7] break-all select-all font-semibold"></p>
+              <p id="hash-sha256-val" class="font-mono-code text-xs text-slate-900 break-all select-all font-semibold"></p>
             </div>
 
-            <div class="p-3 bg-[#0D0F17] border border-white/10 rounded-2xl">
-              <div class="flex items-center justify-between text-xs font-mono-code text-zinc-400 mb-1">
+            <div class="p-3 bg-white border border-slate-200 rounded-2xl">
+              <div class="flex items-center justify-between text-xs font-mono-code text-slate-600 mb-1">
                 <span>SHA-1</span>
-                <button onclick="copyHashText('hash-sha1-val')" class="text-blue-400 hover:underline">Copy</button>
+                <button onclick="copyHashText('hash-sha1-val')" class="text-[#FF7A59] hover:underline">Copy</button>
               </div>
-              <p id="hash-sha1-val" class="font-mono-code text-xs text-[#e2e0d8] break-all select-all"></p>
+              <p id="hash-sha1-val" class="font-mono-code text-xs text-slate-800 break-all select-all"></p>
             </div>
           </div>
 
           <div class="p-4 border border-indigo-100 bg-indigo-50/40 rounded-2xl space-y-2">
-            <label class="block text-xs font-brand font-bold text-[#f5f5f7]">Verify Against Expected Checksum</label>
+            <label class="block text-xs font-brand font-bold text-slate-900">Verify Against Expected Checksum</label>
             <input type="text" id="hash-compare-input" placeholder="Paste expected hash to verify integrity..." oninput="compareChecksum(this.value)" class="w-full atelier-input px-4 py-2.5 text-xs font-mono-code focus:outline-none" />
-            <div id="hash-compare-status" class="text-xs font-mono-code text-zinc-400"></div>
+            <div id="hash-compare-status" class="text-xs font-mono-code text-slate-600"></div>
           </div>
         </div>
       </div>
@@ -1051,41 +1049,41 @@
 
     <!-- TOOL 15: WORD TO PDF -->
     <div id="tool-word-to-pdf" class="tool-panel space-y-6">
-      <div class="flex items-center gap-2 text-xs font-mono-code text-zinc-400">
-        <button onclick="showDashboard()" class="hover:text-white text-blue-400 transition flex items-center gap-1.5 font-semibold tracking-wider uppercase">&larr; Return to Engines</button>
-        <span class="text-blue-400/40">/</span>
-        <span class="font-mono-code text-white tracking-widest uppercase border-b border-white/10 pb-0.5">MOD-15: Word to PDF</span>
+      <div class="flex items-center gap-2 text-xs font-mono-code text-slate-600">
+        <button onclick="showDashboard()" class="hover:text-[#FF5A36] text-[#FF7A59] transition flex items-center gap-1.5 font-bold tracking-wider uppercase">&larr; Return to Tools</button>
+        <span class="text-[#FF7A59]/40">/</span>
+        <span class="font-mono-code text-white tracking-widest uppercase border-b border-slate-200 pb-0.5">MOD-15: Word to PDF</span>
       </div>
 
       <div class="atelier-workbench rounded-3xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-[#f5f5f7]">Word (.docx) to Formatted PDF</h2>
-            <p class="text-xs sm:text-sm text-zinc-400 font-light mt-1.5 leading-relaxed">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
+            <h2 class="font-luxury text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Word (.docx) to Formatted PDF</h2>
+            <p class="text-xs sm:text-sm text-slate-600 font-light mt-1.5 leading-relaxed">Parses Word paragraphs, headings, bullet lists, and tables in browser memory.</p>
           </div>
           <button id="word-cancel-btn" onclick="clearWordDocument()" class="hidden atelier-cancel-btn px-4 py-2 rounded-xl transition flex items-center gap-2 font-semibold shadow-md">
             <span>✕</span> Remove & Select Different File
           </button>
         </div>
 
-        <div id="word-dropzone" class="border-2 border-dashed border-white/10 hover:border-indigo-500 rounded-3xl p-10 text-center bg-[#0D0F17]/60 cursor-pointer relative transition">
+        <div id="word-dropzone" class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-3xl p-10 text-center bg-white/60 cursor-pointer relative transition">
           <input type="file" id="word-file-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleWordSelection(this)" />
           <div class="space-y-2">
-            <p id="word-file-label" class="font-brand font-bold text-[#f5f5f7] text-sm">Select or Drop a Word (.docx) Document</p>
-            <p class="text-xs text-zinc-500 font-mono-code">100% In-Browser Memory Conversion &bull; Zero Server Upload</p>
+            <p id="word-file-label" class="font-brand font-bold text-slate-900 text-sm">Select or Drop a Word (.docx) Document</p>
+            <p class="text-xs text-slate-500 font-mono-code">100% In-Browser Memory Conversion &bull; Zero Server Upload</p>
           </div>
         </div>
 
         <div id="word-preview-section" class="space-y-4 hidden">
-          <div class="flex items-center justify-between text-xs font-mono-code text-zinc-400 px-1">
-            <span id="word-doc-name" class="font-semibold text-[#f5f5f7]"></span>
+          <div class="flex items-center justify-between text-xs font-mono-code text-slate-600 px-1">
+            <span id="word-doc-name" class="font-semibold text-slate-900"></span>
             <span>Live Document Render</span>
           </div>
 
-          <div id="word-preview-container" class="max-h-96 overflow-y-auto p-8 bg-[#0D0F17] border border-white/10 rounded-2xl shadow-inner text-white text-sm leading-relaxed space-y-4"></div>
+          <div id="word-preview-container" class="max-h-96 overflow-y-auto p-8 bg-white border border-slate-200 rounded-2xl shadow-inner text-white text-sm leading-relaxed space-y-4"></div>
 
           <div class="flex items-center justify-between pt-2">
-            <span id="word-status" class="text-xs font-mono-code text-zinc-400">Document parsed successfully.</span>
+            <span id="word-status" class="text-xs font-mono-code text-slate-600">Document parsed successfully.</span>
             <button id="word-convert-btn" onclick="executeWordToPDF()" class="atelier-btn text-xs font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all">
               Download PDF Document
             </button>
@@ -1097,20 +1095,20 @@
   </main>
 
   <!-- Footer -->
-  <footer class="mt-20 border-t border-white/10 py-10 px-5 sm:px-10 bg-[#06070a]/95">
+  <footer class="mt-20 border-t border-slate-200/80 py-10 px-5 sm:px-10 bg-white shadow-sm">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2.5">
-        <div class="w-6 h-6 rounded-md bg-white/10 border border-white/15 flex items-center justify-center font-bold text-white text-[11px] font-mono-code">PB</div>
-        <span class="font-space font-bold tracking-tight text-white text-sm">Paper<span class="text-blue-400">Bytes</span></span>
-        <span class="text-zinc-600 text-xs font-mono-code">|</span>
-        <span class="text-xs text-zinc-400 font-mono-code">100% In-Browser Document Engineering</span>
+        <div class="w-6 h-6 rounded-md bg-gradient-to-br from-[#FF7A59] to-[#FF5A36] text-white flex items-center justify-center font-bold text-[11px] font-mono-code shadow-sm">PB</div>
+        <span class="font-space font-extrabold tracking-tight text-slate-900 text-sm">Paper<span class="text-[#FF7A59]">Bytes</span></span>
+        <span class="text-slate-300 text-xs font-mono-code">|</span>
+        <span class="text-xs text-slate-500 font-mono-code">100% In-Browser Document Engineering</span>
       </div>
-      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono-code text-zinc-400">
-        <span class="hover:text-blue-400 cursor-pointer transition" onclick="openPrivacyModal()">Privacy (DPDPA 2023)</span>
-        <span class="text-zinc-700">&bull;</span>
-        <span class="hover:text-blue-400 cursor-pointer transition" onclick="openTermsModal()">Safe Harbor (IT Act)</span>
-        <span class="text-zinc-700">&bull;</span>
-        <span class="hover:text-blue-400 cursor-pointer transition" onclick="openCopyrightModal()">License</span>
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono-code text-slate-600">
+        <span class="hover:text-[#FF7A59] cursor-pointer transition font-semibold" onclick="openPrivacyModal()">Privacy (DPDPA 2023)</span>
+        <span class="text-slate-300">&bull;</span>
+        <span class="hover:text-[#FF7A59] cursor-pointer transition font-semibold" onclick="openTermsModal()">Safe Harbor (IT Act)</span>
+        <span class="text-slate-300">&bull;</span>
+        <span class="hover:text-[#FF7A59] cursor-pointer transition font-semibold" onclick="openCopyrightModal()">License</span>
       </div>
     </div>
   </footer>
