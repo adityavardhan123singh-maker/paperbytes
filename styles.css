@@ -1,259 +1,373 @@
-/* ==========================================================================
-   PaperBytes — Dark Modern Neon Stylesheet
-   Pure Solid Colors • Crisp Borders • Electric Lime Accents (#C6FF3D)
-   Typography: Space Grotesk & Inter • Zero Gradients • Zero Emojis
-   ========================================================================== */
-
 :root {
-  --bg-main: #0B0D12;
-  --surface-card: #141822;
-  --surface-inner: #0F121A;
-  --border-subtle: #262C3B;
-  --border-strong: #2F364A;
-  --accent-lime: #C6FF3D;
-  --text-primary: #F3F5FA;
-  --text-muted: #9AA3B8;
-  --font-heading: 'Space Grotesk', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --radius-card: 24px;
-  --radius-btn: 14px;
-  --radius-pill: 9999px;
-  --transition-fast: all 180ms ease-in-out;
-}
+      --gold-primary: #d4af37;
+      --gold-light: #f5e6b8;
+      --gold-champagne: #e8d5b5;
+      --gold-dark: #aa8222;
+      --bg-dark: #08080a;
+      --bg-atelier: #0d0d12;
+      --border-gold: rgba(212, 175, 55, 0.22);
+      --border-gold-hover: rgba(212, 175, 55, 0.7);
+    }
 
-/* Base Reset & Typography */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-dark);
+      color: #e5e5ea;
+      background-image: 
+        radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.14) 0%, rgba(13, 13, 18, 0.5) 45%, transparent 75%),
+        radial-gradient(circle at 90% 80%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 10% 45%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+        radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      background-attachment: fixed;
+    }
 
-body {
-  background-color: var(--bg-main) !important;
-  color: var(--text-primary) !important;
-  font-family: var(--font-body);
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-}
+    .font-luxury { font-family: 'Cinzel', serif; }
+    .font-editorial { font-family: 'Cormorant Garamond', serif; }
+    .font-brand { font-family: 'Cinzel', serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
-h1, h2, h3, h4, h5, h6, .font-heading, .font-brand {
-  font-family: var(--font-heading) !important;
-}
+    .tool-panel { display: none; }
+    .tool-panel.active { display: block; }
 
-code, kbd, samp, pre, .font-mono, .font-mono-code {
-  font-family: var(--font-mono) !important;
-}
+    /* Custom Watchmaker Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #08080b; }
+    ::-webkit-scrollbar-thumb { background: #332b1b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.25); }
+    ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-main);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: var(--radius-pill);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-lime);
-}
+    /* Text & Metallic Shimmers */
+    .hero-gold-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 30%, #d4af37 65%, #9e7d3b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.01em;
+    }
 
-/* Accessible Focus States */
-:focus-visible {
-  outline: 2px solid var(--accent-lime) !important;
-  outline-offset: 2px;
-}
+    .gold-foil-text {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #aa8222 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-/* Tool Panels Display Controller */
-.tool-panel {
-  display: none;
-}
-.tool-panel.active {
-  display: block;
-  animation: fadeIn 200ms ease-in-out;
-}
+    /* Bento Cards with Chamfered Watch Bezel Aesthetic */
+    .bento-card {
+      background: linear-gradient(165deg, rgba(20, 20, 26, 0.94) 0%, rgba(10, 10, 14, 0.98) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 20px rgba(0, 0, 0, 0.7),
+        0 14px 34px -8px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+    }
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 65%);
+      border-radius: inherit;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.65);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.18),
+        0 22px 50px -10px rgba(0, 0, 0, 0.95),
+        0 0 35px -5px rgba(212, 175, 55, 0.22);
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* Calibre corner rivets */
+    .bezel-rivet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #aa8222;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      position: absolute;
+      opacity: 0.5;
+    }
 
-/* Cards & Plaques */
-.studio-plaque,
-.neon-tool-card,
-.feature-card {
-  background-color: var(--surface-card) !important;
-  border: 1px solid var(--border-subtle) !important;
-  border-radius: var(--radius-card) !important;
-  transition: var(--transition-fast) !important;
-  box-shadow: none !important;
-}
+    /* Filter buttons */
+    .filter-btn {
+      background: rgba(16, 16, 22, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      color: #dfba73;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+    .filter-btn:hover {
+      border-color: rgba(212, 175, 55, 0.6);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+    }
+    .filter-btn.active-filter {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 45%, #aa8222 100%) !important;
+      color: #070709 !important;
+      border-color: #f5e6b8 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.4) !important;
+    }
 
-.studio-plaque:hover,
-.neon-tool-card:hover {
-  border-color: var(--accent-lime) !important;
-  transform: translateY(-3px) !important;
-}
+    /* Watchmaker Workbench Panels (Inside Tools) */
+    .tool-panel > div {
+      background: linear-gradient(165deg, rgba(18, 18, 25, 0.96) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 28px 65px rgba(0, 0, 0, 0.92),
+        0 0 45px -10px rgba(212, 175, 55, 0.12) !important;
+      color: #f1f1f4 !important;
+      border-radius: 1.5rem !important;
+    }
+    .tool-panel h2 {
+      font-family: 'Cinzel', serif !important;
+      color: #ffffff !important;
+      letter-spacing: 0.02em !important;
+    }
+    .tool-panel p {
+      color: #9e9a8f !important;
+    }
 
-/* Override Tailwind Backgrounds in Tool Panels */
-.tool-panel .bg-white {
-  background-color: var(--surface-card) !important;
-  border: 1px solid var(--border-subtle) !important;
-  border-radius: var(--radius-card) !important;
-  color: var(--text-primary) !important;
-  box-shadow: none !important;
-}
+    /* Watchmaker Mat Drop Zone */
+    .tool-panel .border-dashed {
+      background: rgba(11, 11, 16, 0.85) !important;
+      border: 2px dashed rgba(212, 175, 55, 0.3) !important;
+      border-radius: 1.5rem !important;
+      transition: all 0.3s ease !important;
+      position: relative !important;
+    }
+    .tool-panel .border-dashed:hover {
+      border-color: rgba(212, 175, 55, 0.8) !important;
+      background: rgba(18, 18, 26, 0.95) !important;
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.22) !important;
+    }
 
-.tool-panel .bg-slate-50,
-.tool-panel .bg-slate-50\/50,
-.tool-panel .bg-slate-50\/60,
-.tool-panel .bg-indigo-50\/40 {
-  background-color: var(--surface-inner) !important;
-  border-color: var(--border-subtle) !important;
-}
+    /* Tactile Workbench Inputs */
+    .tool-panel input[type="text"],
+    .tool-panel input[type="password"],
+    .tool-panel input[type="number"],
+    .tool-panel select {
+      background-color: #08080c !important;
+      border: 1px solid rgba(212, 175, 55, 0.25) !important;
+      color: #f5f5f7 !important;
+      border-radius: 0.75rem !important;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+    }
+    .tool-panel input:focus,
+    .tool-panel select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+      outline: none !important;
+    }
+    .tool-panel label {
+      color: #dfba73 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.15em !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      font-family: 'Cinzel', serif !important;
+    }
 
-/* Drop Zones */
-.border-dashed {
-  border: 2px dashed var(--border-strong) !important;
-  background-color: var(--surface-inner) !important;
-  border-radius: 20px !important;
-  transition: var(--transition-fast);
-}
+    /* 18k Brushed Gold Crown Action Buttons */
+    .tool-panel button.bg-indigo-600,
+    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
+    #real-pdf-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
+    #watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
+    #merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
+    #hash-btn, #docx-btn {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 80%, #7d5e16 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      border: 1px solid rgba(255, 255, 255, 0.5) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 22px rgba(212, 175, 55, 0.35) !important;
+      transition: all 0.25s ease !important;
+      cursor: pointer !important;
+    }
+    .tool-panel button.bg-indigo-600:hover,
+    .tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]) {
+      filter: brightness(1.15) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 32px rgba(212, 175, 55, 0.5) !important;
+    }
+    .tool-panel button:active {
+      transform: translateY(1px) !important;
+    }
 
-.border-dashed:hover,
-.border-dashed.dragover {
-  border-color: var(--accent-lime) !important;
-}
+    /* Cancel Buttons (Ruby Jewel Bearing Style) */
+    button[id$="-cancel-btn"] {
+      background: rgba(30, 12, 16, 0.9) !important;
+      color: #fca5a5 !important;
+      border: 1px solid rgba(239, 68, 68, 0.35) !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      letter-spacing: 0.04em !important;
+      backdrop-filter: blur(8px) !important;
+      cursor: pointer !important;
+    }
+    button[id$="-cancel-btn"]:hover {
+      background: rgba(50, 18, 25, 0.95) !important;
+      border-color: rgba(239, 68, 68, 0.6) !important;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.25) !important;
+    }
 
-/* Buttons */
-.btn-lime,
-button.bg-indigo-600,
-.tool-panel .bg-indigo-600,
-#dashboard-view .bg-indigo-600 {
-  background-color: var(--accent-lime) !important;
-  color: #0B0D12 !important;
-  font-weight: 700 !important;
-  border-radius: var(--radius-btn) !important;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
+    /* Breadcrumbs */
+    .tool-panel button[onclick="showDashboard()"] {
+      color: #dfba73 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.15em !important;
+      font-family: 'Cinzel', serif !important;
+      cursor: pointer !important;
+    }
+    .tool-panel button[onclick="showDashboard()"]:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5) !important;
+    }
 
-.btn-lime:hover,
-button.bg-indigo-600:hover,
-.tool-panel .bg-indigo-600:hover {
-  background-color: #d2ff57 !important;
-  transform: translateY(-1px);
-}
+    /* Status Lines */
+    span[id$="-status"], p[id$="-status"] {
+      color: #dfba73 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
 
-/* Secondary & Danger Buttons */
-.bg-rose-50,
-.bg-rose-100 {
-  background-color: #251417 !important;
-  color: #FF5C5C !important;
-  border: 1px solid #5A2328 !important;
-}
+    /* Strict Modal Display Isolation */
+    #privacy-modal:not(.active-modal),
+    #terms-modal:not(.active-modal),
+    #copyright-modal:not(.active-modal),
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    #privacy-modal.active-modal,
+    #terms-modal.active-modal,
+    #copyright-modal.active-modal {
+      display: flex !important;
+      pointer-events: auto !important;
+    }
 
-.bg-rose-50:hover,
-.bg-rose-100:hover {
-  background-color: #341A1E !important;
-}
+    /* Modals (Swiss Chronometer Certificate Style) */
+    #privacy-modal > div,
+    #terms-modal > div,
+    #copyright-modal > div {
+      background: linear-gradient(165deg, #121217 0%, #0a0a0d 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(212, 175, 55, 0.2) !important;
+      color: #dfdfdf !important;
+    }
+    #privacy-modal h3,
+    #terms-modal h3,
+    #copyright-modal h3 {
+      font-family: 'Cinzel', serif !important;
+      color: #f5e6b8 !important;
+    }
+    #privacy-modal p,
+    #terms-modal p,
+    #copyright-modal p {
+      color: #a5a198 !important;
+    }
+    #privacy-modal button,
+    #terms-modal button,
+    #copyright-modal button {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.1em !important;
+      cursor: pointer !important;
+    }
 
-/* Filter Buttons */
-.filter-btn {
-  min-height: 40px;
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
+    /* Selection Colors */
+    ::selection {
+      background-color: rgba(212, 175, 55, 0.3);
+      color: #ffffff;
+    }
 
-.filter-btn.active-filter {
-  background-color: var(--accent-lime) !important;
-  border-color: var(--accent-lime) !important;
-  color: #0B0D12 !important;
-  font-weight: 700 !important;
-}
+    /* Atelier Workbench & Tool Panel Haute Horlogerie Styling */
+    .atelier-workbench {
+      background: linear-gradient(165deg, rgba(18, 18, 24, 0.97) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 35px rgba(0, 0, 0, 0.8),
+        0 24px 60px -12px rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: blur(24px) !important;
+      position: relative !important;
+    }
+    
+    .atelier-dropzone {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.05) 0%, rgba(10, 10, 14, 0.95) 75%) !important;
+      border: 1px dashed rgba(212, 175, 55, 0.35) !important;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.9) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .atelier-dropzone:hover {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.1) 0%, rgba(16, 16, 22, 0.98) 75%) !important;
+      border-color: rgba(212, 175, 55, 0.75) !important;
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.15) !important;
+    }
 
-/* Inputs, Textareas, and Selects */
-input[type="text"],
-input[type="number"],
-input[type="password"],
-input[type="url"],
-select,
-textarea {
-  background-color: var(--surface-inner) !important;
-  border: 1px solid var(--border-subtle) !important;
-  color: var(--text-primary) !important;
-  border-radius: 12px !important;
-  padding: 10px 14px;
-  font-family: var(--font-body);
-}
+    .atelier-input, .atelier-select {
+      background: #09090d !important;
+      border: 1px solid rgba(212, 175, 55, 0.3) !important;
+      color: #f5e6b8 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      transition: all 0.2s ease !important;
+    }
+    .atelier-input:focus, .atelier-select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.25) !important;
+      outline: none !important;
+    }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="password"]:focus,
-input[type="url"]:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--accent-lime) !important;
-  outline: none !important;
-}
+    .atelier-btn {
+      background: linear-gradient(135deg, #d4af37 0%, #f5e6b8 50%, #aa8222 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      border-radius: 0.75rem !important;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      cursor: pointer !important;
+    }
+    .atelier-btn:hover {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #f5e6b8 100%) !important;
+      box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6) !important;
+      transform: translateY(-1px) scale(1.01) !important;
+    }
+    .atelier-btn:active {
+      transform: translateY(1px) scale(0.99) !important;
+    }
 
-/* Range Sliders */
-input[type="range"] {
-  accent-color: var(--accent-lime);
-}
-
-/* Text Overrides */
-.text-slate-900,
-.text-slate-800,
-.text-slate-700 {
-  color: var(--text-primary) !important;
-}
-
-.text-slate-500,
-.text-slate-400 {
-  color: var(--text-muted) !important;
-}
-
-.text-indigo-600,
-.text-indigo-500 {
-  color: var(--accent-lime) !important;
-}
-
-/* Border Overrides */
-.border-slate-100,
-.border-slate-200,
-.border-slate-200\/80,
-.border-indigo-100 {
-  border-color: var(--border-subtle) !important;
-}
-
-/* Back Link in Tool Panels */
-.tool-panel button[onclick="showDashboard()"] {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-pill);
-  padding: 8px 16px;
-  min-height: 40px;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  transition: var(--transition-fast);
-}
-
-.tool-panel button[onclick="showDashboard()"]:hover {
-  border-color: var(--accent-lime);
-  color: var(--accent-lime);
-}
-
-/* Responsive Touch Target Enforcement */
-button, a, input, select {
-  touch-action: manipulation;
-}
+    .atelier-cancel-btn {
+      background: #1f0e12 !important;
+      border: 1px solid rgba(244, 63, 94, 0.45) !important;
+      color: #fca5a5 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      font-size: 0.75rem !important;
+      letter-spacing: 0.05em !important;
+      transition: all 0.25s ease !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+      cursor: pointer !important;
+    }
+    .atelier-cancel-btn:hover {
+      background: #3b1119 !important;
+      border-color: rgba(244, 63, 94, 0.8) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.35) !important;
+    }
