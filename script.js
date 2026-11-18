@@ -81,9 +81,9 @@
           list.innerHTML = '<div class="p-3 text-xs text-[#8a857b] text-center font-mono-code">No matching tools found</div>';
         } else {
           list.innerHTML = matches.map(m => `
-            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3.5 hover:bg-[#1a2030] cursor-pointer transition border-b border-white/5 last:border-0">
-              <p class="font-space font-bold text-xs text-white tracking-wide">${m.title}</p>
-              <p class="text-[11px] text-zinc-400 mt-0.5 font-light">${m.desc}</p>
+            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3.5 hover:bg-[#FFF2ED] cursor-pointer transition border-b border-slate-100 last:border-0">
+              <p class="font-space font-bold text-xs text-slate-900 tracking-wide">${m.title}</p>
+              <p class="text-[11px] text-slate-500 mt-0.5 font-light">${m.desc}</p>
             </div>
           `).join('');
         }
