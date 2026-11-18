@@ -78,12 +78,12 @@
         const matches = tools.filter(t => t.title.toLowerCase().includes(clean) || t.desc.toLowerCase().includes(clean));
         
         if (matches.length === 0) {
-          list.innerHTML = '<div class="p-3 text-xs text-[#8a857b] text-center font-mono-code">No matching complications found</div>';
+          list.innerHTML = '<div class="p-3 text-xs text-[#8a857b] text-center font-mono-code">No matching tools found</div>';
         } else {
           list.innerHTML = matches.map(m => `
-            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3.5 hover:bg-[#1a1820] cursor-pointer transition border-b border-[#25221b] last:border-0">
-              <p class="font-luxury font-bold text-xs text-[#f5e6b8] tracking-wide">${m.title}</p>
-              <p class="text-[11px] text-[#9e9a8f] mt-0.5 font-light">${m.desc}</p>
+            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3.5 hover:bg-[#1a2030] cursor-pointer transition border-b border-white/5 last:border-0">
+              <p class="font-space font-bold text-xs text-white tracking-wide">${m.title}</p>
+              <p class="text-[11px] text-zinc-400 mt-0.5 font-light">${m.desc}</p>
             </div>
           `).join('');
         }
