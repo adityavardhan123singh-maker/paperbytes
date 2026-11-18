@@ -1,6 +1,17 @@
 (() => {
       'use strict';
 
+      // HTML Sanitizer for user-uploaded document previews
+      function escapeHTML(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+      window.escapeHTML = escapeHTML;
+
       // Live Render Microservice Gateway
       const GATEWAY_URL = 'https://convertx-backend-a9il.onrender.com';
 
@@ -32,8 +43,7 @@
 
         const cards = document.querySelectorAll('#tools-grid > div');
         cards.forEach(card => {
-          const cardCat = card.getAttribute('data-category');
-          card.style.display = (category === 'all' || cardCat === category) ? 'flex' : 'none';
+          card.style.display = (category === 'all' || card.getAttribute('data-category') === category) ? 'flex' : 'none';
         });
       };
 
@@ -68,12 +78,12 @@
         const matches = tools.filter(t => t.title.toLowerCase().includes(clean) || t.desc.toLowerCase().includes(clean));
         
         if (matches.length === 0) {
-          list.innerHTML = '<div class="p-3 text-xs text-[#9AA3B8] text-center">No matching tools found</div>';
+          list.innerHTML = '<div class="p-3 text-xs text-[#8a857b] text-center font-mono-code">No matching complications found</div>';
         } else {
           list.innerHTML = matches.map(m => `
-            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3 hover:bg-[#0F121A] cursor-pointer transition">
-              <p class="font-brand font-bold text-xs text-[#F3F5FA]">${m.title}</p>
-              <p class="text-[11px] text-[#9AA3B8]">${m.desc}</p>
+            <div onclick="openTool('${m.id}'); document.getElementById('search-dropdown').classList.add('hidden');" class="p-3.5 hover:bg-[#1a1820] cursor-pointer transition border-b border-[#25221b] last:border-0">
+              <p class="font-luxury font-bold text-xs text-[#f5e6b8] tracking-wide">${m.title}</p>
+              <p class="text-[11px] text-[#9e9a8f] mt-0.5 font-light">${m.desc}</p>
             </div>
           `).join('');
         }
@@ -81,19 +91,41 @@
       };
 
       // Modal Controls
-      window.openPrivacyModal = () => document.getElementById('privacy-modal').classList.remove('hidden');
-      window.openTermsModal = () => document.getElementById('terms-modal').classList.remove('hidden');
-      window.openCopyrightModal = () => document.getElementById('copyright-modal').classList.remove('hidden');
+      window.openPrivacyModal = () => {
+        const m = document.getElementById('privacy-modal');
+        m.classList.remove('hidden');
+        m.classList.add('active-modal');
+        m.style.display = 'flex';
+      };
+      window.openTermsModal = () => {
+        const m = document.getElementById('terms-modal');
+        m.classList.remove('hidden');
+        m.classList.add('active-modal');
+        m.style.display = 'flex';
+      };
+      window.openCopyrightModal = () => {
+        const m = document.getElementById('copyright-modal');
+        m.classList.remove('hidden');
+        m.classList.add('active-modal');
+        m.style.display = 'flex';
+      };
       window.closeModals = () => {
-        document.getElementById('privacy-modal').classList.add('hidden');
-        document.getElementById('terms-modal').classList.add('hidden');
-        document.getElementById('copyright-modal').classList.add('hidden');
+        ['privacy-modal', 'terms-modal', 'copyright-modal'].forEach(id => {
+          const m = document.getElementById(id);
+          m.classList.remove('active-modal');
+          m.classList.add('hidden');
+          m.style.display = 'none';
+        });
       };
 
       window.addEventListener('click', (e) => {
         ['privacy-modal', 'terms-modal', 'copyright-modal'].forEach(id => {
           const el = document.getElementById(id);
-          if (e.target === el) el.classList.add('hidden');
+          if (e.target === el) {
+            el.classList.remove('active-modal');
+            el.classList.add('hidden');
+            el.style.display = 'none';
+          }
         });
       });
 
@@ -118,7 +150,10 @@
       };
 
       window.executePDFToWordSecure = async () => {
-        if (!targetFile) return;
+        if (!targetFile) {
+          document.getElementById('real-pdf-input').click();
+          return;
+        }
         const btn = document.getElementById('real-pdf-btn');
         const status = document.getElementById('real-pdf-status');
         const ind = document.getElementById('pdf-status-indicator');
@@ -196,8 +231,8 @@
             if (sheetData.length > 0) {
               const preview = document.getElementById('excel-table-preview');
               preview.innerHTML = sheetData.slice(0, 5).map((r, i) => `
-                <tr class="${i === 0 ? 'bg-slate-100 font-bold' : ''}">
-                  ${r.map(c => `<td class="px-3 py-1.5 border border-slate-200">${c !== undefined ? c : ''}</td>`).join('')}
+                <tr class="${i === 0 ? 'bg-[#181612] text-[#f5e6b8] font-bold' : 'text-[#d8d5cd]'}">
+                  ${r.map(c => `<td class="px-3 py-1.5 border border-[#d4af37]/20 font-mono-code text-[11px]">${escapeHTML(c !== undefined ? c : '')}</td>`).join('')}
                 </tr>
               `).join('');
               document.getElementById('excel-preview-box').classList.remove('hidden');
@@ -291,7 +326,10 @@
       };
 
       window.executeSaveOrganizedPDF = async () => {
-        if (!rawSourceBuffer) return;
+        if (!rawSourceBuffer) {
+          document.getElementById('organize-pdf-input').click();
+          return;
+        }
         const { PDFDocument, degrees } = PDFLib;
         const src = await PDFDocument.load(rawSourceBuffer);
         const out = await PDFDocument.create();
@@ -331,6 +369,7 @@
         const btn = document.getElementById('protect-btn');
 
         if (!pProtectFile) {
+          document.getElementById('protect-pdf-input').click();
           st.innerText = 'Please select a PDF document first.';
           return;
         }
@@ -346,6 +385,14 @@
         st.innerText = 'Encrypting with AES-256 (Zero-Retention Core)...';
         btn.disabled = true;
 
+        let secondsWaiting = 0;
+        const progressTimer = setInterval(() => {
+          secondsWaiting += 2;
+          if (secondsWaiting > 4) {
+            st.innerText = `Waking up free cloud container... (${secondsWaiting}s elapsed)`;
+          }
+        }, 2000);
+
         try {
           const formData = new FormData();
           formData.append('file', pProtectFile);
@@ -353,8 +400,11 @@
 
           const response = await fetch(`${GATEWAY_URL}/security/password-protect`, {
             method: 'POST',
-            body: formData
+            body: formData,
+            credentials: 'omit'
           });
+
+          clearInterval(progressTimer);
 
           if (!response.ok) {
             let errMsg = 'Encryption failed';
@@ -381,8 +431,10 @@
 
           st.innerText = 'Document successfully encrypted with AES-256 and downloaded!';
         } catch (err) {
+          clearInterval(progressTimer);
           st.innerText = 'Error: ' + (err.message || 'Encryption failed');
         } finally {
+          clearInterval(progressTimer);
           btn.disabled = false;
         }
       };
@@ -955,7 +1007,382 @@
             const mdText = await omniFile.text();
             if (target === 'html') {
               const htmlContent = marked ? marked.parse(mdText) : `<pre>${mdText}</pre>`;
-              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${baseName}</title><style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:20px;line-height:1.6;color:#1e293b;}</style></head><body>${htmlContent}</body></html>`;
+              const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>PaperBytes — L'Atelier de Documents (Haute Horlogerie)</title><style>
+    :root {
+      --gold-primary: #d4af37;
+      --gold-light: #f5e6b8;
+      --gold-champagne: #e8d5b5;
+      --gold-dark: #aa8222;
+      --bg-dark: #08080a;
+      --bg-atelier: #0d0d12;
+      --border-gold: rgba(212, 175, 55, 0.22);
+      --border-gold-hover: rgba(212, 175, 55, 0.7);
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-dark);
+      color: #e5e5ea;
+      background-image: 
+        radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.14) 0%, rgba(13, 13, 18, 0.5) 45%, transparent 75%),
+        radial-gradient(circle at 90% 80%, rgba(170, 130, 34, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 10% 45%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+        radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+      background-attachment: fixed;
+    }
+
+    .font-luxury { font-family: 'Cinzel', serif; }
+    .font-editorial { font-family: 'Cormorant Garamond', serif; }
+    .font-brand { font-family: 'Cinzel', serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+    .tool-panel { display: none; }
+    .tool-panel.active { display: block; }
+
+    /* Custom Watchmaker Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #08080b; }
+    ::-webkit-scrollbar-thumb { background: #332b1b; border-radius: 9999px; border: 1px solid rgba(212, 175, 55, 0.25); }
+    ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+
+    /* Text & Metallic Shimmers */
+    .hero-gold-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #f6e7c1 30%, #d4af37 65%, #9e7d3b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.01em;
+    }
+
+    .gold-foil-text {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #aa8222 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Bento Cards with Chamfered Watch Bezel Aesthetic */
+    .bento-card {
+      background: linear-gradient(165deg, rgba(20, 20, 26, 0.94) 0%, rgba(10, 10, 14, 0.98) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 20px rgba(0, 0, 0, 0.7),
+        0 14px 34px -8px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+    }
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 65%);
+      border-radius: inherit;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.65);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.18),
+        0 22px 50px -10px rgba(0, 0, 0, 0.95),
+        0 0 35px -5px rgba(212, 175, 55, 0.22);
+    }
+
+    /* Calibre corner rivets */
+    .bezel-rivet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #aa8222;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      position: absolute;
+      opacity: 0.5;
+    }
+
+    /* Filter buttons */
+    .filter-btn {
+      background: rgba(16, 16, 22, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      color: #dfba73;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+    .filter-btn:hover {
+      border-color: rgba(212, 175, 55, 0.6);
+      color: #ffffff;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+    }
+    .filter-btn.active-filter {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 45%, #aa8222 100%) !important;
+      color: #070709 !important;
+      border-color: #f5e6b8 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.4) !important;
+    }
+
+    /* Watchmaker Workbench Panels (Inside Tools) */
+    .tool-panel > div {
+      background: linear-gradient(165deg, rgba(18, 18, 25, 0.96) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 28px 65px rgba(0, 0, 0, 0.92),
+        0 0 45px -10px rgba(212, 175, 55, 0.12) !important;
+      color: #f1f1f4 !important;
+      border-radius: 1.5rem !important;
+    }
+    .tool-panel h2 {
+      font-family: 'Cinzel', serif !important;
+      color: #ffffff !important;
+      letter-spacing: 0.02em !important;
+    }
+    .tool-panel p {
+      color: #9e9a8f !important;
+    }
+
+    /* Watchmaker Mat Drop Zone */
+    .tool-panel .border-dashed {
+      background: rgba(11, 11, 16, 0.85) !important;
+      border: 2px dashed rgba(212, 175, 55, 0.3) !important;
+      border-radius: 1.5rem !important;
+      transition: all 0.3s ease !important;
+      position: relative !important;
+    }
+    .tool-panel .border-dashed:hover {
+      border-color: rgba(212, 175, 55, 0.8) !important;
+      background: rgba(18, 18, 26, 0.95) !important;
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.22) !important;
+    }
+
+    /* Tactile Workbench Inputs */
+    .tool-panel input[type="text"],
+    .tool-panel input[type="password"],
+    .tool-panel input[type="number"],
+    .tool-panel select {
+      background-color: #08080c !important;
+      border: 1px solid rgba(212, 175, 55, 0.25) !important;
+      color: #f5f5f7 !important;
+      border-radius: 0.75rem !important;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+    }
+    .tool-panel input:focus,
+    .tool-panel select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+      outline: none !important;
+    }
+    .tool-panel label {
+      color: #dfba73 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.15em !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      font-family: 'Cinzel', serif !important;
+    }
+
+    /* 18k Brushed Gold Crown Action Buttons */
+    .tool-panel button.bg-indigo-600,
+    .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
+    #real-pdf-btn, #excel-convert-btn, #save-organize-btn, #protect-btn,
+    #watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
+    #merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
+    #hash-btn, #docx-btn {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 80%, #7d5e16 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      border: 1px solid rgba(255, 255, 255, 0.5) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 22px rgba(212, 175, 55, 0.35) !important;
+      transition: all 0.25s ease !important;
+      cursor: pointer !important;
+    }
+    .tool-panel button.bg-indigo-600:hover,
+    .tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]) {
+      filter: brightness(1.15) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 32px rgba(212, 175, 55, 0.5) !important;
+    }
+    .tool-panel button:active {
+      transform: translateY(1px) !important;
+    }
+
+    /* Cancel Buttons (Ruby Jewel Bearing Style) */
+    button[id$="-cancel-btn"] {
+      background: rgba(30, 12, 16, 0.9) !important;
+      color: #fca5a5 !important;
+      border: 1px solid rgba(239, 68, 68, 0.35) !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      letter-spacing: 0.04em !important;
+      backdrop-filter: blur(8px) !important;
+      cursor: pointer !important;
+    }
+    button[id$="-cancel-btn"]:hover {
+      background: rgba(50, 18, 25, 0.95) !important;
+      border-color: rgba(239, 68, 68, 0.6) !important;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.25) !important;
+    }
+
+    /* Breadcrumbs */
+    .tool-panel button[onclick="showDashboard()"] {
+      color: #dfba73 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.15em !important;
+      font-family: 'Cinzel', serif !important;
+      cursor: pointer !important;
+    }
+    .tool-panel button[onclick="showDashboard()"]:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5) !important;
+    }
+
+    /* Status Lines */
+    span[id$="-status"], p[id$="-status"] {
+      color: #dfba73 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Strict Modal Display Isolation */
+    #privacy-modal:not(.active-modal),
+    #terms-modal:not(.active-modal),
+    #copyright-modal:not(.active-modal),
+    .hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    #privacy-modal.active-modal,
+    #terms-modal.active-modal,
+    #copyright-modal.active-modal {
+      display: flex !important;
+      pointer-events: auto !important;
+    }
+
+    /* Modals (Swiss Chronometer Certificate Style) */
+    #privacy-modal > div,
+    #terms-modal > div,
+    #copyright-modal > div {
+      background: linear-gradient(165deg, #121217 0%, #0a0a0d 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(212, 175, 55, 0.2) !important;
+      color: #dfdfdf !important;
+    }
+    #privacy-modal h3,
+    #terms-modal h3,
+    #copyright-modal h3 {
+      font-family: 'Cinzel', serif !important;
+      color: #f5e6b8 !important;
+    }
+    #privacy-modal p,
+    #terms-modal p,
+    #copyright-modal p {
+      color: #a5a198 !important;
+    }
+    #privacy-modal button,
+    #terms-modal button,
+    #copyright-modal button {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 40%, #aa8222 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.1em !important;
+      cursor: pointer !important;
+    }
+
+    /* Selection Colors */
+    ::selection {
+      background-color: rgba(212, 175, 55, 0.3);
+      color: #ffffff;
+    }
+
+    /* Atelier Workbench & Tool Panel Haute Horlogerie Styling */
+    .atelier-workbench {
+      background: linear-gradient(165deg, rgba(18, 18, 24, 0.97) 0%, rgba(9, 9, 13, 0.99) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 35px rgba(0, 0, 0, 0.8),
+        0 24px 60px -12px rgba(0, 0, 0, 0.95) !important;
+      backdrop-filter: blur(24px) !important;
+      position: relative !important;
+    }
+    
+    .atelier-dropzone {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.05) 0%, rgba(10, 10, 14, 0.95) 75%) !important;
+      border: 1px dashed rgba(212, 175, 55, 0.35) !important;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.9) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .atelier-dropzone:hover {
+      background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.1) 0%, rgba(16, 16, 22, 0.98) 75%) !important;
+      border-color: rgba(212, 175, 55, 0.75) !important;
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.15) !important;
+    }
+
+    .atelier-input, .atelier-select {
+      background: #09090d !important;
+      border: 1px solid rgba(212, 175, 55, 0.3) !important;
+      color: #f5e6b8 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      transition: all 0.2s ease !important;
+    }
+    .atelier-input:focus, .atelier-select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.25) !important;
+      outline: none !important;
+    }
+
+    .atelier-btn {
+      background: linear-gradient(135deg, #d4af37 0%, #f5e6b8 50%, #aa8222 100%) !important;
+      color: #070709 !important;
+      font-family: 'Cinzel', serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      border-radius: 0.75rem !important;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35) !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      cursor: pointer !important;
+    }
+    .atelier-btn:hover {
+      background: linear-gradient(135deg, #f5e6b8 0%, #d4af37 50%, #f5e6b8 100%) !important;
+      box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6) !important;
+      transform: translateY(-1px) scale(1.01) !important;
+    }
+    .atelier-btn:active {
+      transform: translateY(1px) scale(0.99) !important;
+    }
+
+    .atelier-cancel-btn {
+      background: #1f0e12 !important;
+      border: 1px solid rgba(244, 63, 94, 0.45) !important;
+      color: #fca5a5 !important;
+      border-radius: 0.75rem !important;
+      font-family: 'Space Mono', monospace !important;
+      font-size: 0.75rem !important;
+      letter-spacing: 0.05em !important;
+      transition: all 0.25s ease !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+      cursor: pointer !important;
+    }
+    .atelier-cancel-btn:hover {
+      background: #3b1119 !important;
+      border-color: rgba(244, 63, 94, 0.8) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.35) !important;
+    }
+
+  </style></head><body>${htmlContent}</body></html>`;
               saveAs(new Blob([fullHtml], { type: 'text/html' }), `${baseName}.html`);
             } else if (target === 'pdf') {
               const { jsPDF } = window.jspdf;
@@ -1108,15 +1535,7 @@
       };
 
 
-      window.escapeHTML = escapeHTML;
-      function escapeHTML(str) {
-        return String(str || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#039;');
-      }
+      
 
 
       // Tool 15: Word to PDF Logic
@@ -1135,7 +1554,7 @@
         try {
           const result = await mammoth.convertToHtml({ arrayBuffer: wordDocBuffer });
           const preview = document.getElementById('word-preview-container');
-          preview.innerHTML = result.value || '<p class="text-[#9AA3B8]">Empty document content.</p>';
+          preview.innerHTML = result.value || '<p class="text-slate-400">Empty document content.</p>';
           document.getElementById('word-doc-name').innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
           document.getElementById('word-preview-section').classList.remove('hidden');
           document.getElementById('word-cancel-btn').classList.remove('hidden');
@@ -1318,7 +1737,7 @@
           <div class="flex items-center justify-between text-xs bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl">
             <span class="font-mono-code truncate max-w-xs sm:max-w-md">${i + 1}. ${escapeHTML(f.name)}</span>
             <div class="flex items-center gap-3">
-              <span class="text-[#9AA3B8] font-mono-code">${(f.size / 1024).toFixed(1)} KB</span>
+              <span class="text-slate-400 font-mono-code">${(f.size / 1024).toFixed(1)} KB</span>
               <button onclick="removeMergeFileItem(${i})" title="Remove file" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button>
             </div>
           </div>
@@ -1385,278 +1804,114 @@
           document.getElementById('tool-search-input').focus();
         }
       });
+    
+    // -------------------------------------------------------------
+    // Mechanical Balance Wheel & Escapement Simulation (4Hz / 28,800 VPH)
+    // -------------------------------------------------------------
+    (() => {
+      const canvas = document.getElementById('escapement-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let time = 0;
+      const amplitude = 1.25;
 
-      // ========================================================
-      // ULTRA LUXURY LIVE ENVIRONMENT MOTION ENGINE (60 FPS)
-      // ========================================================
-      (function initLuxuryEnvironment() {
-        const canvas = document.getElementById('ambient-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+      function renderTourbillon() {
+        const w = canvas.width;
+        const h = canvas.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const r = w * 0.40;
 
-        let width = 0;
-        let height = 0;
-        let dpr = Math.min(window.devicePixelRatio || 1, 2);
-        let animId = null;
-        let isRunning = true;
+        ctx.clearRect(0, 0, w, h);
 
-        const mouse = {
-          x: -1000,
-          y: -1000,
-          targetX: -1000,
-          targetY: -1000,
-          radius: 190,
-          active: false
-        };
+        time += 0.055;
+        // Harmonic oscillation mimicking 28,800 VPH balance spring
+        const currentAngle = Math.sin(time * 3.2) * amplitude;
 
-        window.addEventListener('mousemove', (e) => {
-          mouse.targetX = e.clientX;
-          mouse.targetY = e.clientY;
-          mouse.active = true;
+        ctx.save();
+        ctx.translate(cx, cy);
 
-          // Update dynamic spotlight gradient on studio plaques
-          document.querySelectorAll('.studio-plaque').forEach((card) => {
-            const rect = card.getBoundingClientRect();
-            if (
-              e.clientX >= rect.left - 60 &&
-              e.clientX <= rect.right + 60 &&
-              e.clientY >= rect.top - 60 &&
-              e.clientY <= rect.bottom + 60
-            ) {
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              card.style.setProperty('--mouse-x', `${x}px`);
-              card.style.setProperty('--mouse-y', `${y}px`);
-            }
-          });
-        }, { passive: true });
+        // 1. Outer Balance Ring (Polished Gold with bevel glow)
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
+        ctx.shadowBlur = 10;
+        ctx.stroke();
 
-        window.addEventListener('mouseleave', () => {
-          mouse.active = false;
-          mouse.targetX = -1000;
-          mouse.targetY = -1000;
-        });
-
-        // 1. Organic Radiant Plasma Orbs (Volumetric Background Glow)
-        const orbs = [
-          { x: 0.25, y: 0.22, r: 440, baseR: 440, color: 'rgba(79, 70, 229, 0.14)', vx: 0.0003, vy: 0.0002, phase: 0 },
-          { x: 0.75, y: 0.28, r: 480, baseR: 480, color: 'rgba(59, 130, 246, 0.12)', vx: -0.0002, vy: 0.0003, phase: 2 },
-          { x: 0.45, y: 0.75, r: 460, baseR: 460, color: 'rgba(168, 85, 247, 0.10)', vx: 0.0002, vy: -0.0002, phase: 4 },
-          { x: 0.85, y: 0.82, r: 400, baseR: 400, color: 'rgba(236, 72, 153, 0.07)', vx: -0.0003, vy: -0.0002, phase: 1 }
-        ];
-
-        // 2. Interactive Constellation Stardust Particles
-        const particleCount = window.innerWidth < 768 ? 40 : 75;
-        const particles = [];
-
-        function resetParticles() {
-          particles.length = 0;
-          for (let i = 0; i < particleCount; i++) {
-            particles.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vx: (Math.random() - 0.5) * 0.45,
-              vy: (Math.random() - 0.5) * 0.45,
-              size: Math.random() * 1.8 + 0.8,
-              alpha: Math.random() * 0.5 + 0.2,
-              baseAlpha: Math.random() * 0.5 + 0.2,
-              pulseSpeed: Math.random() * 0.02 + 0.01,
-              pulsePhase: Math.random() * Math.PI * 2
-            });
-          }
+        // 2. Peripheral Poising Screws / Gold Mass Weights
+        ctx.rotate(currentAngle);
+        for (let i = 0; i < 16; i++) {
+          const a = (i * Math.PI) / 8;
+          const x1 = Math.cos(a) * (r - 2);
+          const y1 = Math.sin(a) * (r - 2);
+          const x2 = Math.cos(a) * (r + 4);
+          const y2 = Math.sin(a) * (r + 4);
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.strokeStyle = i % 2 === 0 ? '#f5e6b8' : '#aa8222';
+          ctx.lineWidth = i % 2 === 0 ? 2 : 1.5;
+          ctx.stroke();
         }
 
-        // 3. Upward Floating Cosmic Micro-Sparks
-        const sparkCount = window.innerWidth < 768 ? 15 : 30;
-        const sparks = [];
-        function resetSparks() {
-          sparks.length = 0;
-          for (let i = 0; i < sparkCount; i++) {
-            sparks.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vy: -(Math.random() * 0.35 + 0.15),
-              swaySpeed: Math.random() * 0.02 + 0.01,
-              swayAmp: Math.random() * 1.2 + 0.4,
-              phase: Math.random() * Math.PI * 2,
-              size: Math.random() * 1.2 + 0.5,
-              alpha: Math.random() * 0.4 + 0.1
-            });
-          }
+        // 3. Glucydur Triple Arms
+        for (let s = 0; s < 3; s++) {
+          const sa = (s * Math.PI * 2) / 3;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(sa) * r, Math.sin(sa) * r);
+          ctx.strokeStyle = '#c5a059';
+          ctx.lineWidth = 2.2;
+          ctx.stroke();
         }
 
-        function resize() {
-          width = window.innerWidth;
-          height = window.innerHeight;
-          dpr = Math.min(window.devicePixelRatio || 1, 2);
-          canvas.width = Math.floor(width * dpr);
-          canvas.height = Math.floor(height * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          resetParticles();
-          resetSparks();
+        // 4. Spiral Breguet Overcoil Hairspring (Thermally Blued Steel)
+        ctx.beginPath();
+        const turns = 4.2;
+        const breath = 1.0 + Math.sin(time * 3.2) * 0.16;
+        for (let theta = 0; theta < Math.PI * 2 * turns; theta += 0.1) {
+          const sr = (theta / (Math.PI * 2 * turns)) * (r * 0.62) * breath;
+          const sx = Math.cos(theta - currentAngle * 0.45) * sr;
+          const sy = Math.sin(theta - currentAngle * 0.45) * sr;
+          if (theta === 0) ctx.moveTo(sx, sy);
+          else ctx.lineTo(sx, sy);
         }
-        window.addEventListener('resize', resize, { passive: true });
-        resize();
+        ctx.strokeStyle = '#38bdf8'; // blued steel
+        ctx.lineWidth = 1.4;
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
+        ctx.shadowBlur = 6;
+        ctx.stroke();
 
-        let lastTime = performance.now();
+        // 5. Center Synthetic Ruby Cap Jewel
+        ctx.beginPath();
+        ctx.arc(0, 0, 6.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#e11d48'; // ruby red jewel
+        ctx.shadowColor = '#e11d48';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.strokeStyle = '#d4af37';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
 
-        function render(now) {
-          if (!isRunning) return;
-          lastTime = now;
+        ctx.restore();
 
-          mouse.x += (mouse.targetX - mouse.x) * 0.1;
-          mouse.y += (mouse.targetY - mouse.y) * 0.1;
-
-          ctx.clearRect(0, 0, width, height);
-
-          // LAYER 1: Radiant Plasma Orbs with Soft Volumetric Glow
-          ctx.globalCompositeOperation = 'screen';
-          orbs.forEach((orb) => {
-            orb.phase += 0.008;
-            orb.x += orb.vx;
-            orb.y += orb.vy;
-
-            if (orb.x < 0.1 || orb.x > 0.9) orb.vx *= -1;
-            if (orb.y < 0.1 || orb.y > 0.9) orb.vy *= -1;
-
-            const px = orb.x * width;
-            const py = orb.y * height;
-            const dynamicRadius = orb.baseR + Math.sin(orb.phase) * 35;
-
-            const grad = ctx.createRadialGradient(px, py, 0, px, py, dynamicRadius);
-            grad.addColorStop(0, orb.color);
-            grad.addColorStop(0.5, orb.color.replace(/[\d\.]+\)$/, '0.04)'));
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(px, py, dynamicRadius, 0, Math.PI * 2);
-            ctx.fill();
-          });
-
-          // LAYER 2: Constellation Network & Crystalline Connections
-          ctx.globalCompositeOperation = 'lighter';
-
-          for (let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-
-            if (p.x < 0) p.x = width;
-            if (p.x > width) p.x = 0;
-            if (p.y < 0) p.y = height;
-            if (p.y > height) p.y = 0;
-
-            if (mouse.active) {
-              const dx = p.x - mouse.x;
-              const dy = p.y - mouse.y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              if (dist < mouse.radius && dist > 0) {
-                const force = (1 - dist / mouse.radius) * 1.5;
-                p.x += (dx / dist) * force;
-                p.y += (dy / dist) * force;
-                p.alpha = Math.min(1, p.baseAlpha + (1 - dist / mouse.radius) * 0.5);
-              } else {
-                p.alpha += (p.baseAlpha - p.alpha) * 0.05;
-              }
-            } else {
-              p.pulsePhase += p.pulseSpeed;
-              p.alpha = p.baseAlpha + Math.sin(p.pulsePhase) * 0.15;
-            }
-
-            ctx.fillStyle = `rgba(199, 210, 254, ${p.alpha})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fill();
-
-            for (let j = i + 1; j < particles.length; j++) {
-              const p2 = particles[j];
-              const dx = p.x - p2.x;
-              const dy = p.y - p2.y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              const maxDist = 110;
-
-              if (dist < maxDist) {
-                const lineAlpha = (1 - dist / maxDist) * 0.12 * Math.min(p.alpha, p2.alpha);
-                ctx.strokeStyle = `rgba(165, 180, 252, ${lineAlpha})`;
-                ctx.lineWidth = 0.75;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.stroke();
-              }
-            }
-
-            if (mouse.active) {
-              const mdx = p.x - mouse.x;
-              const mdy = p.y - mouse.y;
-              const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-              if (mdist < 130) {
-                const mouseAlpha = (1 - mdist / 130) * 0.22;
-                ctx.strokeStyle = `rgba(129, 140, 248, ${mouseAlpha})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-              }
-            }
-          }
-
-          // LAYER 3: Cosmic Micro-Sparks Drifting Upward
-          for (let i = 0; i < sparks.length; i++) {
-            const s = sparks[i];
-            s.y += s.vy;
-            s.phase += s.swaySpeed;
-            s.x += Math.sin(s.phase) * s.swayAmp * 0.3;
-
-            if (s.y < -10) {
-              s.y = height + 10;
-              s.x = Math.random() * width;
-            }
-
-            ctx.fillStyle = `rgba(224, 231, 255, ${s.alpha})`;
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-            ctx.fill();
-          }
-
-          ctx.globalCompositeOperation = 'source-over';
-          animId = requestAnimationFrame(render);
+        // Real-time ticking chronometer readout
+        const chronoEl = document.getElementById('live-chronometer');
+        if (chronoEl) {
+          const now = new Date();
+          const h = String(now.getHours()).padStart(2, '0');
+          const m = String(now.getMinutes()).padStart(2, '0');
+          const s = String(now.getSeconds()).padStart(2, '0');
+          const ms = Math.floor(now.getMilliseconds() / 100);
+          chronoEl.innerText = `${h}:${m}:${s}.${ms} • CHRONOMETRE CERTIFIÉ • 28,800 VPH`;
         }
 
-        animId = requestAnimationFrame(render);
+        requestAnimationFrame(renderTourbillon);
+      }
 
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden) {
-            isRunning = false;
-            if (animId) cancelAnimationFrame(animId);
-          } else {
-            isRunning = true;
-            lastTime = performance.now();
-            animId = requestAnimationFrame(render);
-          }
-        });
-      })();
+      requestAnimationFrame(renderTourbillon);
+    })();
 
-      // Luxury Theme Controller
-      window.toggleLuxuryTheme = () => {
-        const isDark = document.body.classList.toggle('luxury-dark');
-        const label = document.getElementById('theme-toggle-label');
-        if (label) label.innerText = isDark ? 'Obsidian Live' : 'Platinum Live';
-        localStorage.setItem('paperbytes_luxury_theme', isDark ? 'dark' : 'light');
-      };
-
-      (function applyInitialTheme() {
-        const saved = localStorage.getItem('paperbytes_luxury_theme');
-        const label = document.getElementById('theme-toggle-label');
-        if (saved === 'light') {
-          document.body.classList.remove('luxury-dark');
-          if (label) label.innerText = 'Platinum Live';
-        } else {
-          document.body.classList.add('luxury-dark');
-          if (label) label.innerText = 'Obsidian Live';
-        }
-      })();
     })();
