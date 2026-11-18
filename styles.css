@@ -1,176 +1,177 @@
 /* ==========================================================================
-   PaperBytes — Direction 01: Obsidian Titanium (Apple Pro & Leica Hardware)
-   Clean, Understated Architectural Precision · Ephemeral Client Runtime
+   PaperBytes — Warm Coral & Vibrant Teal Light Responsive Design System
+   Inspired by Neo-Editorial & Clean Multi-Device Modern Web Apps
+   100% Client-Side In-Browser Document Processing
    ========================================================================== */
 
 :root {
-  --bg-obsidian: #08090d;
-  --bg-titanium: #12151e;
-  --bg-titanium-elevated: #161a26;
-  --bg-card: rgba(18, 21, 30, 0.85);
-  --border-specular: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(59, 130, 246, 0.45);
-  --accent-blue: #3b82f6;
-  --accent-blue-glow: rgba(59, 130, 246, 0.25);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --bg-page: #FDFBF7;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FFFFFF;
+  --bg-accent-soft: #FFF2ED;
+  --bg-teal-soft: #E6F7F8;
+  --color-coral: #FF7A59;
+  --color-coral-hover: #FF5A36;
+  --color-coral-dark: #D94826;
+  --color-teal: #00A8B5;
+  --color-teal-hover: #008E9B;
+  --text-heading: #0F172A;
+  --text-body: #334155;
+  --text-muted: #64748B;
+  --border-subtle: #E2E8F0;
+  --border-coral: #FFD4C7;
+  --border-teal: #B2EBF2;
+  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px rgba(15, 23, 42, 0.02);
+  --shadow-hover: 0 16px 32px -4px rgba(255, 122, 89, 0.16), 0 4px 12px rgba(15, 23, 42, 0.04);
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #08090d;
-  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-body);
   background-image: 
-    radial-gradient(circle at 50% -10%, rgba(30, 41, 59, 0.4) 0%, rgba(8, 9, 13, 0.95) 50%, #08090d 100%),
-    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 100% 100%, 24px 24px;
+    radial-gradient(circle at 15% 15%, rgba(255, 122, 89, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(0, 168, 181, 0.05) 0%, transparent 45%);
   background-attachment: fixed;
 }
 
-.font-space { font-family: 'Space Grotesk', -apple-system, sans-serif; }
-.font-brand { font-family: 'Space Grotesk', sans-serif; }
-.font-luxury { font-family: 'Space Grotesk', sans-serif; }
-.font-editorial { font-family: 'Inter', sans-serif; }
+.font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+.font-space { font-family: 'Plus Jakarta Sans', sans-serif; }
+.font-brand { font-family: 'Plus Jakarta Sans', sans-serif; }
+.font-luxury { font-family: 'Plus Jakarta Sans', sans-serif; }
+.font-editorial { font-family: 'Plus Jakarta Sans', sans-serif; }
 .font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
 .tool-panel { display: none; }
 .tool-panel.active { display: block; }
 
-/* Custom Precision Titanium Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #08090d; }
-::-webkit-scrollbar-thumb { background: #1e2333; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.08); }
-::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+/* Custom Light Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #F8FAFC; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; border: 2px solid #F8FAFC; }
+::-webkit-scrollbar-thumb:hover { background: #FF7A59; }
 
 /* Selection Colors */
 ::selection {
-  background-color: rgba(59, 130, 246, 0.3);
-  color: #ffffff;
+  background-color: rgba(255, 122, 89, 0.25);
+  color: #0F172A;
 }
 
-/* Specular Chamfered Bento Cards */
+/* Bento Cards: Crisp White, Rounded, Soft Coral Hover */
 .bento-card {
-  background: linear-gradient(165deg, rgba(18, 21, 30, 0.95) 0%, rgba(10, 12, 17, 0.98) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 16px 36px -10px rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(20px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-  border-radius: 1.25rem;
-}
-.bento-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.06), transparent 60%);
-  border-radius: inherit;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
 }
 .bento-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.2),
-    0 24px 50px -12px rgba(0, 0, 0, 0.9),
-    0 0 30px -5px rgba(59, 130, 246, 0.2);
+  transform: translateY(-4px);
+  border-color: #FFB8A5;
+  box-shadow: var(--shadow-hover);
 }
 
-/* Category Filter Tabs */
+/* Category Filter Tabs: Responsive Pill Navigation */
 .filter-btn {
-  background: rgba(18, 21, 30, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #94a3b8;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-weight: 600;
   transition: all 0.2s ease;
-  backdrop-filter: blur(8px);
   cursor: pointer;
+  white-space: nowrap;
 }
 .filter-btn:hover {
-  border-color: rgba(59, 130, 246, 0.4);
-  color: #ffffff;
-  background: rgba(26, 32, 48, 0.9);
+  border-color: #FF7A59;
+  color: #FF7A59;
+  background: #FFF7F5;
 }
 .filter-btn.active-filter {
-  background: #3b82f6 !important;
-  color: #ffffff !important;
-  border-color: #60a5fa !important;
-  font-weight: 600 !important;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4) !important;
+  background: linear-gradient(135deg, #FF7A59 0%, #FF5A36 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #FF5A36 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(255, 122, 89, 0.35) !important;
+}
+
+/* Horizontal scrollbar hidden for smooth pill swiping on mobile */
+.filter-container::-webkit-scrollbar {
+  display: none;
+}
+.filter-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Workbench Panels (Inside Tools) */
 .tool-panel > div,
 .atelier-workbench {
-  background: linear-gradient(165deg, rgba(18, 21, 30, 0.97) 0%, rgba(10, 12, 17, 0.99) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 24px 60px rgba(0, 0, 0, 0.9) !important;
-  color: #f8fafc !important;
-  border-radius: 1.25rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.03) !important;
+  color: #0F172A !important;
+  border-radius: 1.5rem !important;
 }
 .tool-panel h2 {
-  font-family: 'Space Grotesk', sans-serif !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.01em !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #0F172A !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
 }
 .tool-panel p {
-  color: #94a3b8 !important;
+  color: #475569 !important;
 }
 
-/* Workbench Drop Zones */
+/* Workbench Drop Zones (Warm Tinted Canvas) */
 .tool-panel .border-dashed,
 .atelier-dropzone {
-  background: rgba(10, 12, 18, 0.8) !important;
-  border: 2px dashed rgba(255, 255, 255, 0.12) !important;
-  border-radius: 1rem !important;
+  background: #FFF9F7 !important;
+  border: 2px dashed #FFB8A5 !important;
+  border-radius: 1.25rem !important;
   transition: all 0.25s ease !important;
   position: relative !important;
 }
 .tool-panel .border-dashed:hover,
 .atelier-dropzone:hover {
-  border-color: #3b82f6 !important;
-  background: rgba(18, 24, 38, 0.9) !important;
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.15) !important;
+  border-color: #FF7A59 !important;
+  background: #FFF2ED !important;
+  box-shadow: 0 8px 24px rgba(255, 122, 89, 0.12) !important;
 }
 
-/* Tactile Workbench Inputs & Selects */
+/* Tactile Inputs & Selects */
 .tool-panel input[type="text"],
 .tool-panel input[type="password"],
 .tool-panel input[type="number"],
 .tool-panel select,
 .atelier-input,
 .atelier-select {
-  background-color: #0b0d14 !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #f8fafc !important;
-  border-radius: 0.625rem !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  border-radius: 0.75rem !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04) !important;
   transition: all 0.2s ease !important;
 }
 .tool-panel input:focus,
 .tool-panel select:focus,
 .atelier-input:focus,
 .atelier-select:focus {
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+  border-color: #00A8B5 !important;
+  box-shadow: 0 0 0 3px rgba(0, 168, 181, 0.18) !important;
   outline: none !important;
 }
 .tool-panel label {
-  color: #94a3b8 !important;
+  color: #334155 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.06em !important;
   font-size: 11px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   font-family: 'JetBrains Mono', monospace !important;
 }
 
-/* Primary Action Buttons (Precision Ice Blue) */
+/* Primary Action Buttons (Warm Coral Gradient) */
 .tool-panel button.bg-indigo-600,
 .tool-panel button[id$="-btn"]:not([id$="-cancel-btn"]),
 .atelier-btn,
@@ -178,73 +179,70 @@ body {
 #watermark-btn, #extract-btn, #scanner-btn, #portal-btn,
 #merge-btn, #split-btn, #imgpdf-btn, #omni-convert-btn, #num-btn,
 #hash-btn, #docx-btn {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-  color: #ffffff !important;
-  font-family: 'Space Grotesk', sans-serif !important;
+  background: linear-gradient(135deg, #FF7A59 0%, #FF5A36 100%) !important;
+  color: #FFFFFF !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-weight: 700 !important;
-  letter-spacing: 0.04em !important;
+  letter-spacing: 0.02em !important;
   text-transform: uppercase !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 6px 20px rgba(37, 99, 235, 0.35) !important;
-  transition: all 0.2s ease !important;
-  border-radius: 0.625rem !important;
+  border: none !important;
+  box-shadow: 0 6px 18px rgba(255, 122, 89, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border-radius: 0.75rem !important;
   cursor: pointer !important;
 }
 .tool-panel button.bg-indigo-600:hover,
 .tool-panel button[id$="-btn"]:hover:not([id$="-cancel-btn"]),
 .atelier-btn:hover {
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 8px 25px rgba(59, 130, 246, 0.5) !important;
-  transform: translateY(-1px) !important;
+  background: linear-gradient(135deg, #FF8E72 0%, #FF6847 100%) !important;
+  box-shadow: 0 8px 24px rgba(255, 122, 89, 0.45) !important;
+  transform: translateY(-2px) !important;
 }
 .tool-panel button:active {
   transform: translateY(1px) !important;
 }
 
-/* Cancel / Reset Buttons (Tactile Dark Slate) */
+/* Cancel / Reset Buttons (Clean Soft Slate) */
 button[id$="-cancel-btn"],
 .atelier-cancel-btn {
-  background: rgba(24, 27, 38, 0.8) !important;
-  color: #94a3b8 !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #F1F5F9 !important;
+  color: #475569 !important;
+  border: 1px solid #E2E8F0 !important;
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 11px !important;
+  font-weight: 600 !important;
   letter-spacing: 0.02em !important;
-  backdrop-filter: blur(8px) !important;
-  border-radius: 0.625rem !important;
+  border-radius: 0.75rem !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
 }
 button[id$="-cancel-btn"]:hover,
 .atelier-cancel-btn:hover {
-  background: rgba(40, 20, 24, 0.9) !important;
-  color: #f87171 !important;
-  border-color: rgba(248, 113, 113, 0.3) !important;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.15) !important;
+  background: #FEE2E2 !important;
+  color: #DC2626 !important;
+  border-color: #FCA5A5 !important;
 }
 
 /* Breadcrumb Navigation */
 .tool-panel button[onclick="showDashboard()"] {
-  color: #94a3b8 !important;
+  color: #FF7A59 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 11px !important;
+  font-weight: 700 !important;
   cursor: pointer !important;
   transition: color 0.15s ease !important;
 }
 .tool-panel button[onclick="showDashboard()"]:hover {
-  color: #3b82f6 !important;
+  color: #D94826 !important;
 }
 
 /* Status Lines */
 span[id$="-status"], p[id$="-status"] {
-  color: #3b82f6 !important;
+  color: #008E9B !important;
   font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 600 !important;
 }
 
 /* Strict Modal Display Isolation */
@@ -262,48 +260,48 @@ span[id$="-status"], p[id$="-status"] {
   pointer-events: auto !important;
 }
 
-/* Modals (Titanium Vault Dialog Style) */
+/* Modals: Clean Elevated White Card */
 #privacy-modal > div,
 #terms-modal > div,
 #copyright-modal > div {
-  background: linear-gradient(165deg, #12151e 0%, #08090d 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-  color: #f8fafc !important;
-  border-radius: 1.25rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+  color: #1E293B !important;
+  border-radius: 1.5rem !important;
 }
 #privacy-modal h3,
 #terms-modal h3,
 #copyright-modal h3 {
-  font-family: 'Space Grotesk', sans-serif !important;
-  color: #ffffff !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: #0F172A !important;
+  font-weight: 700 !important;
 }
 #privacy-modal p,
 #terms-modal p,
 #copyright-modal p {
-  color: #94a3b8 !important;
+  color: #475569 !important;
 }
 #privacy-modal button,
 #terms-modal button,
 #copyright-modal button {
-  background: #1e2433 !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  font-family: 'Space Grotesk', sans-serif !important;
+  background: #0F172A !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-weight: 600 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.625rem !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
 }
 #privacy-modal button:hover,
 #terms-modal button:hover,
 #copyright-modal button:hover {
-  background: #3b82f6 !important;
-  border-color: #60a5fa !important;
+  background: #FF7A59 !important;
 }
 
 /* Progress Bars */
 .progress-bar-fill {
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  background: linear-gradient(90deg, #FF7A59, #00A8B5);
+  box-shadow: 0 0 10px rgba(255, 122, 89, 0.4);
 }
